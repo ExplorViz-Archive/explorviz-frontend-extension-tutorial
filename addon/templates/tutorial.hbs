@@ -8,6 +8,7 @@
         onChange=(action (mut page)) as |bg|}}
         {{#bg.button value="importTutorial"}}Tutorial importieren{{/bg.button}}
         {{#bg.button value="createNewSequence"}}Neue Sequenz erstellen{{/bg.button}}
+        {{#bg.button value="listTutorials"}}Tutorials anzeigen{{/bg.button}}
      {{/bs-button-group}}
       {{#if (eq page "createNewSequence")}}
             <h4 class="mt-5">Add tutorial</h4>
@@ -23,6 +24,11 @@
     accept="application/json"
     type="file"
   />
+  {{else if (eq page "listTutorials")}}
+{{#each tutorials as |tutorial|}}
+  {{tutorial.id}}
+{{/each}}
+
       {{/if}}
     </div>
   </div>
