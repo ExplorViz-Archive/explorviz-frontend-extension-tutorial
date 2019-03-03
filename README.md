@@ -1,6 +1,8 @@
 explorviz-frontend-extension-tutorial
 ==============================================================================
 
+## Project Description
+
 [Short description of the addon.]
 
 Installation
