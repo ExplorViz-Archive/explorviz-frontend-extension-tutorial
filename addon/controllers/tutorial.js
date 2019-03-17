@@ -1,9 +1,14 @@
 import Controller from '@ember/controller';
 import { inject as service } from "@ember/service";
-import { task } from 'ember-concurrency';
 
 export default Controller.extend({
   store: service(),
+  renderingService: service(),
+
+   updateModel() {
+     // update your entity and then call
+     this.get('renderingService').redrawScene();
+   },
 
   tutorials: null,
 
@@ -17,8 +22,8 @@ export default Controller.extend({
       .then(tutorials => {
         let tutorialList = tutorials.toArray();
         // sort by id
-        userList.sort((tutorial1, tutorial2) => parseInt(tutorial1.id) < parseInt(tutorial2.id) ? -1 : 1);
-        this.set('tutorials', userList);
+        tutorialList.sort((tutorial1, tutorial2) => parseInt(tutorial1.id) < parseInt(tutorial2.id) ? -1 : 1);
+        this.set('tutorials', tutorialList);
       });
   },
 

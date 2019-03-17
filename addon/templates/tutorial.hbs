@@ -1,35 +1,15 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-6">
-      {{#bs-button-group
-        value=page
-        type="radio"
-        class="mt-3"
-        onChange=(action (mut page)) as |bg|}}
-        {{#bg.button value="importTutorial"}}Tutorial importieren{{/bg.button}}
-        {{#bg.button value="createNewSequence"}}Neue Sequenz erstellen{{/bg.button}}
-        {{#bg.button value="listTutorials"}}Tutorials anzeigen{{/bg.button}}
-     {{/bs-button-group}}
-      {{#if (eq page "createNewSequence")}}
-            <h4 class="mt-5">Add tutorial</h4>
-        {{#bs-form formLayout=formLayout model=this as |form|}}
-          {{form.element controlType="text" label="Title" placeholder="Title" property="Title" required=true}}
-          {{bs-button defaultText="Create Tutorial" value="createTutorial" type="primary" buttonType="submit"}}
-        {{/bs-form}}
-     {{else if (eq page "importTutorial")}}
-        <h4 class="mt-5">Tutorial importieren</h4>
-        <input
-    multiple="false"
-    onchange={{action "selectedSingleFile"}}
-    accept="application/json"
-    type="file"
-  />
-  {{else if (eq page "listTutorials")}}
-{{#each tutorials as |tutorial|}}
-  {{tutorial.id}}
-{{/each}}
+{{#bs-tab id="configuration-tab"customTabs=true as |tab|}}
+  <nav>
+    {{#bs-nav type="tabs" as |nav|}}
+      {{#nav.item class="nav-link-with-cursor" onClick=(action tab.select "tutorialManagementPane") active=(bs-eq tab.activeId "tutorialManagementPane")}}Tutorial Management{{/nav.item}}
+    {{/bs-nav}}
+  </nav>
 
-      {{/if}}
-    </div>
-  </div>
+<div class="tab-content mt-5">
+  {{#tab.pane elementId="tutorialManagementPane" title="Tutorial Management"}}
+    {{#if (eq tab.activeId "tutorialManagementPane")}}
+      {{tutorial-management}}
+    {{/if}}
+  {{/tab.pane}}
 </div>
+{{/bs-tab}}

@@ -15,5 +15,5 @@ export function initialize(appInstance) {
 
 export default {
   name: 'explorviz-frontend-extension-tutorial',
-  initialize
+  initialize: initialize
 };
