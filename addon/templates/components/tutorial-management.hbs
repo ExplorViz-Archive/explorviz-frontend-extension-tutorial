@@ -69,6 +69,8 @@
               {{#bs-form model=this onSubmit=(action "saveTutorialChanges") as |form|}}
               {{form.element controlType="number" label="ID" property="tutorial_id_change" disabled=true}}
               {{form.element controlType="text" label="Title" placeholder="Enter New Tutorial Title" property="tutorial_title_change"}}
+                            {{form.element controlType="text" label="Landscape" placeholder="Landscape" property="tutorial_landscape_change"}}
+
               Sequences:
               {{#bs-button onClick=(action "openCreateSequencePage" currentTutorial) type="secondary" outline=true title="Add Sequence"}}
               {{svg-jar "versions" class="octicon"}}{{svg-jar "plus-small" class="octicon"}}
@@ -250,21 +252,24 @@
               {{#bs-button onClick=(action "setTarget" currentTutorial currentSequence currentStep landscapeInteraction.selectedTarget) type="secondary" outline=true title="Back to Step"}}
                   {{svg-jar "arrow-left" class="octicon align-middle"}}
               {{/bs-button}}
-              {{#if landscapeRepo.latestLandscape.systems}}
-                <div id="rendering">
-                  {{visualization/rendering/landscape-rendering latestLandscape=landscapeRepo.latestLandscape interaction=landscapeInteraction}}
-                </div>
-              {{else}}
-                <div class="container-fluid">
-                  <div class="jumbotron">
-                    <h2>No landscape found!</h2>
-                    <p>A new landscape will be fetched every 10 seconds.</p>
-                  </div>
-                  <div id="spinnerDiv" class="container" style="position:relative; height:20%;">
-                    {{ember-spinner}}
-                  </div>
-                </div>
-              {{/if}}
-    </div>
-    {{/if}}
+      {{#if landscapeRepo.latestLandscape.systems}}
+        <div id="rendering">
+          {{visualization/rendering/landscape-rendering latestLandscape=landscapeRepo.latestLandscape landscapeInteraction=landscapeInteraction}}
+          <!-- popup(s) -->
+          {{visualization/rendering/popups/popup-coordinator
+          popupData=additionalData.popupContent}}
+        </div>
+      {{else}}
+      <div class="container-fluid">
+        <div class="jumbotron">
+          <h2>No Landscape Found!</h2>
+          <p>A new landscape will be fetched every 10 seconds.</p>
+        </div>
+        <div id="spinnerDiv" class="container" style="position:relative; height:20%;">
+          {{ember-spinner}}
+        </div>
+      </div>
+      {{/if}}
+      </div>
+  {{/if}}
 </div>
