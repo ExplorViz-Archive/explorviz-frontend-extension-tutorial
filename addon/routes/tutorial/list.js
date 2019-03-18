@@ -1,12 +1,11 @@
 import BaseRoute from 'explorviz-frontend/routes/base-route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import RSVP from 'rsvp';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
-  actions: {
-    // @Override BaseRoute
-    resetRoute() {
-      //const routeName = this.get('tutorial');
-   },
-
-  },
+    model() {
+        return RSVP.hash({
+            tutorials: this.get('store').findAll('tutorial')
+        });
+    }
 });

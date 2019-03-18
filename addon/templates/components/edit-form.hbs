@@ -1,0 +1,5 @@
+    {{#bs-form model=tutorial onSubmit=(action "saveTutorialChanges" tutorial) as |form|}}
+        {{form.element controlType="number" label="ID" property="id" disabled=true}}
+        {{form.element controlType="text" label="Title" placeholder="Enter New Tutorial Title" property="title"}}
+        {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
+    {{/bs-form}}

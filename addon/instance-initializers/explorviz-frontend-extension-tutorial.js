@@ -9,7 +9,11 @@ export function initialize(appInstance) {
   }
 
   Router.map(function() {
-    this.route("tutorial");
+    this.route("tutorial", function(){
+      this.route('create');
+      this.route('list');
+      this.route('edit', { path: '/edit/:tutorial_id' });
+    });
   });
 }
 

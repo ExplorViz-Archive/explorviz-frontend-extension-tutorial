@@ -1,15 +1,1 @@
-{{#bs-tab id="configuration-tab"customTabs=true as |tab|}}
-  <nav>
-    {{#bs-nav type="tabs" as |nav|}}
-      {{#nav.item class="nav-link-with-cursor" onClick=(action tab.select "tutorialManagementPane") active=(bs-eq tab.activeId "tutorialManagementPane")}}Tutorial Management{{/nav.item}}
-    {{/bs-nav}}
-  </nav>
-
-<div class="tab-content mt-5">
-  {{#tab.pane elementId="tutorialManagementPane" title="Tutorial Management"}}
-    {{#if (eq tab.activeId "tutorialManagementPane")}}
-      {{tutorial-management}}
-    {{/if}}
-  {{/tab.pane}}
-</div>
-{{/bs-tab}}
+{{outlet}}
