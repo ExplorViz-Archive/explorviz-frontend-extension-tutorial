@@ -52,6 +52,126 @@
       </table>
     </div>
   </div>
+<<<<<<< HEAD
+=======
+  {{else if (eq page "editTutorial")}}
+  <div class="col-12 d-flex flex-column">
+    <div class="mb-4">
+      {{#bs-button onClick=(action "openMainPage") type="secondary" outline=true title="Back to Tutorial List"}}
+      {{svg-jar "reply" class="octicon align-middle"}}
+      {{/bs-button}}
+    </div>
+    <div style="overflow-y: auto">
+      <div class="row" style="margin-right: 0">
+        <div class="col-12 col-xl-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h3>Tutorial {{currentTutorial.title}}</h3>
+              <hr>
+              {{#bs-form model=this onSubmit=(action "saveTutorialChanges") as |form|}}
+              {{form.element controlType="number" label="ID" property="tutorial_id_change" disabled=true}}
+              {{form.element controlType="text" label="Title" placeholder="Enter New Tutorial Title" property="tutorial_title_change"}}
+                            {{form.element controlType="text" label="Landscape" placeholder="Landscape" property="tutorial_landscape_change"}}
+
+              Sequences:
+              {{#bs-button onClick=(action "openCreateSequencePage" currentTutorial) type="secondary" outline=true title="Add Sequence"}}
+              {{svg-jar "versions" class="octicon"}}{{svg-jar "plus-small" class="octicon"}}
+              {{/bs-button}}
+              {{#each currentTutorial.sequences as |sequence|}}
+              {{#bs-button onClick=(action "openEditSequencePage" currentTutorial sequence) type="secondary" outline=true title="Edit Sequence"}}
+              {{svg-jar "pencil" class="octicon"}}{{sequence.title}} ({{sequence.steps.length}})
+              {{/bs-button}}
+              {{/each}}
+              {{bs-button defaultText="Apply Changes" type="primary" buttonType="submit"}}
+              {{/bs-form}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{else if (eq page "editSequence")}}
+  <div class="col-12 d-flex flex-column">
+    <div class="mb-4">
+      {{#bs-button onClick=(action "openMainPage") type="secondary" outline=true title="Back to Tutorial List"}}
+      {{svg-jar "reply" class="octicon align-middle"}}
+      {{/bs-button}}
+
+    </div>
+    <div style="overflow-y: auto">
+      <div class="row" style="margin-right: 0">
+        <div class="col-12 col-xl-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h3>Tutorial "{{currentTutorial.title}}"
+                {{#bs-button onClick=(action "openEditTutorialPage" currentTutorial) type="secondary" outline=true title="Back to Tutorial"}}
+                {{svg-jar "arrow-left" class="octicon align-middle"}}
+                {{/bs-button}}
+                Sequence "{{currentSequence.title}}"
+              </h3>
+              <hr>
+              {{#bs-form model=this onSubmit=(action "saveSequenceChanges") as |form|}}
+                {{form.element controlType="number" label="ID" property="sequence_id_change" disabled=true}}
+                {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="sequence_title_change"}}
+                Steps:
+                {{#bs-button onClick=(action "openCreateStepPage" currentTutorial currentSequence) type="secondary" outline=true title="Add Step"}}
+                  {{svg-jar "list-ordered" class="octicon"}}{{svg-jar "plus-small" class="octicon"}}
+                {{/bs-button}}
+                {{#each currentSequence.steps as |step|}}
+                  {{#bs-button onClick=(action "openEditStepPage" currentTutorial currentSequence step) type="secondary" outline=true title="Edit Step"}}
+                    {{svg-jar "pencil" class="octicon"}}{{step.title}}
+                  {{/bs-button}}
+                  {{sequence.title}}
+                {{/each}}
+                {{bs-button defaultText="Apply Changes" type="primary" buttonType="submit"}}
+              {{/bs-form}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{else if (eq page "editStep")}}
+  <div class="col-12 d-flex flex-column">
+    <div class="mb-4">
+      {{#bs-button onClick=(action "openMainPage") type="secondary" outline=true title="Back to Tutorial List"}}
+        {{svg-jar "reply" class="octicon align-middle"}}
+      {{/bs-button}}
+    </div>
+    <div style="overflow-y: auto">
+      <div class="row" style="margin-right: 0">
+        <div class="col-12 col-xl-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h3>Tutorial "{{currentTutorial.title}}"
+                {{#bs-button onClick=(action "openEditTutorialPage" currentTutorial) type="secondary" outline=true title="Back to Tutorial"}}
+                  {{svg-jar "arrow-left" class="octicon align-middle"}}
+                {{/bs-button}}
+                Sequence "{{currentSequence.title}}"
+                {{#bs-button onClick=(action "openEditSequencePage" currentTutorial currentSequence) type="secondary" outline=true title="Back to Sequence"}}
+                  {{svg-jar "arrow-left" class="octicon align-middle"}}
+                {{/bs-button}}
+                Step "{{currentStep.title}}"
+              </h3>
+              <hr>
+              {{#bs-form model=this onSubmit=(action "saveStepChanges") as |form|}}
+                {{form.element controlType="number" label="Step ID" property="step_id_change" disabled=true}}
+                {{form.element controlType="text" label="Title" placeholder="Enter New Step Title" property="step_title_change"}}
+                {{#bs-button onClick=(action "openSelectTarget" currentTutorial currentSequence currentStep) type="secondary" outline=true title="Select Target"}}
+                      {{svg-jar "search" class="octicon align-middle"}}
+                {{/bs-button}}
+                {{form.element controlType="text" label="TargetId" placeholder="TargetId" property="step_target_id_change" disabled=true}}
+                {{form.element controlType="text" label="TargetType" placeholder="TargetType" property="step_target_type_change" disabled=true}}
+                {{bs-button defaultText="Apply Changes" type="primary" buttonType="submit"}}
+              {{/bs-form}}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+>>>>>>> 37fe1edf4475efa88b0471dafc8b41468e8045a2
   {{else if (eq page "createTutorial")}}
   <div class="col-12 d-flex flex-column">
     <div>
