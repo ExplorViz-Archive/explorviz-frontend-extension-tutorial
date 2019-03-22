@@ -40,11 +40,11 @@ landscapeRepo: service("repos/landscape-repository"),
     openEditTutorialPage(tutorial){
       this.set('page', 'editTutorial');
       this.set('currentTutorial', tutorial);
-      console.log(tutorial.get('serializedLandscape'));
+      console.log(tutorial.landscape);
       this.setProperties({
         tutorial_id_change: tutorial.id,
         tutorial_title_change: tutorial.title,
-       // tutorial_landscape_change: tutorial.landscape.timestamp,
+        tutorial_landscape_change: tutorial.landscape.id,
       });
     },
     openEditSequencePage(tutorial,sequence){
