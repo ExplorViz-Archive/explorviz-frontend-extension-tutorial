@@ -3,16 +3,15 @@ import { inject as service } from "@ember/service";
 
 export default Controller.extend({
   store: service(),
-  renderingService: service(),
-
-   updateModel() {
+  renderingService: service("rendering-service"),
+     updateModel() {
      // update your entity and then call
      this.get('renderingService').redrawScene();
    },
 
   tutorials: null,
 
-  
+
   init() {
     this._super(...arguments);
     this.updateTutorialList(true);
@@ -58,15 +57,5 @@ saveTutorialChanges() {
     this.showAlertifyMessage(`Tutorial not found.`);
   }
 },
-actions: {
-  // body
-  selectedSingleFile(){
-
-
-  },
-  addTutorial(){
-
-  }
-}
 
 });

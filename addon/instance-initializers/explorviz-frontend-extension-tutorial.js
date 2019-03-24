@@ -10,10 +10,24 @@ export function initialize(appInstance) {
 
   Router.map(function() {
     this.route("tutorial", function(){
-      this.route('create');
-      this.route('list');
-      this.route('edit', { path: '/edit/:tutorial_id' });
+       this.route("list", function(){
+         this.route('tutorial');
+         this.route('sequence');
+         this.route('step');
+        });
+        this.route("edit", function(){
+        this.route('tutorial', { path: '/tutorial/:tutorial_id/' });
+        this.route('tutorial.target', { path: '/tutorial/:tutorial_id/target' });
+        this.route('sequence', { path: '/sequence/:sequence_id/' });
+        this.route('step', { path: '/step/:step_id/' });
+      });
+      this.route("create", function(){
+        this.route('tutorial', { path: '/tutorial' });
+        this.route('sequence', { path: '/sequence/for/:tutorial_id' });
+        this.route('step', { path: '/step/for/:sequence_id' });
+      });
     });
+
   });
 }
 

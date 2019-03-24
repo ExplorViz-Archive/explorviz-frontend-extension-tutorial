@@ -1,16 +1,15 @@
 <h3>
-    {{#if tutorial.title}}
+    {{#if tutorial}}
         Tutorial "{{tutorial.title}}"
     {{/if}}
-    {{#if sequence.title}}
-      {{#link-to "tutorial.edit" tutorial class=tutorial.id}}
+    {{#if sequence}}
+      {{#link-to "tutorial.edit.tutorial" sequence.tutorial}}
               {{svg-jar "arrow-left" class="octicon align-middle"}}
        {{/link-to}}
         Sequence "{{sequence.title}}"
-      
     {{/if}}
-    {{#if step.title}}
-       {{#link-to "tutorial.edit" tutorial class=tutorial.id}}
+    {{#if step}}
+       {{#link-to "tutorial.edit.sequence" step.sequence}}
               {{svg-jar "arrow-left" class="octicon align-middle"}}
        {{/link-to}}
         Step "{{step.title}}"
