@@ -1,21 +1,17 @@
-{{#if step.title}}
-    {{#bs-form model=this onSubmit=(action "saveStepChanges") as |form|}}
-        {{form.element controlType="text" label="Title" placeholder="Title" property="title"}}
-        {{form.element controlType="text" label="TargetId" placeholder="TargetId" property="targetId" disabled=true}}
-        {{form.element controlType="text" label="TargetType" placeholder="TargetType" property="targetType" disabled=true}}
-        {{bs-button defaultText="Create" type="primary" buttonType="submit"}}
-    {{/bs-form}}
-{{else if sequence.title}}
-    {{#bs-form model=this onSubmit=(action "saveSequenceChanges") as |form|}}
-        {{form.element controlType="number" label="ID" property="sequence_id_change" disabled=true}}
-        {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="sequence_title_change"}}
-    {{/bs-form}}
-{{else if tutorial.title}}
-    {{#bs-form model=this onSubmit=(action "saveTutorialChanges") as |form|}}
+{{#if sequence}}
+  {{#bs-form model=this onSubmit=(action "createStep" sequence) as |form|}}
+    {{form.element controlType="text" label="Title" placeholder="Enter new tutorial title" property="title"}}
+  {{bs-button defaultText="Create" type="primary" buttonType="submit"}}
+{{/bs-form}}
+{{else if tutorial}}
+  {{#bs-form model=this onSubmit=(action "createSequence" tutorial) as |form|}}
+      {{form.element controlType="number" label="ID" property="sequence_id_change" disabled=true}}
+      {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="sequence_title_change"}}
+  {{/bs-form}}
+{{else}}
+  {{#bs-form model=this onSubmit=(action "createTutorial") as |form|}}
     {{form.element controlType="number" label="ID" property="tutorial_id_change" disabled=true}}
     {{form.element controlType="text" label="Title" placeholder="Enter New Tutorial Title" property="tutorial_title_change"}}
     {{form.element controlType="text" label="Landscape" placeholder="Landscape" property="tutorial_landscape_change"}}
-    {{/bs-form}}
-{{else}}
-No Tutorial loaded.
+  {{/bs-form}}
 {{/if}}

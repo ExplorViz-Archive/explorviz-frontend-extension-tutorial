@@ -1,6 +1,6 @@
 <div class="col-12 d-flex flex-column">
     <div class="mb-4">
-    {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
+    {{#link-to "tutorial.list.tutorial"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
     </div>
     <div style="overflow-y: auto">
       <div class="row" style="margin-right: 0">
@@ -9,7 +9,29 @@
             <div class="card-body">
               {{tutorial-hierarchie step=model}}
               <hr>
-              {{edit-form step=model}}
+              {{#bs-form model=model onSubmit=(action "saveStepChanges" step) as |form|}}
+                  {{form.element controlType="number" label="ID" property="id" disabled=true}}
+                  {{form.element controlType="text" label="Title" placeholder="Enter New Step Title" property="title"}}
+                  {{#if model.sequence.tutorial.landscape.isFulfilled}}
+                    {{#if model.sequence.tutorial.landscape}}
+                      {{#link-to "tutorial.edit.step.target" model}}Select target{{/link-to}}
+                      {{#if model.targetId}} {{#if model.targetType}}
+                      Target: {{model.targetId}} {{model.targetType}}
+                      {{/if}}{{/if}}
+                    {{else}}
+                      Landscape must be associated with tutorial before target can be set.
+                    {{/if}}
+                  {{else}}
+                   {{#if model.sequence.tutorial.landscapeTimestamp}}
+                    <div id="spinnerDiv" class="container" style="position:relative; height:20%;">
+                      {{ember-spinner}}
+                    </div>
+                    {{else}}
+                      Landscape must be associated with tutorial before target can be set.
+                    {{/if}}
+                  {{/if}}
+                  {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
+              {{/bs-form}}
             </div>
           </div>
         </div>

@@ -1,1 +1,52 @@
-{{outlet}}
+<div class="col-12 d-flex flex-column">
+    <h3>Tutorials</h3>
+    <div class="mb-3">
+        <div class="float-right">
+          {{#link-to "tutorial.create"}}{{svg-jar "plus-small" class="octicon"}}<span>Add Tutorial</span>{{/link-to}}
+        </div>
+    </div>
+    <div class="d-flex flex-grow-1" style="overflow-y: auto">
+        <table class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each model.steps as |step|}}
+                <tr>
+                    <th scope="row">
+                        {{#link-to "tutorial.edit.step" step}}{{step.id}}{{/link-to}}
+                    </th>
+                    <td>{{step.title}}</td>
+
+                    <td class="text-right">
+                        {{#bs-dropdown as |dd|}}
+                        {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
+                        {{svg-jar "kebab-vertical" class="octicon"}}
+                        {{/dd.button}}
+                        {{#dd.menu as |ddm|}}
+                        {{#ddm.item title="Edit"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
+                            {{#link-to "tutorial.edit.step" step}}
+                             {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
+                            {{/link-to}}
+                        </a>
+                        {{/ddm.item}}
+                        {{#ddm.item title="Delete"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete"
+                            {{action "deleteTutorial" tutorial}}>
+                            {{svg-jar "x" class="octicon" id="delete-button"}}<span>Delete</span>
+                        </a>
+                        {{/ddm.item}}
+                        {{/dd.menu}}
+                        {{/bs-dropdown}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

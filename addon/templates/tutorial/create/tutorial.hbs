@@ -1,1 +1,17 @@
-{{outlet}}
+<div class="col-12 d-flex flex-column">
+    <div class="mb-4">
+      {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
+    </div>
+    <div style="overflow-y: auto">
+      <div class="row" style="margin-right: 0">
+        <div class="col-12 col-xl-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              Create Tutorial:
+              {{create-form}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
