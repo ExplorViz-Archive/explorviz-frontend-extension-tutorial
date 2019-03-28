@@ -1,4 +1,5 @@
 {
+      "active": false,
       "imgSrc": "tutorial_bw.svg",
       "requiredExtensions": [
         "frontend_master"
