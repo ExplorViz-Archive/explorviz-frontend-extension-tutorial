@@ -14,7 +14,6 @@ export default Component.extend(AlertifyHandler,{
       const pauseReload = this.get('landscapeListener').pauseVisualizationReload;
       this.handleMessageForUser(pauseReload);
       this.get('landscapeListener').toggleVisualizationReload();
-      this.get('landscapeListener').
     }
   },
   handleMessageForUser(pauseReload) {

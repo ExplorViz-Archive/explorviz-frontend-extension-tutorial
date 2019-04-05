@@ -9,7 +9,7 @@
             <div class="card-body">
               {{tutorial-hierarchie tutorial=model}}
               <hr>
-              {{#bs-form model=model onSubmit=(action "saveTutorialChanges" tutorial) as |form|}}
+              {{#bs-form model=model onSubmit=(action "saveTutorialChanges" model) as |form|}}
                   {{form.element controlType="number" label="ID" property="id" disabled=true}}
                   {{form.element controlType="text" label="Title" placeholder="Enter new tutorial title" property="title"}}
                   {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp"}}

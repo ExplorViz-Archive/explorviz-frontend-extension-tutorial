@@ -9,10 +9,10 @@
     content=(array
       (component "landscape-select/navbar/toggle-live-landscape" class="nav-item" toggle=tutorialLandscape)
       (component "landscape-select/navbar/save-landscape" class="nav-item" tutorial=model)
-      (component "landscape-select/navbar/return-to-saved" class="nav-item" tutorial=model)
+      (component "landscape-select/navbar/return-to-saved" class="nav-item" tutorial=model toggle=tutorialLandscape)
     )
 }}
-{{tutorialLandscape}}
+Showing live-landscapes: {{not tutorialLandscape}}
     <div id="rendering">
       {{#if (and tutorialLandscape model.landscape.isFulfilled)}}
         {{visualization/rendering/landscape-rendering latestLandscape=model.landscape interaction=landscapeInteraction}}

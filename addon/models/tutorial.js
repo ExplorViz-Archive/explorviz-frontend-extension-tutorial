@@ -7,11 +7,4 @@ export default DS.Model.extend({
   targetType: DS.attr('string'),
   landscapeTimestamp: DS.attr('string'),
   sequences: DS.hasMany('sequence',{inverse:"tutorial"}),
-  landscape: Ember.computed(function() {
-        return DS.PromiseObject.create({
-        promise: this.get('store').queryRecord('tutoriallandscape', {timestamp: this.landscapeTimestamp}).then(landscape => {
-            return landscape;
-          })
-        });
-    }),
 });

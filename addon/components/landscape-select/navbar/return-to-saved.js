@@ -12,16 +12,10 @@ export default Component.extend(AlertifyHandler,{
     returnToSaved() {
       this.set('toggle',false);
       this.get('landscapeListener').set('pauseVisualizationReload',true);
-
-      this.handleMessageForUser(pauseReload);
+      this.handleMessageForUser();
     }
   },
-  handleMessageForUser(pauseReload) {
-    if(!pauseReload){
+  handleMessageForUser() {
       this.showAlertifyMessage("Visualization paused! Tutorial landscapes are shown.");
-    }
-    else {
-      this.showAlertifyMessage("Visualization resumed! Live landscapes will be shown and can be selected.");
-    }
   }
 });

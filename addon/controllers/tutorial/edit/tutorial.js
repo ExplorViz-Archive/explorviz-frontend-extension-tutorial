@@ -4,6 +4,7 @@ export default Controller.extend({
   actions:{
   saveTutorialChanges(tutorial) {
     if(tutorial) {
+      
       // check for valid input
       if(!tutorial.get('title') || tutorial.get('title').length === 0) {
         this.showAlertifyMessage('Title cannot be empty.');

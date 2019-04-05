@@ -14,10 +14,8 @@ export default Component.extend(AlertifyHandler,{
       this.get('store').findAll('tutoriallandscape',true)
         .then(landscapes => {
           let landscape = landscapes.find((landscape)=>landscape.id===this.get('landscape').id);
-          this.get('tutorial').set('landscapeTimestamp',this.get('landscape').get('timestamp'));
+          this.get('tutorial').set('landscapeTimestamp',landscape.get('timestamp'));
           this.get('tutorial').save();
-          // sort by id
-          this.set('landscapes', landscapeList);
         });
     },
   },
