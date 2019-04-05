@@ -1,21 +1,25 @@
 import Component from '@ember/component';
-import layout from '../../../templates/components/landscape-select/navbar/toggle-live-landscape';
+import layout from '../../../templates/components/landscape-select/navbar/save-landscape';
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 import {inject as service} from '@ember/service';
 
 export default Component.extend(AlertifyHandler,{
   tagName:'li',
+  store: service(),
   landscapeListener: service("landscape-listener"),
   toggle:null,
   layout,
   actions:{
-    toggleVisualizationReload() {
-      this.set('toggle',!this.get('toggle'));
-      const pauseReload = this.get('landscapeListener').pauseVisualizationReload;
-      this.handleMessageForUser(pauseReload);
-      this.get('landscapeListener').toggleVisualizationReload();
-      this.get('landscapeListener').
-    }
+    saveLandscape(){
+      this.get('store').findAll('tutoriallandscape',true)
+        .then(landscapes => {
+          let landscape = landscapes.find((landscape)=>landscape.id===this.get('landscape').id);
+          this.get('tutorial').set('landscapeTimestamp',this.get('landscape').get('timestamp'));
+          this.get('tutorial').save();
+          // sort by id
+          this.set('landscapes', landscapeList);
+        });
+    },
   },
   handleMessageForUser(pauseReload) {
     if(!pauseReload){

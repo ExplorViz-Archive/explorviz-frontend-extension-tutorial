@@ -23,7 +23,6 @@ export default JSONAPIAdapter.extend(DataAdapterMixin,{
     const baseUrl = this.buildURL();
     return `${baseUrl}/v1/tutorials/landscapes/${id}`;
   },
-
   urlForFindAll() {
     const baseUrl = this.buildURL();
     return `${baseUrl}/v1/tutorials/landscapes/`;

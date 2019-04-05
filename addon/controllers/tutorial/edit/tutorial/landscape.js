@@ -11,6 +11,7 @@ export default Controller.extend(AlertifyHandler,{
   store: service(),
   targetType: null,
   targetId:null,
+  tutorialLandscape: true,
   renderingService: service("rendering-service"),
   landscapeRepo: service("repos/landscape-repository"),
   landscapeListener: service("landscape-listener"),

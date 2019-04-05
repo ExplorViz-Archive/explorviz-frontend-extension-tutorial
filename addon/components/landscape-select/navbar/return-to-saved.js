@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import layout from '../../../templates/components/landscape-select/navbar/toggle-live-landscape';
+import layout from '../../../templates/components/landscape-select/navbar/return-to-saved';
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 import {inject as service} from '@ember/service';
 
@@ -9,12 +9,11 @@ export default Component.extend(AlertifyHandler,{
   toggle:null,
   layout,
   actions:{
-    toggleVisualizationReload() {
-      this.set('toggle',!this.get('toggle'));
-      const pauseReload = this.get('landscapeListener').pauseVisualizationReload;
+    returnToSaved() {
+      this.set('toggle',false);
+      this.get('landscapeListener').set('pauseVisualizationReload',true);
+
       this.handleMessageForUser(pauseReload);
-      this.get('landscapeListener').toggleVisualizationReload();
-      this.get('landscapeListener').
     }
   },
   handleMessageForUser(pauseReload) {

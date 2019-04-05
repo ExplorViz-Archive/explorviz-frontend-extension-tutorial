@@ -7,30 +7,34 @@
 
   {{visualization/page-setup/visualization-navbar
     content=(array
-      (component "landscape-select/navbar/toggle-live-landscape" class="nav-item")
+      (component "landscape-select/navbar/toggle-live-landscape" class="nav-item" toggle=tutorialLandscape)
+      (component "landscape-select/navbar/save-landscape" class="nav-item" tutorial=model)
+      (component "landscape-select/navbar/return-to-saved" class="nav-item" tutorial=model)
     )
 }}
+{{tutorialLandscape}}
     <div id="rendering">
-      {{#if (and landscapeListener.pauseVisualizationReload model.landscape.isFulfilled)}}
+      {{#if (and tutorialLandscape model.landscape.isFulfilled)}}
         {{visualization/rendering/landscape-rendering latestLandscape=model.landscape interaction=landscapeInteraction}}
+        {{landscape-select/landscapelist}}
       {{else}}
         {{visualization/rendering/landscape-rendering latestLandscape=landscapeRepo.latestLandscape interaction=landscapeInteraction}}
+        <div id="timeline-content">
+          {{#bs-button
+            onClick=(action "toggleTimeline")
+            type="secondary"
+            outline=true
+            class="btn-timeline"
+            title=(if renderingService.showTimeline "Hide Timeline" "Show Timeline")
+          }}
+            {{#unless renderingService.showTimeline}}<span class="pr-1">Show Timeline</span>{{/unless}}
+            {{svg-jar "chevron-up" id="hidetimeline-icon" class=(if renderingService.showTimeline "octicon align-middle hidetimeline-icon-down" "octicon align-middle")}}
+          {{/bs-button}}
+          <div id="timeline" class="timeline {{unless renderingService.showTimeline "timelinehide"}}">
+            {{landscape-select/timeline landscapeTimestamp=model.landscapeTimestamp}}
+          </div>
+        </div>
       {{/if}}
-    </div>
-    <div id="timeline-content">
-      {{#bs-button
-        onClick=(action "toggleTimeline")
-        type="secondary"
-        outline=true
-        class="btn-timeline"
-        title=(if renderingService.showTimeline "Hide Timeline" "Show Timeline")
-      }}
-        {{#unless renderingService.showTimeline}}<span class="pr-1">Show Timeline</span>{{/unless}}
-        {{svg-jar "chevron-up" id="hidetimeline-icon" class=(if renderingService.showTimeline "octicon align-middle hidetimeline-icon-down" "octicon align-middle")}}
-      {{/bs-button}}
-      <div id="timeline" class="timeline {{unless renderingService.showTimeline "timelinehide"}}">
-        {{landscape-select/timeline tutorialLandscapes=landscapeListener.pauseVisualizationReload landscapeTimestamp=model.landscapeTimestamp}}
-      </div>
     </div>
   {{else}}
   <div class="container-fluid">
