@@ -7,5 +7,10 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return RSVP.hash({
             sequences: this.get('store').findAll('sequence')
         });
-    }
+    },
+    actions: {
+        resetRoute() {
+          //const routeName = this.get('tutorial');
+       },
+      }
 });

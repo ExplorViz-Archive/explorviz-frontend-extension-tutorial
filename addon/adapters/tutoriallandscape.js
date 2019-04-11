@@ -41,7 +41,7 @@ export default JSONAPIAdapter.extend(DataAdapterMixin,{
   // Overrides URL for model.save()
   urlForCreateRecord() {
     const baseUrl = this.buildURL();
-    return `${baseUrl}/v1/tutorials/landscapes/`;
+    return `${baseUrl}/v1/tutorials/landscapes/import`;
   },
 
 
