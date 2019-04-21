@@ -20,7 +20,6 @@ export default Controller.extend(AlertifyHandler,{
      this.get('landscapeListener').initSSE();
      this.get('landscapeListener').pauseVisualizationReload=true;
    },
-
   actions:{
     saveLandscape(model,timestamp){
         this.get("model").set("landscapeTimestamp",timestamp);

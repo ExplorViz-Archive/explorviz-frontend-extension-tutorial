@@ -40,7 +40,6 @@ landscapeRepo: service("repos/landscape-repository"),
     openEditTutorialPage(tutorial){
       this.set('page', 'editTutorial');
       this.set('currentTutorial', tutorial);
-      console.log(tutorial.landscape);
       this.setProperties({
         tutorial_id_change: tutorial.id,
         tutorial_title_change: tutorial.title,

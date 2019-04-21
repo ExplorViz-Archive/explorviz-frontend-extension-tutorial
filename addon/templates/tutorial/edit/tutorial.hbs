@@ -13,8 +13,8 @@
                   {{form.element controlType="number" label="ID" property="id" disabled=true}}
                   {{form.element controlType="text" label="Title" placeholder="Enter new tutorial title" property="title"}}
                   {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp"}}
-                    {{#link-to "tutorial.edit.tutorial.landscape" model}} 
-                      {{#if landscapeservice.tutorialLandscape.isFulfilled}}edit landscape{{else}}select landscape{{/if}}
+                    {{#link-to "tutorial.edit.tutorial.landscape" model}}
+                      {{#if landscapeservice.tutorialLandscape}}edit landscape{{else}}select landscape{{/if}}
                     {{/link-to}}
                   <h4>Sequences</h4>
                   <div class="d-flex flex-grow-1" style="overflow-y: auto">

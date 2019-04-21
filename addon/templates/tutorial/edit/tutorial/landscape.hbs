@@ -1,21 +1,19 @@
 <div class="row">
   <div class="col-12" id="vizspace">
         <h3>Tutorial "{{model.title}}"</h3>
-          Id:{{#if landscapeInteraction.landscapeTimestamp}}{{landscapeInteraction.landscapeTimestamp}}{{else}}{{model.landscapeTimestamp}}{{/if}}
-  {{#if model.landscape.isFulfilled}}
-
-
+{{tutorialLandscape.tutorialLandscape.timestamp}}
+  {{#if tutorialLandscape.tutorialLandscape}}
   {{visualization/page-setup/visualization-navbar
     content=(array
-      (component "landscape-select/navbar/toggle-live-landscape" class="nav-item" toggle=tutorialLandscape)
-      (component "landscape-select/navbar/save-landscape" class="nav-item" tutorial=model)
-      (component "landscape-select/navbar/return-to-saved" class="nav-item" tutorial=model toggle=tutorialLandscape)
+      (component "landscape-select/navbar/toggle-live-landscape" class="nav-item" toggle=hasTutorialLandscape)
+
     )
 }}
-Showing live-landscapes: {{not tutorialLandscape}}
+Showing live-landscapes: {{not hasTutorialLandscape}}
     <div id="rendering">
-      {{#if (and tutorialLandscape model.landscape.isFulfilled)}}
-        {{visualization/rendering/landscape-rendering latestLandscape=model.landscape interaction=landscapeInteraction}}
+      {{#if hasTutorialLandscape}}
+      {{tutorialLandscape.tutorialLandscape.landscape}}
+        {{!-- {{visualization/rendering/landscape-rendering latestLandscape=tutorialLandscape.tutorialLandscape.landscape interaction=landscapeInteraction}} --}}
         {{landscape-select/landscapelist}}
       {{else}}
         {{visualization/rendering/landscape-rendering latestLandscape=landscapeRepo.latestLandscape interaction=landscapeInteraction}}
@@ -39,7 +37,7 @@ Showing live-landscapes: {{not tutorialLandscape}}
   {{else}}
   <div class="container-fluid">
     <div class="jumbotron">
-      <h2>Landscape loading for "{{model.landscapeTimestamp}}"!</h2>
+      <h2>Landscape loading for "{{landscapeservice.tutorialTimestamp}}"!</h2>
       <div id="spinnerDiv" class="container" style="position:relative; height:20%;">
         {{ember-spinner}}
       </div>

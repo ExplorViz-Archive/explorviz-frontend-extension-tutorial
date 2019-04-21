@@ -9,7 +9,7 @@ export default Component.extend({
   landscapes: null,
   init(){
     this._super(...arguments);
-    this.updateLandscapeList(true);
+    this.updateLandscapeList();
   },
 
   updateLandscapeList(reload) {

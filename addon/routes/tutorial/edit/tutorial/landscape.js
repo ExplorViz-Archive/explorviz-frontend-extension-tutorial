@@ -8,6 +8,11 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model(params) {
         return this.store.findRecord('tutorial', params.tutorial_id);
   },
+  setupController(controller, model) {
+    controller.get('tutorialLandscape').loadTutorialLandscape(model);
+    //this._super(controller, model);
+  },
+
   actions: {
     // @Override BaseRoute
     resetRoute() {

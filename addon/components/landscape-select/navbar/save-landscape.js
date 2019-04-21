@@ -11,12 +11,6 @@ export default Component.extend(AlertifyHandler,{
   layout,
   actions:{
     saveLandscape(){
-      this.get('store').findAll('tutoriallandscape',true)
-        .then(landscapes => {
-          let landscape = landscapes.find((landscape)=>landscape.id===this.get('landscape').id);
-          this.get('tutorial').set('landscapeTimestamp',landscape.get('timestamp'));
-          this.get('tutorial').save();
-        });
     },
   },
   handleMessageForUser(pauseReload) {

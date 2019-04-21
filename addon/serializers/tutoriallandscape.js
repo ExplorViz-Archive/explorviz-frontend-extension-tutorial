@@ -1,21 +1,32 @@
-import JSONAPISerializer from 'ember-data/serializers/json-api';
-import SaveRelationshipsMixin from 'ember-data-save-relationships';
- 
-export default JSONAPISerializer.extend(SaveRelationshipsMixin, {
-  attrs: {
-    landscape: { serialize: true }
-  },
+import LandscapeSerializer from "explorviz-frontend/serializers/landscape"
+
+export default LandscapeSerializer.extend({
   serialize(snapshot, options) {
     let json = this._super(...arguments);
-    json.data.attributes.landscape=JSON.stringify(json.data.relationships.landscape);
-    delete json.data.relationships.landscape;
+    debugger;
+
+    json.data.attributes.landscape=JSON.stringify(json);
+    json.data.relationships={tutorialtimestamp: {data:{type:'tutorialtimestamp',id:snapshot.record.get('timestamp').get('id')}}};
+    json.included=[{
+      type:"tutorialtimestamp",
+      id:snapshot.record.get('timestamp').get('id'),
+      attributes: {
+        name:snapshot.record.get('timestamp').get('name'),
+        timestamp:snapshot.record.get('timestamp').get('timestamp')
+      }
+    }];
+
     return json;
   },
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
-    payload.data.relationships={};
-    payload.data.relationships.landscape=JSON.parse(payload.data.attributes.landscape);
-    console.log(payload);
-    delete payload.data.attributes.landscape;
-    return this._super(store, primaryModelClass, payload, id, requestType);
+    if(Array.isArray(payload.data)){
+      var json = {data:[]};
+     payload.data.forEach(function(v,k){
+       json.data[k]=JSON.parse(v.attributes.landscape).data;
+     });
+    }else{
+      var json = JSON.parse(payload.data.attributes.landscape);
+    }
+    return this._super(store, primaryModelClass, json, id, requestType);
   }
 });
