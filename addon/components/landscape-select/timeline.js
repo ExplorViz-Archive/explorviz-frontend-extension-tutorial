@@ -8,7 +8,8 @@ export default Timeline.extend({
        this._super(...arguments);
        var tutorialActivePoint = this.get('timelineChart').getElementAtEvent(evt)[0];
        this.get('landscapeListener').set('pauseVisualizationReload',true);
-
-       this.set("landscapeTimestamp",tutorialActivePoint._chart.data.datasets[tutorialActivePoint._datasetIndex].data[tutorialActivePoint._index].x);
+       this.get('landscapeListener').set("landscapeTimestamp",tutorialActivePoint._chart.data.datasets[tutorialActivePoint._datasetIndex].data[tutorialActivePoint._index].x);
+       this.get('landscapeService').selectLandscape(this.get('landscapeListener').get("landscapeTimestamp"));
+       //this.await.clearRender();
     }
 });

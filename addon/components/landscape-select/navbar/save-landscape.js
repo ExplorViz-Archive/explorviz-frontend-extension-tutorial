@@ -7,12 +7,7 @@ export default Component.extend(AlertifyHandler,{
   tagName:'li',
   store: service(),
   landscapeListener: service("landscape-listener"),
-  toggle:null,
   layout,
-  actions:{
-    saveLandscape(){
-    },
-  },
   handleMessageForUser(pauseReload) {
     if(!pauseReload){
       this.showAlertifyMessage("Visualization paused! Tutorial landscapes are shown.");

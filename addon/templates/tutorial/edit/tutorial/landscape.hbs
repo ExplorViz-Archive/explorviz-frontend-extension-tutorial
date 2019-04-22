@@ -1,49 +1,46 @@
 <div class="row">
   <div class="col-12" id="vizspace">
         <h3>Tutorial "{{model.title}}"</h3>
-{{tutorialLandscape.tutorialLandscape.timestamp}}
-  {{#if tutorialLandscape.tutorialLandscape}}
-  {{visualization/page-setup/visualization-navbar
-    content=(array
-      (component "landscape-select/navbar/toggle-live-landscape" class="nav-item" toggle=hasTutorialLandscape)
-
-    )
-}}
-Showing live-landscapes: {{not hasTutorialLandscape}}
-    <div id="rendering">
-      {{#if hasTutorialLandscape}}
-      {{tutorialLandscape.tutorialLandscape.landscape}}
-        {{!-- {{visualization/rendering/landscape-rendering latestLandscape=tutorialLandscape.tutorialLandscape.landscape interaction=landscapeInteraction}} --}}
-        {{landscape-select/landscapelist}}
-      {{else}}
-        {{visualization/rendering/landscape-rendering latestLandscape=landscapeRepo.latestLandscape interaction=landscapeInteraction}}
-        <div id="timeline-content">
-          {{#bs-button
-            onClick=(action "toggleTimeline")
-            type="secondary"
-            outline=true
-            class="btn-timeline"
-            title=(if renderingService.showTimeline "Hide Timeline" "Show Timeline")
+        {{if landscapeService.persisted "Landscape imported" "Save selection to import landscape"}}
+        {{#if landscapeService.selected}}
+          {{visualization/page-setup/visualization-navbar
+            content=(array
+              (component "landscape-select/navbar/toggle-live-landscape" class="nav-item")
+            )
           }}
-            {{#unless renderingService.showTimeline}}<span class="pr-1">Show Timeline</span>{{/unless}}
-            {{svg-jar "chevron-up" id="hidetimeline-icon" class=(if renderingService.showTimeline "octicon align-middle hidetimeline-icon-down" "octicon align-middle")}}
-          {{/bs-button}}
-          <div id="timeline" class="timeline {{unless renderingService.showTimeline "timelinehide"}}">
-            {{landscape-select/timeline landscapeTimestamp=model.landscapeTimestamp}}
+            <div id="rendering">
+              {{#if landscapeListener.selected}}
+                {{landscape-select/landscapelist selectedLandscape=tutorialLandscape.landscape}}
+                {{visualization/rendering/landscape-rendering latestLandscape=tutorialLandscape.tutorialLandscape interaction=landscapeInteraction}}
+              {{else}}
+                {{visualization/rendering/landscape-rendering latestLandscape=landscapeRepo.latestLandscape interaction=landscapeInteraction}}
+                <div id="timeline-content">
+                  {{#bs-button
+                    onClick=(action "toggleTimeline")
+                    type="secondary"
+                    outline=true
+                    class="btn-timeline"
+                    title=(if renderingService.showTimeline "Hide Timeline" "Show Timeline")
+                  }}
+                    {{#unless renderingService.showTimeline}}<span class="pr-1">Show Timeline</span>{{/unless}}
+                    {{svg-jar "chevron-up" id="hidetimeline-icon" class=(if renderingService.showTimeline "octicon align-middle hidetimeline-icon-down" "octicon align-middle")}}
+                  {{/bs-button}}
+                  <div id="timeline" class="timeline {{unless renderingService.showTimeline "timelinehide"}}">
+                    {{landscape-select/timeline landscapeTimestamp=model.landscapeTimestamp}}
+                  </div>
+                </div>
+              {{/if}}
+            </div>
+          {{else}}
+          <div class="container-fluid">
+            <div class="jumbotron">
+              <h2>Landscape loading for "{{model.landscapeTimestamp}}"!</h2>
+              <div id="spinnerDiv" class="container" style="position:relative; height:20%;">
+                {{ember-spinner}}
+              </div>
+            </div>
           </div>
-        </div>
-      {{/if}}
-    </div>
-  {{else}}
-  <div class="container-fluid">
-    <div class="jumbotron">
-      <h2>Landscape loading for "{{landscapeservice.tutorialTimestamp}}"!</h2>
-      <div id="spinnerDiv" class="container" style="position:relative; height:20%;">
-        {{ember-spinner}}
-      </div>
-    </div>
-  </div>
-  {{/if}}
+          {{/if}}
 
   </div>
     </div>

@@ -3,8 +3,6 @@ import LandscapeSerializer from "explorviz-frontend/serializers/landscape"
 export default LandscapeSerializer.extend({
   serialize(snapshot, options) {
     let json = this._super(...arguments);
-    debugger;
-
     json.data.attributes.landscape=JSON.stringify(json);
     json.data.relationships={tutorialtimestamp: {data:{type:'tutorialtimestamp',id:snapshot.record.get('timestamp').get('id')}}};
     json.included=[{

@@ -11,35 +11,15 @@ export default Controller.extend(AlertifyHandler,{
   store: service(),
   targetType: null,
   targetId:null,
-  hasTutorialLandscape: true,
-  tutorialLandscape: service(),
+  landscapeService: service(),
   renderingService: service("rendering-service"),
   landscapeRepo: service("repos/landscape-repository"),
   landscapeListener: service("landscape-listener"),
    init(){
      this.get('landscapeListener').initSSE();
-     this.get('landscapeListener').pauseVisualizationReload=true;
+     this.get('landscapeListener').set('pauseVisualizationReload',true);
    },
   actions:{
-    saveLandscape(model,timestamp){
-        this.get("model").set("landscapeTimestamp",timestamp);
-        this.get("model").save();
-        this.get("store").queryRecord('tutoriallandscape', {timestamp: timestamp}).then(() =>{
-            model.set('landscapeTimestamp',timestamp);
-            model.save().then(()=>{
-              const message = "Landscape for Tutorial <b>" + tutorialData.title + "</b> was saved.";
-              this.showAlertifyMessage(message);
-            });
-      },()=>{
-        this.get("store").queryRecord('landscape', {timestamp: timestamp}).then((landscape) => {
-          const tutorialLandscape = this.get("store").createRecord("tutoriallandscape",landscape);
-          tutorialLandscape.save().then(() =>{
-            const message = "Landscape for Tutorial <b>" + tutorialData.title + "</b> was imported and saved.";
-            this.showAlertifyMessage(message);
-          });
-        });
-      });
-    },
       resetView() {
         this.get('renderingService').reSetupScene();
       },

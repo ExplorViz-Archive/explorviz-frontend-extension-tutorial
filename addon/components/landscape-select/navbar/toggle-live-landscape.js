@@ -5,19 +5,20 @@ import {inject as service} from '@ember/service';
 
 export default Component.extend(AlertifyHandler,{
   tagName:'li',
-  landscapeListener: service("landscape-listener"),
-  toggle:null,
+  landscapeListener: service(),
+  landscapeService: service(),
   layout,
   actions:{
     toggleVisualizationReload() {
-      this.set('toggle',!this.get('toggle'));
-      const pauseReload = this.get('landscapeListener').pauseVisualizationReload;
-      this.handleMessageForUser(pauseReload);
       this.get('landscapeListener').toggleVisualizationReload();
+      if(this.get('landscapeListener').pauseVisualizationReload){
+        this.get('landscapeService').set('selected',null);
+      }
+      this.handleMessageForUser(this.get('landscapeListener').pauseVisualizationReload);
     }
   },
   handleMessageForUser(pauseReload) {
-    if(!pauseReload){
+    if(pauseReload){
       this.showAlertifyMessage("Visualization paused! Tutorial landscapes are shown.");
     }
     else {

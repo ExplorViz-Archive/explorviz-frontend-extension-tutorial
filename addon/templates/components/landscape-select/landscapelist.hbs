@@ -1,5 +1,10 @@
-
-Possible Landscapes:
-{{#each landscapes as |landscape|}}
-  {{landscape}}
-{{/each}}
+{{#if tutorialLandscape.selected}}
+Selected Landscape:{{tutorialLandscape.selectedLandscape.timestamp}}
+{{else}}
+  {{landscapeService.landscapeList.length}} possible Landscapes:
+  <ul>
+    {{#each landscapeService.landscapeList as |landscape|}}
+      <li>{{landscape}}</li>
+    {{/each}}
+  </ul>
+{{/if}}

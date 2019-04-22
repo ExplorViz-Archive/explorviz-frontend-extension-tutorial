@@ -9,8 +9,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return this.store.findRecord('tutorial', params.tutorial_id);
   },
   setupController(controller, model) {
-    controller.get('tutorialLandscape').loadTutorialLandscape(model);
-    //this._super(controller, model);
+    this._super(...arguments);
+    controller.get('landscapeService').updateLandscapeList();
+    controller.get('landscapeService').loadTutorialLandscape(model);
   },
 
   actions: {
@@ -18,7 +19,5 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     resetRoute() {
       //const routeName = this.get('tutorial');
    },
-
-
  }
 });
