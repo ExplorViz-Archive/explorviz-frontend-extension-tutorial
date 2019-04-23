@@ -1,0 +1,20 @@
+{{#bs-form model=model onSubmit=(action "saveTutorialChanges" model) as |form|}}
+    {{form.element controlType="text" label="ID" property="id" disabled=true}}
+    {{form.element controlType="text" label="Title" placeholder="Enter new tutorial title" property="title"}}
+    {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp" disabled=true}}
+
+
+      {{!-- {{#link-to "tutorial.edit.tutorial.landscape" model}}
+        {{#if landscapeService.landscape}}edit landscape{{else}}select landscape{{/if}}
+      {{/link-to}} --}}
+{{bs-button defaultText="Save" type="primary" buttonType="submit"}}
+{{/bs-form}}
+{{#bs-button
+  onClick=(action "selectNewLandscape")
+  type="secondary"
+  outline=true
+  class="btn-timeline"
+  title="change landscape"
+}}
+change landscape
+{{/bs-button}}

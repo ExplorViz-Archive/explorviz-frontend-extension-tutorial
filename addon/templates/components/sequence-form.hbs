@@ -1,0 +1,5 @@
+{{#bs-form model=sequence onSubmit=(action "saveSequenceChanges" sequence) as |form|}}
+  {{form.element controlType="text" label="ID" property="id" disabled=true}}
+  {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="title"}}
+{{bs-button defaultText="Save" type="primary" buttonType="submit"}}
+{{/bs-form}}

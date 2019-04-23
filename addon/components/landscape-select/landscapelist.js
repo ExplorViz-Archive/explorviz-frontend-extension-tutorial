@@ -7,4 +7,19 @@ export default Component.extend({
   store: service(),
   landscapeListener: service(),
   landscapeService: service(),
+  tutorialService: service(),
+  actions:{
+      setTutorialTimestamp(tutorial,timestamp){
+        tutorial.set('landscapeTimestamp',timestamp);
+      },
+      showLiveLandscapes(){
+        this.set("landscapeService.livelandscapes",true);
+        this.get('landscapeListener').set('pauseVisualizationReload',false);
+      },
+      hideLiveLandscapes(){
+        this.set("landscapeService.livelandscapes",false);
+        this.get('landscapeListener').set('pauseVisualizationReload',true);
+
+      }
+  }
 });

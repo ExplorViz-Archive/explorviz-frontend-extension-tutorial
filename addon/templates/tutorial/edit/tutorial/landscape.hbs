@@ -1,5 +1,9 @@
 <div class="row">
   <div class="col-12" id="vizspace">
+    {{#bs-button
+      onClick=(action "openDataSelection")
+      title="togglesidebar"
+    }}asdasd{{/bs-button}}
         <h3>Tutorial "{{model.title}}"</h3>
         {{if landscapeService.persisted "Landscape imported" "Save selection to import landscape"}}
         {{#if landscapeService.selected}}
@@ -41,6 +45,8 @@
             </div>
           </div>
           {{/if}}
-
+          <div class="col-4 hide" id="dataselection">
+            {{visualization/page-setup/sidebar/data-selection}}
+          </div>
   </div>
     </div>

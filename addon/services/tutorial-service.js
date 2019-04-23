@@ -2,8 +2,9 @@ import Service from '@ember/service';
 import Evented from '@ember/object/evented';
 import debugLogger from 'ember-debug-logger';
 import { inject as service } from "@ember/service";
+import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 
-export default Service.extend(Evented, {
+export default Service.extend(Evented,AlertifyHandler, {
   debug: debugLogger(),
   store: service(),
   landscapeService:service(),
@@ -19,7 +20,6 @@ export default Service.extend(Evented, {
         this.set('tutorialList', tutorialList);
       });
   },
-
   saveTutorialChanges(tutorial) {
       if(tutorial) {
         // check for valid input

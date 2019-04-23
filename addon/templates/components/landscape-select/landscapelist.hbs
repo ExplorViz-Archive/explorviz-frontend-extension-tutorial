@@ -1,10 +1,24 @@
 {{#if tutorialLandscape.selected}}
 Selected Landscape:{{tutorialLandscape.selectedLandscape.timestamp}}
 {{else}}
+  No Landscape selected for Tutorial
   {{landscapeService.landscapeList.length}} possible Landscapes:
   <ul>
     {{#each landscapeService.landscapeList as |landscape|}}
-      <li>{{landscape}}</li>
+      <li>
+        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="set landscape"  {{action "setTutorialTimestamp" model landscape.timestamp.timestamp}}>
+          {{landscape.timestamp.timestamp}}
+        </a>
+      </li>
     {{/each}}
   </ul>
+  {{#bs-button
+    onClick=(action "showLiveLandscapes")
+    type="secondary"
+    outline=true
+    class="btn-timeline"
+    title="show live landscapes"
+  }}
+  show live landscapes
+  {{/bs-button}}
 {{/if}}

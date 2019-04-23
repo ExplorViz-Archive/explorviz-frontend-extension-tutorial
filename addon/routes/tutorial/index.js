@@ -2,7 +2,7 @@ import BaseRoute from 'explorviz-frontend/routes/base-route';
 
 export default BaseRoute.extend({
   beforeModel: function() {
-     this.transitionTo("tutorial.list.tutorial");
+     this.transitionTo("tutorial.list");
   },
   actions: {
     resetRoute() {
