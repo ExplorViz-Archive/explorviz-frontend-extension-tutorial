@@ -14,8 +14,6 @@ export default Component.extend(AlertifyHandler,{
     selectNewLandscape(){
       if(this.get('landscapeService.landscape')!=null){
         this.set('landscapeService.landscape',null);
-      }else{
-        this.get("landscapeService").selectLandscape(this.get('model.landscapeTimestamp'));
       }
     }
   }

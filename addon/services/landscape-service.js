@@ -19,14 +19,6 @@ export default Service.extend(Evented, {
           this.set('landscapeList', landscapeList);
         });
     },
-    selectLandscape(landscapeTimestamp){
-      this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp}).then((landscape) => {
-        this.set('landscape',landscape);
-      },()=>{
-        this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp}).then((landscape) => {
-          this.set('landscape',landscape);
-      });
-    })},
     loadTutorialLandscape(tutorial) {
         if (this.get('landscape') !== null) {
           if (this.get('landscape.timestamp.timestamp')!= tutorial.get('landscapeTimestamp') ){
@@ -40,29 +32,32 @@ export default Service.extend(Evented, {
         }
     },
     importLandscape(landscapeTimestamp){
+      
       var record = this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((landscape) => {
         this.set('landscape',landscape);
       }, (e) => {
           var landscape = this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
-            var tutorialtimestamp = this.get('store').createRecord("tutorialtimestamp",
-            {
+            var timestamprecord=   {
               id:landscape.get('timestamp').get('id'),
               timestamp:landscape.get('timestamp').get('timestamp'),
               totalRequests:landscape.get('timestamp').get('totalRequests'),
               name:"new timestamp",
-            });
-            tutorialtimestamp.save().then(()=>{
-              var tutoriallandscape = this.get('store').createRecord("tutoriallandscape",
-              {
+            };
+            var tutorialtimestamp = this.get('store').createRecord("tutorialtimestamp",timestamprecord );
+            tutorialtimestamp.save().then((tutorialtimestamp)=>{
+              var landscaperecord= {
                 id: landscape.get('id'),
                 events: landscape.get('events'),
                 systems: landscape.get('systems'),
                 totalApplicationCommunications: landscape.get('totalApplicationCommunications'),
                 timestamp: tutorialtimestamp ,
-              });
+              };
+              this.get('store').unloadRecord(landscape);
+              debugger;
+              var tutoriallandscape = this.get('store').createRecord("tutoriallandscape",landscaperecord);
               tutoriallandscape.save();
               this.set('landscape',tutoriallandscape);
-            });
+            },(e)=>{debugger;});
           });
       });
     }
