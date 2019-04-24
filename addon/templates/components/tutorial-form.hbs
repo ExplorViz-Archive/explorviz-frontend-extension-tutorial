@@ -1,7 +1,8 @@
+{{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
 {{#bs-form model=model onSubmit=(action "saveTutorialChanges" model) as |form|}}
     {{form.element controlType="text" label="ID" property="id" disabled=true}}
     {{form.element controlType="text" label="Title" placeholder="Enter new tutorial title" property="title"}}
-    {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp" disabled=true}}
+    {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp"}}
 
 
       {{!-- {{#link-to "tutorial.edit.tutorial.landscape" model}}

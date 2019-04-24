@@ -2,6 +2,15 @@
   <div class="col-8" id="vizspace">
     {{#if selectMode}}
       {{#unless liveMode}}
+        {{#bs-button
+          onClick=(action "showLiveLandscapes")
+          type="secondary"
+          outline=true
+          class="btn-timeline"
+          title="show live landscapes"
+        }}  
+          show live landscapes
+        {{/bs-button}}
         {{landscape-select/landscapelist model=model}}
       {{else}}
       {{#bs-button
@@ -82,8 +91,8 @@
       {{/unless}}
       {{else}}
       <div id="rendering">
-        {{!-- {{landscapeService.landscape.systems}} --}}
-        {{!-- {{landscape-visualization latestLandscape=landscapeService.landscape}} --}}
+       {{landscape-visualization latestLandscape=landscapeService.landscape}} 
+        {{landscapeService.landscape.timestamp.timestamp}}
         Visualization not implemented!
       </div>
       {{/if}}

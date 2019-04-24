@@ -9,6 +9,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     this._super(...arguments);
     controller.get('landscapeService').updateLandscapeList();
     controller.get('landscapeService').loadTutorialLandscape(model);
+    controller.set('landscapeService.liveMode',false);
+    controller.set('landscapeService.',false);
+
   },
   actions: {
     // @Override BaseRoute

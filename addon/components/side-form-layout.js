@@ -16,11 +16,17 @@ export default Component.extend({
   }),
 
   selectMode: computed('landscapeService.landscape',function(){
+    if(this.get('model.constructor.modelName')=="tutorial"){
       return !this.get('landscapeService.landscape');
+    }
+    return false;
   }),
 
   liveMode: computed('landscapeService.livelandscapes','selectMode', function() {
-    return this.get('selectMode') && this.get('landscapeService.livelandscapes');
+    if(this.get('model.constructor.modelName')=="tutorial"){
+      return this.get('selectMode') && this.get('landscapeService.livelandscapes');
+    }
+    return false;
   }),
  // showLandscape: false,
  // selectMode: false,
@@ -37,6 +43,10 @@ export default Component.extend({
 
     toggleTimeline() {
       this.get('renderingService').toggleTimeline();
+    },
+    showLiveLandscapes(){
+      this.set("landscapeService.livelandscapes",true);
+      this.get('landscapeListener').set('pauseVisualizationReload',false);
     },
     hideLiveLandscapes(){
       this.set('landscapeService.livelandscapes',false);
