@@ -28,7 +28,7 @@ export default Service.extend(Evented,AlertifyHandler, {
           return;
         }
         tutorial.save()
-        .then(()=> {
+        .then((tutorial)=> {
           const message = `Tutorial updated.`;
           this.get('landscapeService').loadTutorialLandscape(tutorial);
           this.showAlertifyMessage(message);
@@ -38,5 +38,9 @@ export default Service.extend(Evented,AlertifyHandler, {
       } else {
         this.showAlertifyMessage(`Tutorial not found.`);
       }
+    },
+    showReasonErrorAlert(reason) {
+        const {title, detail} = reason.errors[0];
+        this.showAlertifyMessage(`<b>${title}:</b> ${detail}`);
     },
 });

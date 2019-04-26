@@ -79,7 +79,6 @@ export default Component.extend({
 
   init(){
     this._super(...arguments);
-    this.get('landscapeService').updateLandscapeList();
     this.get('landscapeListener').initSSE();
     this.get('landscapeListener').set('pauseVisualizationReload',true);
   },

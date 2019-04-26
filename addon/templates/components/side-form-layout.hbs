@@ -8,10 +8,10 @@
           outline=true
           class="btn-timeline"
           title="show live landscapes"
-        }}  
+        }}
           show live landscapes
         {{/bs-button}}
-        {{landscape-select/landscapelist model=model}}
+        {{landscape-select/landscapelist model=tutorial}}
       {{else}}
       {{#bs-button
         onClick=(action "hideLiveLandscapes")
@@ -91,9 +91,7 @@
       {{/unless}}
       {{else}}
       <div id="rendering">
-       {{landscape-visualization latestLandscape=landscapeService.landscape}} 
-        {{landscapeService.landscape.timestamp.timestamp}}
-        Visualization not implemented!
+          {{landscape-visualization latestLandscape=landscapeService.landscape}}
       </div>
       {{/if}}
   </div>

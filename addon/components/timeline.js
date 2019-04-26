@@ -7,12 +7,11 @@ export default Timeline.extend(AlertifyHandler,{
     layout,
     landscapeService: service(),
     chartClickHandler(evt) {
-      //this._super(...arguments);
+      this._super(...arguments);
        var tutorialActivePoint = this.get('timelineChart').getElementAtEvent(evt)[0];
        if (tutorialActivePoint) {
         this.get('landscapeListener').set('pauseVisualizationReload',true);
         this.get('landscapeService').importLandscape(tutorialActivePoint._chart.data.datasets[tutorialActivePoint._datasetIndex].data[tutorialActivePoint._index].x);
-       //this.await.clearRender();
        }
     }
 });

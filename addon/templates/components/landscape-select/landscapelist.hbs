@@ -1,7 +1,6 @@
-{{#if tutorialLandscape.selected}}
-Selected Landscape:{{tutorialLandscape.selectedLandscape.timestamp}}
+{{#if landscapeService.landscape}}
+Selected Landscape:{{landscapeService.landscape.timestamp}}
 {{else}}
-  No Landscape selected for Tutorial
   {{landscapeService.landscapeList.length}} possible Landscapes:
   <ul>
     {{#each landscapeService.landscapeList as |landscape|}}
