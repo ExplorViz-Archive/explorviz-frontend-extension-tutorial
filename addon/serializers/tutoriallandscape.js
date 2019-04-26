@@ -14,7 +14,7 @@ export default JSONAPISerializer.extend(SaveRelationshipsMixin,{
   },
   serialize(snapshot, options) {
     let json = this._super(...arguments);
-    //debugger;
+    debugger;
     json.data.attributes.landscape=JSON.stringify(json);
     json.data.relationships={};
     json.data.relationships.tutorialtimestamp={data:{type:'tutorialtimestamp',id:snapshot.record.get('timestamp').get('id')}};

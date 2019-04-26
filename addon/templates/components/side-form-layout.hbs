@@ -91,11 +91,12 @@
       {{/unless}}
       {{else}}
       <div id="rendering">
-          {{landscape-visualization latestLandscape=landscapeService.landscape}}
+          {{landscape-visualization latestLandscape=landscapeService.timestamp.landscape}}
       </div>
       {{/if}}
   </div>
   <div class="col-4" id="tutorialselection">
+      {{model}}
       {{component form model=model}}
   </div>
 </div>
