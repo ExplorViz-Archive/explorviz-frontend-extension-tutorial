@@ -6,7 +6,7 @@ Selected Landscape:{{landscapeService.landscape.timestamp}}
     {{#each landscapeService.landscapeList as |landscape|}}
       <li>
         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="set landscape"  {{action "setTutorialTimestamp" model landscape.timestamp.timestamp}}>
-          {{landscape.timestamp.timestamp}}
+          {{landscape.timestamp.name}}
         </a>
       </li>
     {{/each}}

@@ -15,9 +15,9 @@ export default Component.extend({
     return !this.get('landscapeRepo.latestApplication');
   }),
 
-  selectMode: computed('landscapeService.timestamp.landscape',function(){
+  selectMode: computed('landscapeService.landscape',function(){
     if(this.get('model.constructor.modelName')=="tutorial"){
-      return !this.get('landscapeService.timestamp.landscape');
+      return !this.get('landscapeService.landscape');
     }
     return false;
   }),
@@ -35,12 +35,10 @@ export default Component.extend({
     resetView() {
       this.get('renderingService').reSetupScene();
     },
-
     openLandscapeView() {
       this.set('landscapeRepo.latestApplication', null);
       this.set('landscapeRepo.replayApplication', null);
     },
-
     toggleTimeline() {
       this.get('renderingService').toggleTimeline();
     },
@@ -78,7 +76,7 @@ export default Component.extend({
 
   init(){
     this._super(...arguments);
-    this.get('landscapeService').updateLandscapeList();
+    this.get('landscapeService').updateLandscapeList(true);
     this.get('landscapeListener').initSSE();
     this.get('landscapeListener').set('pauseVisualizationReload',true);
   },
