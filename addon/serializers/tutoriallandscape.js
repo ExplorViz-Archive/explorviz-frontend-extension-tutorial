@@ -1,28 +1,72 @@
-// import LandscapeSerializer from "explorviz-frontend/serializers/landscape"
+import LandscapeSerializer from "explorviz-frontend/serializers/landscape"
 import SaveRelationshipsMixin from 'ember-data-save-relationships';
 import JSONAPISerializer from 'ember-data/serializers/json-api';
+import { inject as service } from "@ember/service";
 
-export default JSONAPISerializer.extend(SaveRelationshipsMixin,{
 
+
+
+export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
   attrs: {
-    events: { serialize: true },
-    //systems: { serialize: true },
+    systems: { serialize: true},
     totalApplicationCommunications: { serialize: true }
   },
   payloadKeyFromModelName(model){
     return model;
   },
+  serializeRecordForIncluded(key,relationship){
+    if(this.serializedTypes.indexOf(key)!==-1){
+      return;
+    }
+    if (relationship.kind === 'belongsTo') {
+      var nextSnapshot = this.belongsTo(key);
+      nextSnapshot.serializedTypes=this.serializedTypes;
+      nextSnapshot.included=this.included;
+      this.serializedTypes.push(key);
+      nextSnapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
+      this.included.push(nextSnapshot.record.serialize({includeId:true}));
+      nextSnapshot.eachRelationship(this.serializeRecordForIncluded,nextSnapshot)
+      this.included.concat(nextSnapshot.included);
+    }else if (relationship.kind === 'hasMany') {
+      var self=this;
+      var key=key;
+      var hasmany=this.hasMany(key);
+      hasmany.forEach(function(v){
+          self.included.push(v.record.serialize({includeId:true}));
+          hasmany.forEach(function(value){
+            value.serializedTypes=self.serializedTypes;
+            value.included=self.included;
+            self.serializedTypes.push(key);
+            value.serializeRecordForIncluded=self.serializeRecordForIncluded;
+            value.eachRelationship(self.serializeRecordForIncluded,value);
+            self.included.concat(value.included);
+          });
+      });
+    }
+  },
   serialize(snapshot, options) {
     let json = this._super(...arguments);
-
-    json.included=[];
+    var included=[];
+    //json.included=[];
     // snapshot.hasMany('events').forEach(function(v,k){
     //   json.included.push(v.serialize());
-    // });
+    // });       
+
+    snapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
+    snapshot.serializedTypes=[];
+    snapshot.included=[];
+    snapshot.eachRelationship(this.serializeRecordForIncluded,snapshot);
+
     snapshot.hasMany('systems').forEach(function(v,k){
-      debugger;
-      json.included.push(v.serialize());
+      delete json.data.relationships.systems.data[k].attributes.threeJSModel;
     });
+    //snapshot.hasMany('events').forEach(function(v,k){
+     // delete json.data.relationships.events.data[k].attributes.threeJSModel;
+    //});
+    snapshot.hasMany('totalApplicationCommunications').forEach(function(v,k){
+      delete json.data.relationships.totalApplicationCommunications.data[k].attributes.threeJSModel;
+    });
+
     // snapshot.hasMany('totalApplicationCommunications').forEach(function(v,k){
     //   json.included.push(v.serialize());
     // });
@@ -36,6 +80,7 @@ export default JSONAPISerializer.extend(SaveRelationshipsMixin,{
 //   type:"tutorialtimestamp",
 //   id:snapshot.record.get('timestamp').get('id')
 // };
+json.included=snapshot.included;
     var newjson={
       data:{
         id: snapshot.record.get('id'),
@@ -52,15 +97,22 @@ export default JSONAPISerializer.extend(SaveRelationshipsMixin,{
           }
         }
     },
-    included:[{
-      type:"tutorialtimestamp",
-      id:snapshot.record.get('timestamp').get('id'),
-      attributes: {
-        name:snapshot.record.get('timestamp').get('name'),
-        timestamp:snapshot.record.get('timestamp').get('timestamp')
-      }
-    }]
+    included:[
+        {id: snapshot.record.get('timestamp').get('id'),
+         type: "tutorialtimestamp",
+         attributes:{
+           timestamp:snapshot.record.get('timestamp').get('timestamp'),
+           name:snapshot.record.get('timestamp').get('name')
+          }
+        }
+    ]
  };
+ debugger;
+ debugger;
+ debugger;
+ debugger;
+
+
     return newjson;
   },
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {

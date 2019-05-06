@@ -28,6 +28,17 @@ export default Component.extend({
     }
     return false;
   }),
+  init() {
+    const landscapeInteraction = LandscapeInteraction.create(getOwner(this).ownerInjection());
+    landscapeInteraction.handleSingleClick = function(mouse) {
+      // console.log(mouse);
+      // do your stuff, but keep in mind that the pre-defined functionality
+      // is now gone
+    };
+
+    this.set('landscapeInteraction', landscapeInteraction);    
+  },
+
  // showLandscape: false,
  // selectMode: false,
  // livemode: false,
