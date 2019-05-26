@@ -92,11 +92,15 @@
       {{/unless}}
       {{else}}
       <div id="rendering">
-          {{landscape-visualization latestLandscape=landscapeService.landscape}}
+          {{landscape-visualization latestLandscape=landscapeService.landscape interaction=interaction toggleSelect=(action 'toggleSelectTarget' interaction model) }}
       </div>
       {{/if}}
   </div>
   <div class="col-4" id="tutorialselection">
-      {{component form model=model}}
+    {{#unless runmode}}
+      {{component form model=model interaction=interaction toggleSelect=(action 'toggleSelectTarget' interaction model) runmode=runmode}}
+    {{else}}
+      {{component "step-form" model=activeStep interaction=interaction runmode=runmode}}
+    {{/unless}}
   </div>
 </div>

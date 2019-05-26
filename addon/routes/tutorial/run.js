@@ -1,20 +1,18 @@
 import BaseRoute from 'explorviz-frontend/routes/base-route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import RSVP from 'rsvp';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model(params) {
-        return this.get('store').findRecord('sequence', params.sequence_id);
+    var val = this.get('store').findRecord('tutorial', params.tutorial_id);
+    return val;
   },
   setupController(controller, model) {
     this._super(...arguments);
-    controller.set('landscapeService.liveMode',false);
+    controller.get('tutorialService').initService(model);
     controller.get('landscapeService').updateLandscapeList(true);
-    controller.get('tutorialService').getTutorial(model).then((tutorial)=>{
-      controller.get('landscapeService').loadTutorialLandscape(tutorial);
-    });
-
-
-    //controller.get('landscapeService').loadTutorialLandscape(model.get('tutorial'));
+    controller.get('landscapeService').loadTutorialLandscape(model);
+    controller.set('landscapeService.liveMode',false);
   },
   actions: {
     // @Override BaseRoute
@@ -22,5 +20,4 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       //const routeName = this.get('tutorial');
    },
   }
-
 });

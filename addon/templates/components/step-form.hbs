@@ -1,6 +1,27 @@
+{{#unless runmode}}
 {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
 {{#bs-form model=model onSubmit=(action "saveStepChanges" model) as |form|}}
   {{form.element controlType="text" label="ID" property="id" disabled=true}}
-  {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="title"}}
+  {{form.element controlType="text" label="Title" placeholder="Enter New Step Title" property="title"}}
+  {{form.element controlType="textarea" label="Text" placeholder="Text" property="text"}}
+  {{form.element controlType="text" label="Text" placeholder="Text" property="targetType" disabled=true}}
+  {{form.element controlType="text" label="Text" placeholder="Text" property="targetId" disabled=true}}
+  {{form.element controlType="text" label="Text" placeholder="Text" property="actionType" disabled=true}}
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 {{/bs-form}}
+{{#bs-button
+  onClick=(action toggleSelect)
+  type="secondary"
+  outline=true
+  title="select target"
+}}
+{{if interaction.selectTarget "selecting" "select target"}}
+{{/bs-button}}
+{{else}}
+{{model.targetId}}
+{{model.targetType}}
+{{model.actionType}}
+
+<h2>title:{{model.title}}</h2>
+<p>{{model.text}}</p>
+{{/unless}}

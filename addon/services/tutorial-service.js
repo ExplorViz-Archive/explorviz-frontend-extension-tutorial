@@ -9,7 +9,69 @@ export default Service.extend(Evented,AlertifyHandler, {
   store: service(),
   landscapeService:service(),
   tutorialList: null,
+  activeStep:null,
+  steps:[],
+  sequences:[],
+  initService(model){
+    this.set('sequences',model.get('sequences'));
+    this.get('sequences').forEach((k)=>{
+      k.get('steps').forEach((s)=>{
+        this.get('steps').push(s);
+      });
+    });
+  },
+  getNextStep(step){
+    if(step==undefined){
+      return this.get('steps')[0];
+    }
+    debugger;
+    var nextStep=false;
+    var step;
+    this.get('steps').forEach(function(s){
+      if(nextStep==true){
+        step=s;
+      }
+      if(s.get('id')==step.get('id')){
+          nextStep=true;
 
+      }
+    });
+    return step;
+  },
+  getSequence(step){
+    return this.get('store').findAll('tutorial').then((tutorials)=>{
+      return new Ember.RSVP.Promise(
+        function(resolve){
+          tutorials.forEach(function(k1){
+            k1.get('sequences').then((sequences)=>{
+                sequences.forEach(function(k2){
+                  k2.get('steps').forEach(function(k3){
+                     if(k3.get('id')==step.get('id')){
+                      resolve(k2);
+                     }
+                  });
+              });
+            });
+          })
+        });
+      });
+  },
+  getTutorial(sequence){
+    return this.get('store').findAll('tutorial').then((tutorials)=>{
+      return new Ember.RSVP.Promise(
+        function(resolve){
+          tutorials.forEach(function(k1){
+            k1.get('sequences').then((sequences)=>{
+                sequences.forEach(function(k2){
+                  if(k2.get('id')==sequence.get('id')){
+                    resolve(k1);
+                  }
+                });
+            });
+          })
+        });
+      });
+  },
   updateTutorialList(reload) {
     this.set('tutorialList', []);
     this.get('store').findAll('tutorial', { reload })

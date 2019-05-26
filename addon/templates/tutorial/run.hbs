@@ -1,17 +1,1 @@
-{{#if model.landscape.isFulfilled}}
-    {{landscapeInteraction.currentStep.title}}
-    <div id="rendering">
-      {{visualization/rendering/landscape-rendering latestLandscape=model.landscape interaction=landscapeInteraction tutorial=model}}
-    </div>
-{{else if model.landscapeTimestamp}}
-    <div class="container-fluid">
-      <div class="jumbotron">
-        <h2>Landscape loading for "{{model.landscapeTimestamp}}"!</h2>
-        <div id="spinnerDiv" class="container" style="position:relative; height:20%;">
-          {{ember-spinner}}
-        </div>
-      </div>
-    </div>
-{{else}}
-  {{#link-to "tutorial.edit.tutorial" model}} Tutorial needs to have a set Landscape to be executable. {{/link-to}}
-{{/if}}
+{{side-form-layout form="tutorial-form" model=model tutorial=model runmode=true}}

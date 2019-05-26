@@ -4,7 +4,6 @@ const { belongsTo, hasMany } = DS;
 
 export default Landscape.extend({
   timestamp: DS.belongsTo('tutorialtimestamp'),
-
   events: hasMany('event', {
     inverse: null,
     async: false

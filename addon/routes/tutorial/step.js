@@ -3,13 +3,18 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model(params) {
-        return this.get('store').findRecord('step', params.step_id);
+        return this.get('store').findRecord('step',params.step_id);
   },
   setupController(controller, model) {
     this._super(...arguments);
     controller.set('landscapeService.liveMode',false);
     controller.get('landscapeService').updateLandscapeList(true);
-    controller.get('landscapeService').loadTutorialLandscape(model.get('sequence.tutorial'));
+    controller.get('tutorialService').getSequence(model).then((sequence)=>{
+    controller.get('tutorialService').getTutorial(sequence).then((tutorial)=>{
+      controller.get('landscapeService').loadTutorialLandscape(tutorial);
+    });
+  });
+
   },
   actions: {
     // @Override BaseRoute

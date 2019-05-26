@@ -9,7 +9,6 @@ export default Service.extend(Evented, {
     landscape: null,
     livelandscapes: false,
     landscapeList: null,
-  
     updateLandscapeList(reload) {
       this.set('landscapeList', []);
       this.get('store').findAll('tutoriallandscape', { reload })
@@ -20,7 +19,7 @@ export default Service.extend(Evented, {
           this.set('landscapeList', landscapeList);
         });
     },
-     loadTutorialLandscape(tutorial) {
+    loadTutorialLandscape(tutorial) {
         if (this.get('landscape') !== null) {
           this.get('store').queryRecord('tutoriallandscape',{ timestamp: tutorial.get('landscapeTimestamp') }).then((landscape)=>{
             if (this.get('landscape.id')!= landscape.get('id')){
@@ -39,6 +38,7 @@ export default Service.extend(Evented, {
         this.set('landscape',tutlandscape);
       }, (e) => {
             this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
+              if(!this.get('store').hasRecordForId('tutoriallandscape',landscape.get('id'))){
               var timestamprecord=this.get('store').createRecord("tutorialtimestamp",{
                 id:landscape.get('timestamp.id'),
                 timestamp:landscape.get('timestamp.timestamp'),
@@ -54,8 +54,10 @@ export default Service.extend(Evented, {
               });
               timestamprecord.save();
               landscaperecord.save();
-
               this.set('landscape',landscaperecord);
+            }else{
+              this.get('store').set('landscape',landscape);
+            }
             });
       });
     }

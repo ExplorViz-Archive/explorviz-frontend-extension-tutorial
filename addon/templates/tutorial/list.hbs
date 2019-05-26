@@ -9,7 +9,7 @@
         <table class="table table-striped">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col">+</th>
+                    <th scope="col"></th>
                     <th scope="col">ID</th>
                     <th scope="col">Title</th>
                     <th scope="col">Sequences</th>
@@ -19,7 +19,7 @@
             <tbody>
                 {{#each model.tutorials as |tutorial|}}
                 <tr>
-                  <th></th>
+                  <th>{{#bs-button onClick=(action "toggleTutorial" tutorial)}}{{if tutorial.expanded '-' '+'}}{{/bs-button}}</th>
                     <th scope="row">
                         {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.id}}{{/link-to}}
                     </th>
@@ -50,9 +50,10 @@
                         {{/bs-dropdown}}
                     </td>
                 </tr>
+                {{#if tutorial.expanded}}
                 {{#each tutorial.sequences as |sequence|}}
                 <tr>
-                  <th>></th>
+                  <th>{{#bs-button onClick=(action "toggleSequence" sequence)}}{{if sequence.expanded '-' '+'}}{{/bs-button}}</th>
                     <th scope="row">
                         {{#link-to "tutorial.sequence" sequence}}{{sequence.id}}{{/link-to}}
                     </th>
@@ -83,9 +84,10 @@
                         {{/bs-dropdown}}
                     </td>
                 </tr>
+                {{#if sequence.expanded}}
                 {{#each sequence.steps as |step|}}
                 <tr>
-                  <th>>></th>
+                  <th></th>
                     <th scope="row">
                         {{#link-to "tutorial.step" step}}{{step.id}}{{/link-to}}
                     </th>
@@ -116,7 +118,9 @@
                     </td>
                 </tr>
                 {{/each}}
+                {{/if}}
                 {{/each}}
+                {{/if}}
                 {{/each}}
             </tbody>
         </table>

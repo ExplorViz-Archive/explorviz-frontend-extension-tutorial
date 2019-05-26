@@ -8,8 +8,8 @@ import { inject as service } from "@ember/service";
 
 export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
   attrs: {
-    systems: { serialize: true},
-    totalApplicationCommunications: { serialize: true }
+    systems:{serialize:true},
+    totalApplicationCommunications:{serialize:true}
   },
   payloadKeyFromModelName(model){
     return model;
@@ -22,25 +22,42 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
       var nextSnapshot = this.belongsTo(key);
       nextSnapshot.serializedTypes=this.serializedTypes;
       nextSnapshot.included=this.included;
-      this.serializedTypes.push(key);
-      nextSnapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
-      this.included.push(nextSnapshot.record.serialize({includeId:true}));
-      nextSnapshot.eachRelationship(this.serializeRecordForIncluded,nextSnapshot)
-      this.included.concat(nextSnapshot.included);
+      if(nextSnapshot.record.threeJSModel!=undefined){
+          nextSnapshot.record.set('threeJSModel', null);
+      }
+      if(this.serializedTypes.indexOf(key)==-1){
+        this.serializedTypes.push(key);
+        nextSnapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
+        if(nextSnapshot.record.get('id')!=undefined){
+          this.included.push(nextSnapshot.record.serialize({includeId:true}).data);
+        }
+        nextSnapshot.eachRelationship(this.serializeRecordForIncluded,nextSnapshot)
+        this.included.concat(nextSnapshot.included);
+      }
     }else if (relationship.kind === 'hasMany') {
       var self=this;
       var key=key;
       var hasmany=this.hasMany(key);
       hasmany.forEach(function(v){
-          self.included.push(v.record.serialize({includeId:true}));
+        if(v.record.threeJSModel!=undefined){
+            v.record.set('threeJSModel', null);
+        }
+        if(self.included==undefined){
+          self.included=[];
+        }
+        if(v.record.get('id')!=undefined){
+          self.included.push(v.record.serialize({includeId:true}).data);
           hasmany.forEach(function(value){
-            value.serializedTypes=self.serializedTypes;
-            value.included=self.included;
-            self.serializedTypes.push(key);
-            value.serializeRecordForIncluded=self.serializeRecordForIncluded;
-            value.eachRelationship(self.serializeRecordForIncluded,value);
-            self.included.concat(value.included);
+              value.serializedTypes=self.serializedTypes;
+              value.included=self.included;
+              if(self.serializedTypes.indexOf(key)==-1){
+                self.serializedTypes.push(key);
+              }
+              value.serializeRecordForIncluded=self.serializeRecordForIncluded;
+              value.eachRelationship(self.serializeRecordForIncluded,value);
+              self.included.concat(value.included);
           });
+        }
       });
     }
   },
@@ -50,7 +67,7 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
     //json.included=[];
     // snapshot.hasMany('events').forEach(function(v,k){
     //   json.included.push(v.serialize());
-    // });       
+    // });
 
     snapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
     snapshot.serializedTypes=[];
@@ -107,12 +124,6 @@ json.included=snapshot.included;
         }
     ]
  };
- debugger;
- debugger;
- debugger;
- debugger;
-
-
     return newjson;
   },
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
@@ -128,7 +139,7 @@ json.included=snapshot.included;
     }
     if(Array.isArray(json.included)){
       if(Array.isArray(payload.included)){
-        json.included=json.included+payload.included;
+        json.included=json.included.concat(payload.included);
       }
     }else{
       if(payload.included!=undefined){
