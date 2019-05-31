@@ -20,22 +20,23 @@ export default Service.extend(Evented,AlertifyHandler, {
       });
     });
   },
-  getNextStep(step){
-    if(step==undefined){
+  getNextStep(prevstep){
+    if(prevstep==undefined){
       return this.get('steps')[0];
     }
-    debugger;
     var nextStep=false;
     var step;
     this.get('steps').forEach(function(s){
       if(nextStep==true){
         step=s;
       }
-      if(s.get('id')==step.get('id')){
+      if(s.get('id')==prevstep.get('id')){
           nextStep=true;
-
       }
     });
+    if(step==undefined && nextStep==true){
+      return false;
+    }
     return step;
   },
   getSequence(step){
@@ -92,7 +93,7 @@ export default Service.extend(Evented,AlertifyHandler, {
         tutorial.save()
         .then((tutorial)=> {
           const message = `Tutorial updated.`;
-          this.get('landscapeService').loadTutorialLandscape(tutorial);
+          this.get('landscapeService').loadLandscape(tutorial);
           this.showAlertifyMessage(message);
         }, (reason) => {
           this.showReasonErrorAlert(reason);

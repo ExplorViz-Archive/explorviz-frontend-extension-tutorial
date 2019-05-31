@@ -14,7 +14,6 @@ export default Component.extend(AlertifyHandler,{
         }
         step.save()
         .then((stepy)=> {
-          console.log(stepy);
           const message = `Step updated.`;
           this.showAlertifyMessage(message);
         }, (reason) => {

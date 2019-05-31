@@ -1,6 +1,16 @@
 {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
-{{#bs-form model=model onSubmit=(action "saveSequenceChanges" sequence) as |form|}}
+{{#bs-form model=model onSubmit=(action "saveSequenceChanges" model) as |form|}}
   {{form.element controlType="text" label="ID" property="id" disabled=true}}
   {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="title"}}
+  {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp"}}
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 {{/bs-form}}
+{{#bs-button
+  onClick=(action "resetLandscape")
+  type="secondary"
+  outline=true
+  class="btn-timeline"
+  title="change landscape"
+}}
+change landscape
+{{/bs-button}}

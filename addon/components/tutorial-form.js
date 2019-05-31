@@ -11,7 +11,7 @@ export default Component.extend(AlertifyHandler,{
     saveTutorialChanges(tutorial){
       this.get('tutorialService').saveTutorialChanges(tutorial);
     },
-    selectNewLandscape(){
+    resetLandscape(){
       if(this.get('landscapeService.landscape')!=null){
         this.set('landscapeService.landscape',null);
       }

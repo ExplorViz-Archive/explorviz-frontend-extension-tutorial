@@ -8,7 +8,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   setupController(controller, model) {
     this._super(...arguments);
     controller.get('landscapeService').updateLandscapeList(true);
-    controller.get('landscapeService').loadTutorialLandscape(model);
+    controller.get('landscapeService').loadLandscape(model);
     controller.set('landscapeService.liveMode',false);
   },
   actions: {

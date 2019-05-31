@@ -9,8 +9,8 @@ export default Component.extend({
   landscapeService: service(),
   tutorialService: service(),
   actions:{
-      setTutorialTimestamp(tutorial,timestamp){
-        tutorial.set('landscapeTimestamp',timestamp);
+      setTimestamp(model,timestamp){
+        model.set('landscapeTimestamp',timestamp);
       },
       showLiveLandscapes(){
         this.set("landscapeService.livelandscapes",true);

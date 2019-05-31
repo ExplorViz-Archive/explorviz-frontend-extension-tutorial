@@ -11,7 +11,7 @@
         }}
           show live landscapes
         {{/bs-button}}
-        {{landscape-select/landscapelist model=tutorial}}
+        {{landscape-select/landscapelist model=model}}
       {{else}}
       {{#bs-button
         onClick=(action "hideLiveLandscapes")
@@ -92,7 +92,7 @@
       {{/unless}}
       {{else}}
       <div id="rendering">
-          {{landscape-visualization latestLandscape=landscapeService.landscape interaction=interaction toggleSelect=(action 'toggleSelectTarget' interaction model) }}
+          {{landscape-visualization latestLandscape=landscapeService.landscape interaction=landscapeService.interaction toggleSelect=(action 'toggleSelectTarget' interaction model) }}
       </div>
       {{/if}}
   </div>
@@ -100,7 +100,7 @@
     {{#unless runmode}}
       {{component form model=model interaction=interaction toggleSelect=(action 'toggleSelectTarget' interaction model) runmode=runmode}}
     {{else}}
-      {{component "step-form" model=activeStep interaction=interaction runmode=runmode}}
+      {{component "step-form" model=tutorialService.activeStep interaction=landscapeService.interaction runmode=runmode}}
     {{/unless}}
   </div>
 </div>

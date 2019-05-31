@@ -6,18 +6,20 @@ import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 export default Controller.extend({
   tutorialService:service(),
   landscapeService:service(),
-  activeStep:null,
-  steps:[],
-  sequences:[],
-  activateNextStep(){
-    // if(this.get('activeStep')){
-    //   this.get('tutorialService').getSequence(this.get('activeStep')).then((sequence)=>{
-    //       sequence.get('steps').forEach(function(v){
-    //         console.log(v);
-    //       });
-    //   })
-    // }
+  activateNextStep(laststep){
+    var step = this.get('tutorialService').getNextStep(laststep);
+    if(step){
+      this.get('tutorialService').getSequence(step).then((sequence)=>{
+        if(sequence.get('landscapeTimestamp')!=undefined){
+          this.get('landscapeService').loadLandscape(sequence);
+        }else{
+          this.get('landscapeService').loadLandscape(model);
+        }
+      });
+      this.get('tutorialService').set('activeStep',step);
+      this.set('model',step);
+    }else{
+      this.showAlertifyMessage(`Last step completed.`);
+    }
   }
-
-
 });

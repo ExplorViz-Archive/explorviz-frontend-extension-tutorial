@@ -10,10 +10,14 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     controller.set('landscapeService.liveMode',false);
     controller.get('landscapeService').updateLandscapeList(true);
     controller.get('tutorialService').getSequence(model).then((sequence)=>{
-    controller.get('tutorialService').getTutorial(sequence).then((tutorial)=>{
-      controller.get('landscapeService').loadTutorialLandscape(tutorial);
+      if(sequence.get('landscapeTimestamp')!=undefined){
+        controller.get('landscapeService').loadLandscape(sequence);
+      }else{
+        controller.get('tutorialService').getTutorial(sequence).then((tutorial)=>{
+          controller.get('landscapeService').loadLandscape(tutorial);
+        });
+      }
     });
-  });
 
   },
   actions: {

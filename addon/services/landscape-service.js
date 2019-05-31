@@ -2,10 +2,13 @@ import Service from '@ember/service';
 import Evented from '@ember/object/evented';
 import debugLogger from 'ember-debug-logger';
 import { inject as service } from "@ember/service";
+import LandscapeInteraction from 'explorviz-frontend/utils/landscape-rendering/interaction'
+import { getOwner } from '@ember/application';
 
 export default Service.extend(Evented, {
     debug: debugLogger(),
     store: service(),
+    landscapeService: service(),
     landscape: null,
     livelandscapes: false,
     landscapeList: null,
@@ -19,9 +22,9 @@ export default Service.extend(Evented, {
           this.set('landscapeList', landscapeList);
         });
     },
-    loadTutorialLandscape(tutorial) {
+    loadLandscape(model) {
         if (this.get('landscape') !== null) {
-          this.get('store').queryRecord('tutoriallandscape',{ timestamp: tutorial.get('landscapeTimestamp') }).then((landscape)=>{
+          this.get('store').queryRecord('tutoriallandscape',{ timestamp: model.get('landscapeTimestamp') }).then((landscape)=>{
             if (this.get('landscape.id')!= landscape.get('id')){
               this.get('store').unloadRecord(this.get('landscape'));
             }else{
@@ -29,8 +32,8 @@ export default Service.extend(Evented, {
             }
           });
         }
-        if(tutorial.get('landscapeTimestamp')!=""){
-          this.importLandscape(tutorial.get('landscapeTimestamp'));
+        if(model.get('landscapeTimestamp')!=""){
+          this.importLandscape(model.get('landscapeTimestamp'));
         }
     },
     importLandscape(landscapeTimestamp){
@@ -60,5 +63,53 @@ export default Service.extend(Evented, {
             }
             });
       });
-    }
+    },
+    clickListenerSingle(emberModel){
+      if(emberModel!=undefined){
+          if(this.get('selectTarget')){
+            this.set("model.targetType",emberModel.constructor.modelName);
+            this.set("model.targetId",emberModel.get("id"));
+            this.set("model.actionType","singleClick");
+            this.set('selectTarget',false);
+          }else{
+            if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="singleClick"){
+              console.log("Right action!");
+              if(this.get("runMode")){
+                this.completed(this.get('model'));
+              }
+            }else{
+              console.log("Wrong Action: Singleclick: "+emberModel.get("id")+" "+emberModel.get('constructor.modelName'));
+              console.log("Expected: "+this.get("model.targetId")+" "+this.get("model.targetType")+" "+this.get("model.actionType"));
+            }
+          }
+      }
+    },
+    clickListenerDouble(emberModel){
+      if(emberModel!=undefined){
+          if(this.get('selectTarget')){
+            this.set("model.targetType",emberModel.constructor.modelName);
+            this.set("model.targetId",emberModel.get("id"));
+            this.set("model.actionType","singleClick");
+            this.set('selectTarget',false);
+          }else{
+            if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="doubleclick"){
+              console.log("Right action!");
+              if(this.get("runMode")){
+                this.completed(this.get('model'));
+              }
+            }else{
+              console.log("Wrong Action: Doubleclick: "+emberModel.get("id")+" "+emberModel.get('constructor.modelName'));
+              console.log("Expected: "+this.get("model.targetId")+" "+this.get("model.targetType")+" "+this.get("model.actionType"));
+            }
+          }
+      }
+    },
+    initListeners(){
+        const landscapeInteraction = LandscapeInteraction.create(getOwner(this).ownerInjection());
+        this.set('interaction', landscapeInteraction);
+        this.get('interaction').on('singleClick', this.clickListenerSingle);
+        this.get('interaction').on('doubleClick', this.clickListenerDouble);
+        console.log();
+      }
+
 })

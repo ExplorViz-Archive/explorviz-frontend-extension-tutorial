@@ -9,12 +9,14 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     this._super(...arguments);
     controller.set('landscapeService.liveMode',false);
     controller.get('landscapeService').updateLandscapeList(true);
-    controller.get('tutorialService').getTutorial(model).then((tutorial)=>{
-      controller.get('landscapeService').loadTutorialLandscape(tutorial);
-    });
-
-
-    //controller.get('landscapeService').loadTutorialLandscape(model.get('tutorial'));
+    if(model.get('landscapeTimestamp')!=undefined){
+     controller.get('landscapeService').loadLandscape(model);
+    }else{
+     controller.get('tutorialService').getTutorial(model).then((tutorial)=>{
+         controller.get('landscapeService').loadLandscape(tutorial);
+     });
+   }
+    //controller.get('landscapeService').loadLandscape(model.get('tutorial'));
   },
   actions: {
     // @Override BaseRoute
