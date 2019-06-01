@@ -13,7 +13,7 @@ export default Component.extend(AlertifyHandler,{
           return;
         }
         step.save()
-        .then((stepy)=> {
+        .then(()=> {
           const message = `Step updated.`;
           this.showAlertifyMessage(message);
         }, (reason) => {

@@ -6,6 +6,11 @@ Selected Landscape:{{landscapeService.landscape.timestamp}}
     {{#each landscapeService.landscapeList as |landscape|}}
       <li>
         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="set landscape"  {{action "setTimestamp" model landscape.timestamp.timestamp}}>
+          {{#if (is-selected-timestamp model landscape)}}
+            selected
+          {{else}}
+            unselected
+          {{/if}}
           {{landscape.timestamp.name}}
         </a>
       </li>

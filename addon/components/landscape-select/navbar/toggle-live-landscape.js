@@ -4,10 +4,10 @@ import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 import {inject as service} from '@ember/service';
 
 export default Component.extend(AlertifyHandler,{
+  layout,
   tagName:'li',
   landscapeListener: service(),
   landscapeService: service(),
-  layout,
   actions:{
     toggleVisualizationReload() {
       this.get('landscapeListener').toggleVisualizationReload();

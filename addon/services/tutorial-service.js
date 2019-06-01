@@ -3,6 +3,7 @@ import Evented from '@ember/object/evented';
 import debugLogger from 'ember-debug-logger';
 import { inject as service } from "@ember/service";
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
+import { Promise } from 'rsvp';
 
 export default Service.extend(Evented,AlertifyHandler, {
   debug: debugLogger(),
@@ -10,9 +11,11 @@ export default Service.extend(Evented,AlertifyHandler, {
   landscapeService:service(),
   tutorialList: null,
   activeStep:null,
-  steps:[],
-  sequences:[],
+  steps:null,
+  sequences:null,
   initService(model){
+    this.set('sequences',[]);
+    this.set('steps',[]);
     this.set('sequences',model.get('sequences'));
     this.get('sequences').forEach((k)=>{
       k.get('steps').forEach((s)=>{
@@ -41,7 +44,7 @@ export default Service.extend(Evented,AlertifyHandler, {
   },
   getSequence(step){
     return this.get('store').findAll('tutorial').then((tutorials)=>{
-      return new Ember.RSVP.Promise(
+      return new Promise(
         function(resolve){
           tutorials.forEach(function(k1){
             k1.get('sequences').then((sequences)=>{
@@ -59,7 +62,7 @@ export default Service.extend(Evented,AlertifyHandler, {
   },
   getTutorial(sequence){
     return this.get('store').findAll('tutorial').then((tutorials)=>{
-      return new Ember.RSVP.Promise(
+      return new Promise(
         function(resolve){
           tutorials.forEach(function(k1){
             k1.get('sequences').then((sequences)=>{

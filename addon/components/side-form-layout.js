@@ -2,11 +2,8 @@ import Component from '@ember/component';
 import layout from '../templates/components/side-form-layout';
 import { inject as service } from "@ember/service";
 import { computed } from '@ember/object';
-import LandscapeInteraction from 'explorviz-frontend/utils/landscape-rendering/interaction'
-import { getOwner } from '@ember/application';
-import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 
-export default Component.extend(AlertifyHandler,{
+export default Component.extend({
   layout,
   store: service(),
   tutorialService: service(),
@@ -14,6 +11,7 @@ export default Component.extend(AlertifyHandler,{
   renderingService: service(),
   landscapeRepo: service("repos/landscape-repository"),
   landscapeListener: service(),
+
   showLandscape: computed('landscapeRepo.latestApplication', function() {
     return !this.get('landscapeRepo.latestApplication');
   }),
@@ -82,4 +80,3 @@ export default Component.extend(AlertifyHandler,{
     this.get('additionalData').off('showWindow', this, this.onShowWindow);
   },
 });
-;

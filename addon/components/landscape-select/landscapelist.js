@@ -19,6 +19,6 @@ export default Component.extend({
       hideLiveLandscapes(){
         this.set("landscapeService.livelandscapes",false);
         this.get('landscapeListener').set('pauseVisualizationReload',true);
-      }
-  }
+      },
+  },
 });

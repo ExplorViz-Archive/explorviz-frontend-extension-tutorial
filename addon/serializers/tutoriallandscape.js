@@ -1,7 +1,5 @@
 import LandscapeSerializer from "explorviz-frontend/serializers/landscape"
 import SaveRelationshipsMixin from 'ember-data-save-relationships';
-import JSONAPISerializer from 'ember-data/serializers/json-api';
-import { inject as service } from "@ember/service";
 
 
 
@@ -36,8 +34,8 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
       }
     }else if (relationship.kind === 'hasMany') {
       var self=this;
-      var key=key;
-      var hasmany=this.hasMany(key);
+      var nkey=key;
+      var hasmany=this.hasMany(nkey);
       hasmany.forEach(function(v){
         if(v.record.threeJSModel!=undefined){
             v.record.set('threeJSModel', null);
@@ -50,8 +48,8 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
           hasmany.forEach(function(value){
               value.serializedTypes=self.serializedTypes;
               value.included=self.included;
-              if(self.serializedTypes.indexOf(key)==-1){
-                self.serializedTypes.push(key);
+              if(self.serializedTypes.indexOf(nkey)==-1){
+                self.serializedTypes.push(nkey);
               }
               value.serializeRecordForIncluded=self.serializeRecordForIncluded;
               value.eachRelationship(self.serializeRecordForIncluded,value);
@@ -61,13 +59,8 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
       });
     }
   },
-  serialize(snapshot, options) {
+  serialize(snapshot) {
     let json = this._super(...arguments);
-    var included=[];
-    //json.included=[];
-    // snapshot.hasMany('events').forEach(function(v,k){
-    //   json.included.push(v.serialize());
-    // });
 
     snapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
     snapshot.serializedTypes=[];
@@ -77,26 +70,11 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
     snapshot.hasMany('systems').forEach(function(v,k){
       delete json.data.relationships.systems.data[k].attributes.threeJSModel;
     });
-    //snapshot.hasMany('events').forEach(function(v,k){
-     // delete json.data.relationships.events.data[k].attributes.threeJSModel;
-    //});
+
     snapshot.hasMany('totalApplicationCommunications').forEach(function(v,k){
       delete json.data.relationships.totalApplicationCommunications.data[k].attributes.threeJSModel;
     });
 
-    // snapshot.hasMany('totalApplicationCommunications').forEach(function(v,k){
-    //   json.included.push(v.serialize());
-    // });
-// json.included.push({type:"tutorialtimestamp",
-//     id:snapshot.record.get('timestamp').get('id'),
-//     attributes: {
-//       name:snapshot.record.get('timestamp').get('name'),
-//       timestamp:snapshot.record.get('timestamp').get('timestamp')
-//     }});
-// json.data.relationships.timestamp={
-//   type:"tutorialtimestamp",
-//   id:snapshot.record.get('timestamp').get('id')
-// };
 json.included=snapshot.included;
     var newjson={
       data:{
@@ -127,14 +105,15 @@ json.included=snapshot.included;
     return newjson;
   },
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
+    var json = {};
     if(Array.isArray(payload.data)){
-      var json = {data:[]};
+      json = {data:[]};
      payload.data.forEach(function(v,k){
        json.data[k]=JSON.parse(v.attributes.landscape).data;
        json.data[k].relationships.timestamp=v.relationships.timestamp;
      });
     }else{
-      var json = JSON.parse(payload.data.attributes.landscape);
+      json = JSON.parse(payload.data.attributes.landscape);
       json.data.relationships.timestamp=payload.data.relationships.timestamp;
     }
     if(Array.isArray(json.included)){

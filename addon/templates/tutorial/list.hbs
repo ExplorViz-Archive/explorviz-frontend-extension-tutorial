@@ -33,9 +33,16 @@
                         {{svg-jar "kebab-vertical" class="octicon"}}
                         {{/dd.button}}
                         {{#dd.menu as |ddm|}}
+                        {{#ddm.item title="Run"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run">
+                        {{#link-to "tutorial.run" tutorial}}
+                         {{svg-jar "play" class="octicon" id="run-button"}}<span>Run</span>
+                        {{/link-to}}
+                        </a>
+                        {{/ddm.item}}
                         {{#ddm.item title="Edit"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                            {{#link-to "tutorial.edit.tutorial" tutorial}}
+                            {{#link-to "tutorial.tutorial" tutorial}}
                              {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
                             {{/link-to}}
                         </a>

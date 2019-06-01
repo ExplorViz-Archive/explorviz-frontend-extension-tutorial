@@ -28,7 +28,6 @@ export default Component.extend(AlertifyHandler,{
           this.showReasonErrorAlert(reason);
         });
       } else {
-        console.log(sequence);
         this.showAlertifyMessage(`Sequence not found.`);
       }
     },

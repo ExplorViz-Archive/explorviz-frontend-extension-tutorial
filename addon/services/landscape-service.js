@@ -12,6 +12,7 @@ export default Service.extend(Evented, {
     landscape: null,
     livelandscapes: false,
     landscapeList: null,
+
     updateLandscapeList(reload) {
       this.set('landscapeList', []);
       this.get('store').findAll('tutoriallandscape', { reload })
@@ -39,7 +40,7 @@ export default Service.extend(Evented, {
     importLandscape(landscapeTimestamp){
       this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((tutlandscape) => {
         this.set('landscape',tutlandscape);
-      }, (e) => {
+      }, () => {
             this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
               if(!this.get('store').hasRecordForId('tutoriallandscape',landscape.get('id'))){
               var timestamprecord=this.get('store').createRecord("tutorialtimestamp",{
@@ -73,13 +74,9 @@ export default Service.extend(Evented, {
             this.set('selectTarget',false);
           }else{
             if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="singleClick"){
-              console.log("Right action!");
               if(this.get("runMode")){
                 this.completed(this.get('model'));
               }
-            }else{
-              console.log("Wrong Action: Singleclick: "+emberModel.get("id")+" "+emberModel.get('constructor.modelName'));
-              console.log("Expected: "+this.get("model.targetId")+" "+this.get("model.targetType")+" "+this.get("model.actionType"));
             }
           }
       }
@@ -93,13 +90,9 @@ export default Service.extend(Evented, {
             this.set('selectTarget',false);
           }else{
             if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="doubleclick"){
-              console.log("Right action!");
               if(this.get("runMode")){
                 this.completed(this.get('model'));
               }
-            }else{
-              console.log("Wrong Action: Doubleclick: "+emberModel.get("id")+" "+emberModel.get('constructor.modelName'));
-              console.log("Expected: "+this.get("model.targetId")+" "+this.get("model.targetType")+" "+this.get("model.actionType"));
             }
           }
       }
@@ -109,7 +102,6 @@ export default Service.extend(Evented, {
         this.set('interaction', landscapeInteraction);
         this.get('interaction').on('singleClick', this.clickListenerSingle);
         this.get('interaction').on('doubleClick', this.clickListenerDouble);
-        console.log();
       }
 
 })

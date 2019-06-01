@@ -3,7 +3,7 @@ import { inject as service } from "@ember/service";
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 
 
-export default Controller.extend({
+export default Controller.extend(AlertifyHandler,{
   tutorialService:service(),
   landscapeService:service(),
   activateNextStep(laststep){
@@ -13,7 +13,7 @@ export default Controller.extend({
         if(sequence.get('landscapeTimestamp')!=undefined){
           this.get('landscapeService').loadLandscape(sequence);
         }else{
-          this.get('landscapeService').loadLandscape(model);
+          this.get('landscapeService').loadLandscape(this.get('model'));
         }
       });
       this.get('tutorialService').set('activeStep',step);

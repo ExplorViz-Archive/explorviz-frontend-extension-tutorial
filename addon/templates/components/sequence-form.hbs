@@ -2,9 +2,9 @@
 {{#bs-form model=model onSubmit=(action "saveSequenceChanges" model) as |form|}}
   {{form.element controlType="text" label="ID" property="id" disabled=true}}
   {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="title"}}
-  {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp"}}
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 {{/bs-form}}
+{{#if model.landscapeTimestamp}}
 {{#bs-button
   onClick=(action "resetLandscape")
   type="secondary"
@@ -14,3 +14,14 @@
 }}
 change landscape
 {{/bs-button}}
+{{else}}
+{{#bs-button
+  onClick=(action "resetLandscape")
+  type="secondary"
+  outline=true
+  class="btn-timeline"
+  title="change landscape"
+}}
+select landscape
+{{/bs-button}}
+{{/if}}
