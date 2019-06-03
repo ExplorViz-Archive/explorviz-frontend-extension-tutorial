@@ -33,21 +33,25 @@ export default Service.extend(Evented, {
             }
           });
         }
-        if(model.get('landscapeTimestamp')!=""){
-          this.importLandscape(model.get('landscapeTimestamp'));
+        if(model.get('landscapeTimestamp')!=undefined && model.get('landscapeTimestamp')!=""){
+          this.importLandscape(model.get('landscapeTimestamp'),"");
         }
     },
-    importLandscape(landscapeTimestamp){
+    importLandscape(landscapeTimestamp,name){
+
       this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((tutlandscape) => {
         this.set('landscape',tutlandscape);
       }, () => {
             this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
               if(!this.get('store').hasRecordForId('tutoriallandscape',landscape.get('id'))){
+                if(name=="" ||name == undefined){
+                  name="new landscape";
+                }
               var timestamprecord=this.get('store').createRecord("tutorialtimestamp",{
                 id:landscape.get('timestamp.id'),
                 timestamp:landscape.get('timestamp.timestamp'),
                 totalRequests:landscape.get('timestamp.totalRequests'),
-                name:"new timestamp",
+                name:name,
               });
               var landscaperecord = this.get('store').createRecord("tutoriallandscape",{
                 id:landscape.get('id'),
@@ -59,8 +63,11 @@ export default Service.extend(Evented, {
               timestamprecord.save();
               landscaperecord.save();
               this.set('landscape',landscaperecord);
+
             }else{
-              this.get('store').set('landscape',landscape);
+              this.get('store').set('tutoriallandscape',landscape);
+              this.set('landscape',landscape);
+
             }
             });
       });

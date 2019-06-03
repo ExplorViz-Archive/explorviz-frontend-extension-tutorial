@@ -2,7 +2,7 @@
     <h3>Tutorials</h3>
     <div class="mb-3">
         <div class="float-right">
-          {{!-- {{#link-to "tutorial.create"}}{{svg-jar "plus-small" class="octicon"}}<span>Add Tutorial</span>{{/link-to}} --}}
+         <a style="cursor: pointer" title="new tutorial" {{action "addNewTutorial"}}>{{svg-jar "plus-small" class="octicon"}}<span>Add Tutorial</span></a>
         </div>
     </div>
     <div class="d-flex flex-grow-1" style="overflow-y: auto">
@@ -10,7 +10,6 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">ID</th>
                     <th scope="col">Title</th>
                     <th scope="col">Sequences</th>
                     <th scope="col"></th>
@@ -20,10 +19,7 @@
                 {{#each model.tutorials as |tutorial|}}
                 <tr>
                   <th>{{#bs-button onClick=(action "toggleTutorial" tutorial)}}{{if tutorial.expanded '-' '+'}}{{/bs-button}}</th>
-                    <th scope="row">
-                        {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.id}}{{/link-to}}
-                    </th>
-                    <td>{{tutorial.title}}</td>
+                    <td title="id:  {{tutorial.id}}"> {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.title}}{{/link-to}}</td>
                     <td>
                         {{tutorial.sequences.length}}
                     </td>
@@ -47,10 +43,10 @@
                             {{/link-to}}
                         </a>
                         {{/ddm.item}}
-                        {{#ddm.item title="Delete"}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete"
-                            {{action "deleteTutorial" tutorial}}>
-                            {{svg-jar "x" class="octicon" id="delete-button"}}<span>Delete</span>
+                        {{#ddm.item title="new sequence"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="new sequence"
+                        {{action "addNewSequence" tutorial}}>
+                             {{svg-jar "plus" class="octicon" id="new-sequence"}}<span>new</span>
                         </a>
                         {{/ddm.item}}
                         {{/dd.menu}}
@@ -61,10 +57,7 @@
                 {{#each tutorial.sequences as |sequence|}}
                 <tr>
                   <th>{{#bs-button onClick=(action "toggleSequence" sequence)}}{{if sequence.expanded '-' '+'}}{{/bs-button}}</th>
-                    <th scope="row">
-                        {{#link-to "tutorial.sequence" sequence}}{{sequence.id}}{{/link-to}}
-                    </th>
-                    <td>{{sequence.title}}</td>
+                    <td title="id: {{sequence.id}}">{{#link-to "tutorial.sequence" sequence}}{{sequence.title}}{{/link-to}}</td>
                     <td>
                         {{sequence.steps.length}}
                     </td>
@@ -81,12 +74,6 @@
                             {{/link-to}}
                         </a>
                         {{/ddm.item}}
-                        {{#ddm.item title="Delete"}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete"
-                            {{action "deleteTutorial" tutorial}}>
-                            {{svg-jar "x" class="octicon" id="delete-button"}}<span>Delete</span>
-                        </a>
-                        {{/ddm.item}}
                         {{/dd.menu}}
                         {{/bs-dropdown}}
                     </td>
@@ -95,10 +82,7 @@
                 {{#each sequence.steps as |step|}}
                 <tr>
                   <th></th>
-                    <th scope="row">
-                        {{#link-to "tutorial.step" step}}{{step.id}}{{/link-to}}
-                    </th>
-                    <td>{{step.title}}</td>
+                    <td title="id: {{step.id}}"> {{#link-to "tutorial.step" step}}{{step.title}}{{/link-to}}</td>
                     <td>
                     </td>
                     <td class="text-right">
@@ -114,10 +98,10 @@
                             {{/link-to}}
                         </a>
                         {{/ddm.item}}
-                        {{#ddm.item title="Delete"}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete"
-                            {{action "deleteTutorial" tutorial}}>
-                            {{svg-jar "x" class="octicon" id="delete-button"}}<span>Delete</span>
+                        {{#ddm.item title="new step"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="new step"
+                        {{action "addNewStep" sequence}}>
+                             {{svg-jar "plus" class="octicon" id="new-step"}}<span>new</span>
                         </a>
                         {{/ddm.item}}
                         {{/dd.menu}}
@@ -132,4 +116,5 @@
             </tbody>
         </table>
     </div>
+
 </div>

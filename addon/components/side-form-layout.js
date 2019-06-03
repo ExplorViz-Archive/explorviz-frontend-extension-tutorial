@@ -16,9 +16,9 @@ export default Component.extend({
     return !this.get('landscapeRepo.latestApplication');
   }),
   selectMode: computed('landscapeService.landscape',function(){
-    if(this.get('model.constructor.modelName')=="tutorial" || this.get('model.constructor.modelName')=="sequence"){
-      return !this.get('landscapeService.landscape');
-    }
+      if(this.get('model.constructor.modelName')=="tutorial" || this.get('model.constructor.modelName')=="sequence"){
+        return !this.get('landscapeService.landscape');
+      }
     return false;
   }),
   liveMode: computed('landscapeService.livelandscapes','selectMode', function() {
@@ -32,8 +32,28 @@ export default Component.extend({
     this.get('landscapeService').updateLandscapeList(true);
     this.get('landscapeListener').initSSE();
     this.get('landscapeListener').set('pauseVisualizationReload',true);
-},
+  },
   actions: {
+    addNewTutorial(){
+      let newTutorial = this.get('store').createRecord("tutorial",{
+         title: "new tutorial"
+       })
+       this.set("newSequence",newTutorial)
+     },
+    addNewSequence(tutorial){
+     let newSequence = this.get('store').createRecord("sequence",{
+        title: "new sequence"
+      })
+      tutorial.get('sequences').push(newSequence);
+      this.set("newSequence",newSequence)
+    },
+    addNewStep(sequence){
+      let newStep = this.get('store').createRecord("tutorial",{
+         title: "new tutorial"
+       })
+       sequence.get('steps').push(newSequence);
+       this.set("newStep",newStep)
+    },
     resetView() {
       this.get('renderingService').reSetupScene();
     },

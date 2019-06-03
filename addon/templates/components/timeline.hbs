@@ -1,1 +1,20 @@
 <canvas id="timelineCanvas"></canvas>
+
+{{#bs-modal 
+  open=importLandscape
+  title="import landscape"
+  closeTitle="closeTitle"
+  submitTitle="submitTitle"
+  closeButton="closeButton"
+  onSubmit=(action "submit" )
+  onHidden=(action (mut importLandscape) false)
+  renderInPlace=true as |modal|}}
+  {{#modal.body}}
+    Import landscape 
+    {{input type="text" value=landscapeName placehoder="new landscape"}}
+  {{/modal.body}}
+  {{#modal.footer}}
+    {{#bs-button onClick=(action modal.close)}}Cancel{{/bs-button}}
+    {{#bs-button type="success" onClick=(action modal.submit)}}Save{{/bs-button}}
+  {{/modal.footer}}
+{{/bs-modal}}

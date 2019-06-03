@@ -1,5 +1,43 @@
 {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
-
+ {{#bs-dropdown as |dd|}}
+                        {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
+                        {{svg-jar "kebab-vertical" class="octicon"}}
+                        {{/dd.button}}
+                        {{#dd.menu as |ddm|}}
+                        {{#ddm.item title="Run"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run">
+                        {{#link-to "tutorial.run" model}}
+                         {{svg-jar "play" class="octicon" id="run-button"}}<span>Run</span>
+                        {{/link-to}}
+                        </a>
+                        {{/ddm.item}}
+                        {{#ddm.item title="Edit"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
+                            {{#link-to "tutorial.tutorial" model}}
+                             {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
+                            {{/link-to}}
+                        </a>
+                        {{/ddm.item}}
+                        {{#ddm.item title="set landscape"}}
+                           <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete"
+                            {{action "resetLandscape"}}>
+                            {{svg-jar "globe" class="octicon" id="change-landscape"}}
+                            {{#if model.landscapeTimestamp}}
+                              <span>change landscape</span>
+                            {{else}}
+                              <span>select landscape</span>
+                            {{/if}}
+                          </a>
+                        {{/ddm.item}}
+                         {{#ddm.item title="new sequence"}}
+                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="new sequence"
+                            {{action "newSequence" model}}>
+                            {{svg-jar "plus" class="octicon" id="new-sequence"}}
+                             <span>new sequence</span>
+                          </a>
+                        {{/ddm.item}}
+                        {{/dd.menu}}
+                        {{/bs-dropdown}}
 {{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp"}}
 {{#bs-form model=model onSubmit=(action "saveTutorialChanges" model) as |form|}}
     {{form.element controlType="text" label="ID" property="id" disabled=true}}
@@ -11,24 +49,4 @@
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 
 {{/bs-form}}
-{{#if model.landscapeTimestamp}}
-{{#bs-button
-  onClick=(action "resetLandscape")
-  type="secondary"
-  outline=true
-  class="btn-timeline"
-  title="change landscape"
-}}
-change landscape
-{{/bs-button}}
-{{else}}
-{{#bs-button
-  onClick=(action "resetLandscape")
-  type="secondary"
-  outline=true
-  class="btn-timeline"
-  title="change landscape"
-}}
-select landscape
-{{/bs-button}}
-{{/if}}
+

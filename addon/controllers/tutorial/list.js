@@ -12,6 +12,30 @@ export default Controller.extend(AlertifyHandler,{
     toggleSequence(sequence){
         sequence.set('expanded',!sequence.get('expanded'));
         //this.get('tutorialService').expandTutorial(tutorial);
-    }
+    },
+    addNewTutorial(){
+      let newTutorial = this.get('store').createRecord("tutorial",{
+         title: "new tutorial"
+       })
+       newTutorial.save();
+     },
+    addNewSequence(tutorial){
+     let newSequence = this.get('store').createRecord("sequence",{
+        title: "new sequence"
+      })
+      tutorial.get('sequences').pushObject(newSequence);
+      newSequence.save().then(function () {
+        tutorial.save();
+      });
+    },
+    addNewStep(sequence){
+      let newStep = this.get('store').createRecord("step",{
+         title: "new step"
+       })
+       sequence.get('steps').pushObject(newStep);
+       newStep.save().then(function () {
+        sequence.save();
+       });
+    },
   }
 });

@@ -30,7 +30,7 @@ export default JSONAPIAdapter.extend(DataAdapterMixin,{
   // @Override
   urlForQueryRecord() {
     const baseUrl = this.buildURL();
-    return `${baseUrl}/v1/tutorials/landscapes/by-timestamp`;
+    return `${baseUrl}/v1/tutorials/landscapes`;
   },
   urlForFindRecord(id) {
     const baseUrl = this.buildURL();

@@ -8,10 +8,15 @@ export default Timeline.extend(AlertifyHandler,{
     landscapeService: service(),
     chartClickHandler(evt) {
       this._super(...arguments);
-       var tutorialActivePoint = this.get('timelineChart').getElementAtEvent(evt)[0];
-       if (tutorialActivePoint) {
+      this.set('importLandscape',true);
+      this.set('tutorialActivePoint',this.get('timelineChart').getElementAtEvent(evt)[0]);
+    },
+    actions:{
+       submit(){
+        if ( this.get('tutorialActivePoint')) {
         this.get('landscapeListener').set('pauseVisualizationReload',true);
-        this.get('landscapeService').importLandscape(tutorialActivePoint._chart.data.datasets[tutorialActivePoint._datasetIndex].data[tutorialActivePoint._index].x);
-       }
+        this.get('landscapeService').importLandscape(this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x,this.get('landscapeName'));
+        }
+      }
     }
 });
