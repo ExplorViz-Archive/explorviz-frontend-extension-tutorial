@@ -2,17 +2,30 @@ import Service from '@ember/service';
 import Evented from '@ember/object/evented';
 import debugLogger from 'ember-debug-logger';
 import { inject as service } from "@ember/service";
-import LandscapeInteraction from 'explorviz-frontend/utils/landscape-rendering/interaction'
+//import LandscapeInteraction from 'explorviz-frontend/utils/landscape-rendering/interaction'
+import LandscapeInteraction from '../components/landscape-interaction';
+import ApplicationInteraction from '../components/application-interaction';
+
 import { getOwner } from '@ember/application';
 
 export default Service.extend(Evented, {
     debug: debugLogger(),
     store: service(),
-    landscapeService: service(),
     landscape: null,
+    application: null,
     livelandscapes: false,
     landscapeList: null,
 
+    landscapeinteraction:null,
+    applicationinteraction:null,
+    init() {
+        this._super(...arguments);
+        const landscapeInteraction = LandscapeInteraction.create(getOwner(this).ownerInjection());
+        const applicationInteraction = ApplicationInteraction.create(getOwner(this).ownerInjection());
+        this.set('landscapeinteraction',landscapeInteraction);
+        this.set('applicationinteraction',applicationInteraction);
+
+    },
     updateLandscapeList(reload) {
       this.set('landscapeList', []);
       this.get('store').findAll('tutoriallandscape', { reload })
@@ -38,7 +51,6 @@ export default Service.extend(Evented, {
         }
     },
     importLandscape(landscapeTimestamp,name){
-
       this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((tutlandscape) => {
         this.set('landscape',tutlandscape);
       }, () => {
@@ -63,52 +75,10 @@ export default Service.extend(Evented, {
               timestamprecord.save();
               landscaperecord.save();
               this.set('landscape',landscaperecord);
-
             }else{
-              this.get('store').set('tutoriallandscape',landscape);
               this.set('landscape',landscape);
-
             }
             });
       });
     },
-    clickListenerSingle(emberModel){
-      if(emberModel!=undefined){
-          if(this.get('selectTarget')){
-            this.set("model.targetType",emberModel.constructor.modelName);
-            this.set("model.targetId",emberModel.get("id"));
-            this.set("model.actionType","singleClick");
-            this.set('selectTarget',false);
-          }else{
-            if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="singleClick"){
-              if(this.get("runMode")){
-                this.completed(this.get('model'));
-              }
-            }
-          }
-      }
-    },
-    clickListenerDouble(emberModel){
-      if(emberModel!=undefined){
-          if(this.get('selectTarget')){
-            this.set("model.targetType",emberModel.constructor.modelName);
-            this.set("model.targetId",emberModel.get("id"));
-            this.set("model.actionType","singleClick");
-            this.set('selectTarget',false);
-          }else{
-            if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="doubleclick"){
-              if(this.get("runMode")){
-                this.completed(this.get('model'));
-              }
-            }
-          }
-      }
-    },
-    initListeners(){
-        const landscapeInteraction = LandscapeInteraction.create(getOwner(this).ownerInjection());
-        this.set('interaction', landscapeInteraction);
-        this.get('interaction').on('singleClick', this.clickListenerSingle);
-        this.get('interaction').on('doubleClick', this.clickListenerDouble);
-      }
-
 })

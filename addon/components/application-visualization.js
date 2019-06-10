@@ -1,35 +1,28 @@
-import layout from '../templates/components/landscape-visualization';
-import LandscapeRendering from 'explorviz-frontend/components/visualization/rendering/landscape-rendering'
+import layout from '../templates/components/application-visualization';
+import ApplicationRendering from 'explorviz-frontend/components/visualization/rendering/application-rendering';
+import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 import { inject as service } from '@ember/service';
-import { getOwner } from '@ember/application';
-
-
-export default LandscapeRendering.extend({
+export default ApplicationRendering.extend(AlertifyHandler,{
     layout,
-    landscapeService:service(),
-    tutorialService:service(),
-    interactionModel: null,
-    setSelectTarget(value){
-      this.set('interaction,selectTarget',value);
-    },
+    renderingService: service(),
+    tutorialService: service(),
+    landscapeService: service(),
+    interactionModel:null,
     initInteraction(){
       this._super(...arguments);
       const self = this;
-
       if(this.get('runmode')){
         this.set('interaction.model',this.get('tutorialService.activeStep'));
       }else{
         this.set('interaction.model',this.get('interactionModel'));
       }
-      this.set('interaction.completed',this.get('completed'));
 
       this.set('interaction.tutorialService',this.get('tutorialService'));
       this.set('interaction.landscapeService',this.get('landscapeService'));
 
+
+      this.set('interaction.completed',this.get('completed'));
       this.set('interaction.runmode',this.get('runmode'));
-      this.get('interaction').on('showApplication', function (emberModel) {
-        self.set('landscapeService.application', emberModel);
-      });
       this.get('interaction').on('singleClick', this.get('clickListenerSingle'));
       this.get('interaction').on('doubleClick', this.get('clickListenerDouble'));
     },

@@ -6,6 +6,7 @@ import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 export default Controller.extend(AlertifyHandler,{
   tutorialService:service(),
   landscapeService:service(),
+  currentUser: service(),
   activateNextStep(laststep){
     var step = this.get('tutorialService').getNextStep(laststep);
     if(step){

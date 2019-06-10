@@ -1,1 +1,1 @@
-export { default } from 'explorviz-frontend-extension-tutorial//tutorial';
+export { default } from 'explorviz-frontend-extension-tutorial/tutorial';

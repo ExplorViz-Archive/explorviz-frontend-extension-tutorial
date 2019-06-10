@@ -10,6 +10,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     controller.get('landscapeService').updateLandscapeList(true);
     controller.get('landscapeService').loadLandscape(model);
     controller.set('landscapeService.liveMode',false);
+    if(controller.get('currentUser.user.isAdmin')){
+      controller.set('runmode',false);
+    }
   },
   actions: {
     // @Override BaseRoute

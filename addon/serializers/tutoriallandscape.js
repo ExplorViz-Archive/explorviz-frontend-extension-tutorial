@@ -106,7 +106,7 @@ json.included=snapshot.included;
   },
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
     var json = {};
-    if(Array.isArray(payload.data)){
+    if(Array.isArray(payload.data) ){
       json = {data:[]};
      payload.data.forEach(function(v,k){
        json.data[k]=JSON.parse(v.attributes.landscape).data;
@@ -125,6 +125,10 @@ json.included=snapshot.included;
         json.included=payload.included;
       }
     }
+  // if(requestType=="queryRecord"){
+  //   json.data=json.data[0];
+  //   return this._super(store, primaryModelClass, json, id, requestType);
+  // }
     return this._super(store, primaryModelClass, json, id, requestType);
   }
 });

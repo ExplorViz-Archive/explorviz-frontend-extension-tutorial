@@ -4,6 +4,8 @@ import { inject as service } from "@ember/service";
 
 export default Controller.extend(AlertifyHandler,{
  tutorialService: service(),
+ currentUser: service(),
+
   actions: {
     toggleTutorial(tutorial){
         tutorial.set('expanded',!tutorial.get('expanded'));

@@ -25,12 +25,12 @@ export default JSONAPIAdapter.extend(DataAdapterMixin,{
   },
   urlForFindAll() {
     const baseUrl = this.buildURL();
-    return `${baseUrl}/v1/tutorials/landscapes/`;
+    return `${baseUrl}/v1/tutorials/landscapes/all`;
   },
   // @Override
   urlForQueryRecord() {
     const baseUrl = this.buildURL();
-    return `${baseUrl}/v1/tutorials/landscapes`;
+    return `${baseUrl}/v1/tutorials/landscapes/by-timestamp`;
   },
   urlForFindRecord(id) {
     const baseUrl = this.buildURL();

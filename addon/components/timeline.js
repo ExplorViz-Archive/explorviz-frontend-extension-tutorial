@@ -1,5 +1,8 @@
 import Timeline from 'explorviz-frontend/components/visualization/page-setup/timeline/timeline';
-import layout from 'explorviz-frontend/templates/components/visualization/page-setup/timeline/timeline'
+//import layout from 'explorviz-frontend/templates/components/visualization/page-setup/timeline/timeline'
+
+import layout from '../templates/components/timeline'
+
 import {inject as service} from '@ember/service';
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 

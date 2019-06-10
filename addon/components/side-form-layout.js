@@ -11,9 +11,11 @@ export default Component.extend({
   renderingService: service(),
   landscapeRepo: service("repos/landscape-repository"),
   landscapeListener: service(),
+  currentUser: service(),
 
-  showLandscape: computed('landscapeRepo.latestApplication', function() {
-    return !this.get('landscapeRepo.latestApplication');
+
+  showLandscape: computed('landscapeService.application', function() {
+    return !this.get('landscapeService.application');
   }),
   selectMode: computed('landscapeService.landscape',function(){
       if(this.get('model.constructor.modelName')=="tutorial" || this.get('model.constructor.modelName')=="sequence"){
@@ -29,7 +31,7 @@ export default Component.extend({
   }),
   init(){
     this._super(...arguments);
-    this.get('landscapeService').updateLandscapeList(true);
+    //this.get('landscapeService').updateLandscapeList(true);
     this.get('landscapeListener').initSSE();
     this.get('landscapeListener').set('pauseVisualizationReload',true);
   },
@@ -58,8 +60,7 @@ export default Component.extend({
       this.get('renderingService').reSetupScene();
     },
     openLandscapeView() {
-      this.set('landscapeRepo.latestApplication', null);
-      this.set('landscapeRepo.replayApplication', null);
+      this.set('landscapeService.application', null);
     },
     toggleTimeline() {
       this.get('renderingService').toggleTimeline();
@@ -72,10 +73,6 @@ export default Component.extend({
       this.set('landscapeService.livelandscapes',false);
       this.get('landscapeListener').set('pauseVisualizationReload',true);
     },
-    toggleSelectTarget(interaction,model){
-      interaction.set('model',model);
-      interaction.set('selectTarget',!interaction.get('selectTarget'));
-    }
   },
   showTimeline() {
     this.set('renderingService.showTimeline', true);
@@ -97,6 +94,7 @@ export default Component.extend({
   // @Override
   cleanup() {
     this._super(...arguments);
+    this.get('landscapeListener').set('pauseVisualizationReload',false);
     this.get('additionalData').off('showWindow', this, this.onShowWindow);
   },
 });

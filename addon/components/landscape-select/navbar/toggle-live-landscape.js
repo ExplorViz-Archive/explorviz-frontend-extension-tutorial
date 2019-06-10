@@ -11,10 +11,10 @@ export default Component.extend(AlertifyHandler,{
   actions:{
     toggleVisualizationReload() {
       this.get('landscapeListener').toggleVisualizationReload();
-      if(this.get('landscapeListener').pauseVisualizationReload){
+      if(this.get('landscapeListener,pauseVisualizationReload')){
         this.get('landscapeService').set('selected',null);
       }
-      this.handleMessageForUser(this.get('landscapeListener').pauseVisualizationReload);
+      this.handleMessageForUser(this.get('landscapeListener.pauseVisualizationReload'));
     }
   },
   handleMessageForUser(pauseReload) {

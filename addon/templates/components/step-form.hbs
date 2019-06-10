@@ -4,23 +4,65 @@
   {{form.element controlType="text" label="ID" property="id" disabled=true}}
   {{form.element controlType="text" label="Title" placeholder="Enter New Step Title" property="title"}}
   {{form.element controlType="textarea" label="Text" placeholder="Text" property="text"}}
-  {{form.element controlType="text" label="Text" placeholder="Text" property="targetType" disabled=true}}
-  {{form.element controlType="text" label="Text" placeholder="Text" property="targetId" disabled=true}}
-  {{form.element controlType="text" label="Text" placeholder="Text" property="actionType" disabled=true}}
+<div>
+    {{#unless model.targetType}}
+      {{#unless model.actionType}}
+          {{#unless model.targetId}}
+          no target selected
+          {{/unless}}
+      {{/unless}}
+    {{/unless}}
+{{#if model.targetType}}
+  Target:  {{model.targetType}}
+{{/if}}
+<br>
+{{#if model.actionType}}
+  Action:  {{model.actionType}}
+{{/if}}
+</div>
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 {{/bs-form}}
+{{#unless landscapeService.application}}
 {{#bs-button
-  onClick=(action toggleSelect)
+  onClick=(action "toggleSelectTarget")
   type="secondary"
   outline=true
   title="select target"
 }}
-{{if interaction.selectTarget "selecting" "select target"}}
+{{if landscapeService.landscapeinteraction.selectTarget "selecting" "select target"}}
 {{/bs-button}}
 {{else}}
-{{model.targetId}}
-{{model.targetType}}
-{{model.actionType}}
+{{#bs-button
+  onClick=(action "toggleSelectTarget")
+  type="secondary"
+  outline=true
+  title="select target"
+}}
+{{if landscapeService.applicationinteraction.selectTarget "selecting" "select target"}}
+{{/bs-button}}
+{{/unless}}
+{{else}}
+{{#unless model.targetType}}
+  {{#unless model.actionType}}
+      {{#unless model.targetId}}
+      {{#bs-button
+        onClick=(action "skipStep")
+        type="secondary"
+        outline=true
+        title="next step"
+      }}
+      next
+      {{/bs-button}}
+      {{/unless}}
+  {{/unless}}
+{{/unless}}
+{{#if model.targetType}}
+  Target:  {{model.targetType}}
+{{/if}}
+<br>
+{{#if model.actionType}}
+  Action:  {{model.actionType}}
+{{/if}}
 
 <h2>title:{{model.title}}</h2>
 <p>{{model.text}}</p>

@@ -1,6 +1,5 @@
 <canvas id="timelineCanvas"></canvas>
-
-{{#bs-modal 
+{{#bs-modal
   open=importLandscape
   title="import landscape"
   closeTitle="closeTitle"
@@ -10,7 +9,7 @@
   onHidden=(action (mut importLandscape) false)
   renderInPlace=true as |modal|}}
   {{#modal.body}}
-    Import landscape 
+    Import landscape
     {{input type="text" value=landscapeName placehoder="new landscape"}}
   {{/modal.body}}
   {{#modal.footer}}

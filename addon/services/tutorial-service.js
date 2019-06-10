@@ -4,7 +4,7 @@ import debugLogger from 'ember-debug-logger';
 import { inject as service } from "@ember/service";
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 import { Promise } from 'rsvp';
-
+import { computed } from '@ember/object';
 export default Service.extend(Evented,AlertifyHandler, {
   debug: debugLogger(),
   store: service(),
@@ -13,6 +13,12 @@ export default Service.extend(Evented,AlertifyHandler, {
   activeStep:null,
   steps:null,
   sequences:null,
+  skipButton: computed('activeStep', function() {
+      if(this.get('activeStep.targetId')!=="" && this.get('activeStep.targetType')!=="" && this.get('activeStep.actionType')!==""){
+        return false;
+      }
+    return true;
+  }),
   initService(model){
     this.set('sequences',[]);
     this.set('steps',[]);
@@ -29,9 +35,11 @@ export default Service.extend(Evented,AlertifyHandler, {
     }
     var nextStep=false;
     var step;
+    debugger;
     this.get('steps').forEach(function(s){
       if(nextStep==true){
         step=s;
+        nextStep=false;
       }
       if(s.get('id')==prevstep.get('id')){
           nextStep=true;
@@ -44,37 +52,32 @@ export default Service.extend(Evented,AlertifyHandler, {
   },
   getSequence(step){
     return this.get('store').findAll('tutorial').then((tutorials)=>{
-      return new Promise(
-        function(resolve){
-          tutorials.forEach(function(k1){
-            k1.get('sequences').then((sequences)=>{
-                sequences.forEach(function(k2){
-                  k2.get('steps').forEach(function(k3){
-                     if(k3.get('id')==step.get('id')){
-                      resolve(k2);
-                     }
-                  });
-              });
-            });
-          })
-        });
+      var returnSequence;
+        tutorials.forEach(function(tutorial){
+            tutorial.get('sequences').forEach(function(sequence){
+                sequence.get('steps').forEach(function(stepcompare){
+                   if(stepcompare.get('id')==step.get('id')){
+                      returnSequence=sequence;
+                   }
+                });
+          });
       });
-  },
+      return returnSequence;
+  });
+},
   getTutorial(sequence){
     return this.get('store').findAll('tutorial').then((tutorials)=>{
-      return new Promise(
-        function(resolve){
-          tutorials.forEach(function(k1){
-            k1.get('sequences').then((sequences)=>{
-                sequences.forEach(function(k2){
-                  if(k2.get('id')==sequence.get('id')){
-                    resolve(k1);
-                  }
-                });
-            });
-          })
-        });
+      var returnTutorial;
+      tutorials.forEach(function(tutorial){
+          tutorial.get('sequences').forEach(function(sequencecompare){
+                   if(sequencecompare.get('id')==sequence.get('id')){
+                     returnTutorial=tutorial;
+                   }
+          });
       });
+      return returnTutorial;
+    });
+
   },
   updateTutorialList(reload) {
     this.set('tutorialList', []);

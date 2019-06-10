@@ -8,4 +8,15 @@ export default Controller.extend({
      // update your entity and then call
      this.get('renderingService').redrawScene();
    },
+   setupController(controller, model) {
+     this._super(controller, model);
+     controller.initRendering();
+
+   },
+
+   actions: {
+     resetRoute() {
+       //const routeName = this.get('tutorial');
+    }
+  }
 });

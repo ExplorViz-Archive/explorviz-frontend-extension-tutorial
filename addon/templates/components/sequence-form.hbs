@@ -4,24 +4,21 @@
   {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="title"}}
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 {{/bs-form}}
-{{#if model.landscapeTimestamp}}
-{{#bs-button
-  onClick=(action "resetLandscape")
-  type="secondary"
-  outline=true
-  class="btn-timeline"
-  title="change landscape"
-}}
-change landscape
-{{/bs-button}}
-{{else}}
-{{#bs-button
-  onClick=(action "resetLandscape")
-  type="secondary"
-  outline=true
-  class="btn-timeline"
-  title="change landscape"
-}}
-select landscape
-{{/bs-button}}
-{{/if}}
+{{#bs-dropdown as |dd|}}
+                       {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
+                       {{svg-jar "kebab-vertical" class="octicon"}}
+                       {{/dd.button}}
+                       {{#dd.menu as |ddm|}}
+                      {{#ddm.item title="set landscape"}}
+                          <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete"
+                           {{action "resetLandscape"}}>
+                           {{svg-jar "globe" class="octicon" id="change-landscape"}}
+                           {{#if model.landscapeTimestamp}}
+                             <span>change landscape</span>
+                           {{else}}
+                             <span>select landscape</span>
+                           {{/if}}
+                         </a>
+                       {{/ddm.item}}
+                       {{/dd.menu}}
+                       {{/bs-dropdown}}
