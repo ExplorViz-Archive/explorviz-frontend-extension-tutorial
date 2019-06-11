@@ -1,14 +1,7 @@
 {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
-{{form.element controlType="text" label="Landscape" placeholder="Enter landscape timestamp" property="landscapeTimestamp"}}
 {{#bs-form model=model onSubmit=(action "saveTutorialChanges" model) as |form|}}
-    {{form.element controlType="text" label="ID" property="id" disabled=true}}
     {{form.element controlType="text" label="Title" placeholder="Enter new tutorial title" property="title"}}
-
-      {{!-- {{#link-to "tutorial.edit.tutorial.landscape" model}}
-        {{#if landscapeService.landscape}}edit landscape{{else}}select landscape{{/if}}
-      {{/link-to}} --}}
-{{bs-button defaultText="Save" type="primary" buttonType="submit"}}
-
+{{bs-button defaultText="Save it" type="primary" buttonType="submit"}}
 {{/bs-form}}
 {{#bs-dropdown as |dd|}}
                        {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}

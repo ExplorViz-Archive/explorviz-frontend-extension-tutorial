@@ -5,43 +5,40 @@
   {{form.element controlType="text" label="ID" property="id" disabled=true}}
   {{form.element controlType="text" label="Title" placeholder="Enter New Step Title" property="title"}}
   {{form.element controlType="textarea" label="Text" placeholder="Text" property="text"}}
-<div>
-    {{#unless model.targetType}}
-      {{#unless model.actionType}}
-          {{#unless model.targetId}}
-          no target selected
-          {{/unless}}
-      {{/unless}}
-    {{/unless}}
-{{#if model.targetType}}
-  Target:  {{model.targetType}}
-{{/if}}
-<br>
-{{#if model.actionType}}
-  Action:  {{model.actionType}}
-{{/if}}
-</div>
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 {{/bs-form}}
-{{#unless landscapeService.application}}
-{{#bs-button
-  onClick=(action "toggleSelectTarget")
-  type="secondary"
-  outline=true
-  title="select target"
-}}
-{{if landscapeService.landscapeinteraction.selectTarget "selecting" "select target"}}
-{{/bs-button}}
-{{else}}
-{{#bs-button
-  onClick=(action "toggleSelectTarget")
-  type="secondary"
-  outline=true
-  title="select target"
-}}
-{{if landscapeService.applicationinteraction.selectTarget "selecting" "select target"}}
-{{/bs-button}}
-{{/unless}}
+{{#bs-dropdown as |dd|}}
+                       {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
+                       {{svg-jar "kebab-vertical" class="octicon"}}
+                       {{/dd.button}}
+                       {{#dd.menu as |ddm|}}
+                       {{#ddm.item title="Run"}}
+                       <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run" {{action "toggleSelectTarget"}}>
+                        {{svg-jar "play" class="octicon" id="run-button"}}<span>Select Target</span>
+                       </a>
+                       {{/ddm.item}}
+                       {{#ddm.item title="Run"}}
+                       <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run" {{action "removeTarget"}}>
+                        {{svg-jar "trashcan" class="octicon" id="run-button"}}<span>Remove target</span>
+                       </a>
+                       {{/ddm.item}}
+                       {{#ddm.item title="Info"}}
+                       {{#unless model.targetType}}
+                         {{#unless model.actionType}}
+                             {{#unless model.targetId}}
+                             <span class='dropdown-item d-flex-center'>no target selected</span>
+                             {{/unless}}
+                         {{/unless}}
+                       {{/unless}}
+                       {{#if model.targetType}}
+                         <span class='dropdown-item d-flex-center'>Target:  {{model.targetType}}</span>
+                       {{/if}}
+                       {{#if model.actionType}}
+                         <span class='dropdown-item d-flex-center'>Action:  {{model.actionType}}</span>
+                       {{/if}}
+                       {{/ddm.item}}
+  {{/dd.menu}}
+{{/bs-dropdown}}
 {{else}}
 {{#unless model.targetType}}
   {{#unless model.actionType}}
@@ -57,14 +54,6 @@
       {{/unless}}
   {{/unless}}
 {{/unless}}
-{{#if model.targetType}}
-  Target:  {{model.targetType}}
-{{/if}}
-<br>
-{{#if model.actionType}}
-  Action:  {{model.actionType}}
-{{/if}}
-
 <h2>{{model.title}}</h2>
 <p>{{model.text}}</p>
 {{/unless}}

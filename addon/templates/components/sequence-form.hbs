@@ -1,6 +1,5 @@
 {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
 {{#bs-form model=model onSubmit=(action "saveSequenceChanges" model) as |form|}}
-  {{form.element controlType="text" label="ID" property="id" disabled=true}}
   {{form.element controlType="text" label="Title" placeholder="Enter New Sequence Title" property="title"}}
 {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
 {{/bs-form}}

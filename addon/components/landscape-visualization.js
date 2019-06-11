@@ -2,9 +2,10 @@ import layout from '../templates/components/landscape-visualization';
 import LandscapeRendering from 'explorviz-frontend/components/visualization/rendering/landscape-rendering'
 import { inject as service } from '@ember/service';
 import { getOwner } from '@ember/application';
+import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 
 
-export default LandscapeRendering.extend({
+export default LandscapeRendering.extend(AlertifyHandler,{
     layout,
     landscapeService:service(),
     tutorialService:service(),
@@ -31,7 +32,7 @@ export default LandscapeRendering.extend({
       this.get('interaction').on('showApplication', function (emberModel) {
         self.set('landscapeService.application', emberModel);
       });
-      
+
       this.get('interaction').on('singleClick', this.get('clickListenerSingle'));
       this.get('interaction').on('doubleClick', this.get('clickListenerDouble'));
     },

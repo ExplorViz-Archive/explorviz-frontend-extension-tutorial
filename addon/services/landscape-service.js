@@ -51,34 +51,48 @@ export default Service.extend(Evented, {
         }
     },
     importLandscape(landscapeTimestamp,name){
-      this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((tutlandscape) => {
-        this.set('landscape',tutlandscape);
-      }, () => {
-            this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
-              if(!this.get('store').hasRecordForId('tutoriallandscape',landscape.get('id'))){
-                if(name=="" ||name == undefined){
-                  name="new landscape";
-                }
-              var timestamprecord=this.get('store').createRecord("tutorialtimestamp",{
-                id:landscape.get('timestamp.id'),
-                timestamp:landscape.get('timestamp.timestamp'),
-                totalRequests:landscape.get('timestamp.totalRequests'),
-                name:name,
-              });
-              var landscaperecord = this.get('store').createRecord("tutoriallandscape",{
-                id:landscape.get('id'),
-                systems:landscape.get('systems'),
-                events:landscape.get('events'),
-                totalApplicationCommunications:landscape.get('totalApplicationCommunications'),
-                timestamp:timestamprecord
-              });
-              timestamprecord.save();
-              landscaperecord.save();
-              this.set('landscape',landscaperecord);
-            }else{
-              this.set('landscape',landscape);
-            }
-            });
-      });
+      var mockBackend= true;
+      if(mockBackend){
+       this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
+        var timestamprecord=this.get('store').createRecord("tutorialtimestamp",{
+          id:landscape.get('timestamp.id'),
+          timestamp:landscape.get('timestamp.timestamp'),
+          totalRequests:landscape.get('timestamp.totalRequests'),
+          name:name,
+        });
+        timestamprecord.save();
+        this.set('landscape',landscape);
+       });
+      }else{
+        this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((tutlandscape) => {
+          this.set('landscape',tutlandscape);
+        }, () => {
+              this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
+                if(!this.get('store').hasRecordForId('tutoriallandscape',landscape.get('id'))){
+                  if(name=="" ||name == undefined){
+                    name="new landscape";
+                  }
+                var timestamprecord=this.get('store').createRecord("tutorialtimestamp",{
+                  id:landscape.get('timestamp.id'),
+                  timestamp:landscape.get('timestamp.timestamp'),
+                  totalRequests:landscape.get('timestamp.totalRequests'),
+                  name:name,
+                });
+                var landscaperecord = this.get('store').createRecord("tutoriallandscape",{
+                  id:landscape.get('id'),
+                  systems:landscape.get('systems'),
+                  events:landscape.get('events'),
+                  totalApplicationCommunications:landscape.get('totalApplicationCommunications'),
+                  timestamp:timestamprecord
+                });
+                timestamprecord.save();
+                landscaperecord.save();
+                this.set('landscape',landscaperecord);
+              }else{
+                this.set('landscape',landscape);
+              }
+          });
+        });
+      }
     },
 })

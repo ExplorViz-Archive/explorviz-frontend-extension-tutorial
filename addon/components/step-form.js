@@ -51,6 +51,11 @@ export default Component.extend(AlertifyHandler,{
     toggleSelectTarget(){
       this.set('landscapeService.landscapeinteraction.selectTarget',!this.get('landscapeService.landscapeinteraction.selectTarget'));
       this.set('landscapeService.applicationinteraction.selectTarget',!this.get('landscapeService.applicationinteraction.selectTarget'));
+    },
+    removeTarget(){
+      this.set('model.targetType',"");
+      this.set('model.targetId',"");
+      this.set('model.actionType',"");
     }
 },
 showReasonErrorAlert(reason) {
