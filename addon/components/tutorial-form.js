@@ -16,25 +16,6 @@ export default Component.extend(AlertifyHandler,{
         this.set('landscapeService.landscape',null);
       }
     },
-    addNewTutorial(){
-      let newTutorial = this.get('store').createRecord("tutorial",{
-         title: "new tutorial"
-       })
-       newTutorial.save();
-     },
-    addNewSequence(tutorial){
-     let newSequence = this.get('store').createRecord("sequence",{
-        title: "new sequence"
-      })
-      tutorial.get('sequences').push(newSequence);
-      tutorial.save();
-    },
-    addNewStep(sequence){
-      let newStep = this.get('store').createRecord("step",{
-         title: "new step"
-       })
-       sequence.get('steps').push(newSequence);
-       sequence.save();
-    },
+  
   }
 });

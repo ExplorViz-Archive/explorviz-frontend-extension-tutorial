@@ -49,6 +49,8 @@
               {{/bs-button}}
             </div>
             {{application-visualization latestApplication=landscapeService.application interaction=landscapeService.applicationinteraction interactionModel=model runmode=runmode }}
+            {{visualization/rendering/popups/popup-coordinator
+              popupData=additionalData.popupContent}}
           </div>
         {{/if}}
       <!-- timeline -->
@@ -64,7 +66,7 @@
           {{svg-jar "chevron-up" id="hidetimeline-icon" class=(if renderingService.showTimeline "octicon align-middle hidetimeline-icon-down" "octicon align-middle")}}
         {{/bs-button}}
         <div id="timeline" class="timeline {{unless renderingService.showTimeline "timelinehide"}}">
-          {{component "timeline"}}
+          {{component "timeline" model=model}}
         </div>
       </div>
       {{/unless}}

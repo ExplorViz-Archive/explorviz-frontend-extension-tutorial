@@ -14,11 +14,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     var step = controller.get('tutorialService').getNextStep();
     controller.set('tutorialService.activeStep',step);
     controller.get('tutorialService').getSequence(step).then((sequence)=>{
-      if(sequence.get('landscapeTimestamp')!=undefined){
-        console.log(sequence.get('landscapeTimestamp'));
+      if(sequence!=undefined && sequence.get('landscapeTimestamp')!=undefined){
         controller.get('landscapeService').loadLandscape(sequence);
       }else{
-        console.log(model.get('landscapeTimestamp'));
         controller.get('landscapeService').loadLandscape(model);
       }
     });

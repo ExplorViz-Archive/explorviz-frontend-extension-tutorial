@@ -35,7 +35,6 @@ export default Service.extend(Evented,AlertifyHandler, {
     }
     var nextStep=false;
     var step;
-    debugger;
     this.get('steps').forEach(function(s){
       if(nextStep==true){
         step=s;

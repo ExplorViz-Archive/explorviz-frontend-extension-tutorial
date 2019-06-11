@@ -27,9 +27,11 @@ export default LandscapeRendering.extend({
       this.set('interaction.landscapeService',this.get('landscapeService'));
 
       this.set('interaction.runmode',this.get('runmode'));
+
       this.get('interaction').on('showApplication', function (emberModel) {
         self.set('landscapeService.application', emberModel);
       });
+      
       this.get('interaction').on('singleClick', this.get('clickListenerSingle'));
       this.get('interaction').on('doubleClick', this.get('clickListenerDouble'));
     },

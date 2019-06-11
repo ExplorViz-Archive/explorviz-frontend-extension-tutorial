@@ -39,23 +39,23 @@
                         {{/dd.button}}
                         {{#dd.menu as |ddm|}}
                         {{#ddm.item title="Run"}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run">
                         {{#link-to "tutorial.run" tutorial}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run">
                          {{svg-jar "play" class="octicon" id="run-button"}}<span>Run</span>
-                        {{/link-to}}
                         </a>
+                        {{/link-to}}
                         {{/ddm.item}}
                         {{#ddm.item title="Edit"}}
+                         {{#link-to "tutorial.tutorial" tutorial}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                            {{#link-to "tutorial.tutorial" tutorial}}
                              {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
-                            {{/link-to}}
                         </a>
+                        {{/link-to}}
                         {{/ddm.item}}
                         {{#ddm.item title="new sequence"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="new sequence"
-                        {{action "addNewSequence" tutorial}}>
-                             {{svg-jar "plus" class="octicon" id="new-sequence"}}<span>New sequence</span>
+                            {{action "addNewSequence" tutorial}}>
+                            {{svg-jar "plus" class="octicon" id="new-sequence"}}<span>New sequence</span>
                         </a>
                         {{/ddm.item}}
                         {{/dd.menu}}
@@ -80,11 +80,11 @@
                         {{/dd.button}}
                         {{#dd.menu as |ddm|}}
                         {{#ddm.item title="Edit"}}
+                        {{#link-to "tutorial.sequence" sequence}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                            {{#link-to "tutorial.sequence" sequence}}
                              {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
-                            {{/link-to}}
                         </a>
+                        {{/link-to}}
                         {{/ddm.item}}
                         {{#ddm.item title="new sequence"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="new step"
@@ -111,11 +111,11 @@
                         {{/dd.button}}
                         {{#dd.menu as |ddm|}}
                         {{#ddm.item title="Edit"}}
+                        {{#link-to "tutorial.step" step}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                            {{#link-to "tutorial.step" step}}
                              {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
-                            {{/link-to}}
                         </a>
+                        {{/link-to}}
                         {{/ddm.item}}
                         {{/dd.menu}}
                         {{/bs-dropdown}}

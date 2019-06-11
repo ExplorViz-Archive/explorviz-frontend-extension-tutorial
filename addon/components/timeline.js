@@ -19,6 +19,9 @@ export default Timeline.extend(AlertifyHandler,{
         if ( this.get('tutorialActivePoint')) {
         this.get('landscapeListener').set('pauseVisualizationReload',true);
         this.get('landscapeService').importLandscape(this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x,this.get('landscapeName'));
+        this.set('model.landscapeTimestamp',this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x);
+        this.get('landscapeListener').set('livelandscapes',false);
+
         }
       }
     }

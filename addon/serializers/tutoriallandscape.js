@@ -13,9 +13,6 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
     return model;
   },
   serializeRecordForIncluded(key,relationship){
-    if(this.serializedTypes.indexOf(key)!==-1){
-      return;
-    }
     if (relationship.kind === 'belongsTo') {
       var nextSnapshot = this.belongsTo(key);
       nextSnapshot.serializedTypes=this.serializedTypes;
@@ -23,8 +20,8 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
       if(nextSnapshot.record.threeJSModel!=undefined){
           nextSnapshot.record.set('threeJSModel', null);
       }
-      if(this.serializedTypes.indexOf(key)==-1){
-        this.serializedTypes.push(key);
+      if(this.serializedTypes.indexOf(nextSnapshot.get('id'))==-1){
+        this.serializedTypes.push(nextSnapshot.get('id'));
         nextSnapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
         if(nextSnapshot.record.get('id')!=undefined){
           this.included.push(nextSnapshot.record.serialize({includeId:true}).data);
@@ -48,9 +45,6 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
           hasmany.forEach(function(value){
               value.serializedTypes=self.serializedTypes;
               value.included=self.included;
-              if(self.serializedTypes.indexOf(nkey)==-1){
-                self.serializedTypes.push(nkey);
-              }
               value.serializeRecordForIncluded=self.serializeRecordForIncluded;
               value.eachRelationship(self.serializeRecordForIncluded,value);
               self.included.concat(value.included);

@@ -26,6 +26,8 @@ export default Component.extend(AlertifyHandler,{
         });
         this.get('tutorialService').set('activeStep',step);
         this.set('model',step);
+      }else{
+        this.showAlertifyMessage(`Last step completed.`);
       }
     },
     saveStepChanges(step) {
