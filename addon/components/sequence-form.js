@@ -7,11 +7,10 @@ export default Component.extend(AlertifyHandler,{
   layout,
   tutorialService: service(),
   landscapeService: service(),
+  tagName: "",
   actions:{
-    resetLandscape(){
-      if(this.get('landscapeService.landscape')!=null){
-        this.set('landscapeService.landscape',null);
-      }
+    toggleSetLandscape(){
+      this.set('landscapeService.selectLandscape',!this.get('landscapeService.selectLandscape'));
     },
     saveSequenceChanges(sequence) {
       if(sequence) {

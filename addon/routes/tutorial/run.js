@@ -13,6 +13,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     controller.set('landscapeService.liveMode',false);
     var step = controller.get('tutorialService').getNextStep();
     controller.set('tutorialService.activeStep',step);
+    controller.get('landscapeService.landscape',null);
+    
     controller.get('tutorialService').getSequence(step).then((sequence)=>{
       if(sequence!=undefined && sequence.get('landscapeTimestamp')!=undefined){
         controller.get('landscapeService').loadLandscape(sequence);
@@ -20,6 +22,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         controller.get('landscapeService').loadLandscape(model);
       }
     });
+
   },
   actions: {
     // @Override BaseRoute

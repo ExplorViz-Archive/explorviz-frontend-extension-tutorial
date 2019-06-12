@@ -4,5 +4,5 @@ import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 
 export default Controller.extend(AlertifyHandler,{
   tutorialService:service(),
-  landscapeService:service()
+  landscapeService:service(),
 });

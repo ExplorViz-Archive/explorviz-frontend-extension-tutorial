@@ -6,12 +6,10 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return this.get('store').findRecord('step',params.step_id);
   },
   setupController(controller, model) {
-    this._super(...arguments);
     controller.set('landscapeService.liveMode',false);
     controller.get('landscapeService').updateLandscapeList(true);
-    if(controller.get('currentUser.user.isAdmin')){
-      controller.set('runmode',false);
-    }
+    controller.get('landscapeService.landscape',null);
+
     controller.get('tutorialService').getSequence(model).then((sequence)=>{
       if(sequence.get('landscapeTimestamp')!=undefined){
         controller.get('landscapeService').loadLandscape(sequence);
@@ -21,7 +19,11 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         });
       }
     });
-
+    
+    if(controller.get('currentUser.user.isAdmin')){
+      controller.set('runmode',false);
+    }
+    this._super(...arguments);
 
   },
   actions: {

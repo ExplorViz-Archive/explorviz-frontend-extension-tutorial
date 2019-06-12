@@ -39,5 +39,14 @@ export default Controller.extend(AlertifyHandler,{
         sequence.save();
        });
     },
+    deleteStep(step){
+      step.destroyRecord();
+    },
+    deleteSequence(sequence){
+      sequence.destroyRecord();
+    },
+    deleteTutorial(tutorial){
+      tutorial.destroyRecord();
+    }
   }
 });

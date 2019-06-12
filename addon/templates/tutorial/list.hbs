@@ -58,6 +58,15 @@
                             {{svg-jar "plus" class="octicon" id="new-sequence"}}<span>New sequence</span>
                         </a>
                         {{/ddm.item}}
+                        {{#ddm.item}}
+                            <hr>
+                        {{/ddm.item}}
+                         {{#ddm.item title="delete tutorial"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="delete tutorial"
+                            {{action "deleteTutorial" tutorial}}>
+                            {{svg-jar "trashcan" class="octicon" id="delete-tutorial"}}<span>Delete Tutorial</span>
+                        </a>
+                        {{/ddm.item}}
                         {{/dd.menu}}
                         {{/bs-dropdown}}
                     </td>
@@ -92,6 +101,15 @@
                              {{svg-jar "plus" class="octicon" id="new-step"}}<span>New step</span>
                         </a>
                         {{/ddm.item}}
+                         {{#ddm.item}}
+                            <hr>
+                        {{/ddm.item}}
+                          {{#ddm.item title="delete sequence"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="delete sequence"
+                            {{action "deleteTutorial" sequence}}>
+                            {{svg-jar "trashcan" class="octicon" id="delete-sequence"}}<span>Delete sequence</span>
+                        </a>
+                        {{/ddm.item}}
                         {{/dd.menu}}
                         {{/bs-dropdown}}
                     </td>
@@ -110,13 +128,22 @@
                         {{svg-jar "kebab-vertical" class="octicon"}}
                         {{/dd.button}}
                         {{#dd.menu as |ddm|}}
-                        {{#ddm.item title="Edit"}}
-                        {{#link-to "tutorial.step" step}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                             {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
-                        </a>
-                        {{/link-to}}
+                            {{#ddm.item title="Edit"}}
+                            {{#link-to "tutorial.step" step}}
+                            <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
+                                {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
+                            </a>
+                            {{/link-to}}
+                            {{/ddm.item}}
+                             {{#ddm.item}}
+                            <hr>
                         {{/ddm.item}}
+                            {{#ddm.item title="delete step"}}
+                            <a class="dropdown-item d-flex-center" style="cursor: pointer" title="delete step"
+                                {{action "deleteStep" step}}>
+                                {{svg-jar "trashcan" class="octicon" id="delete-step"}}<span>Delete step</span>
+                            </a>
+                            {{/ddm.item}}
                         {{/dd.menu}}
                         {{/bs-dropdown}}
                     </td>

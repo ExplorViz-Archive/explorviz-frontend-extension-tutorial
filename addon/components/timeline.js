@@ -9,6 +9,7 @@ import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 export default Timeline.extend(AlertifyHandler,{
     layout,
     landscapeService: service(),
+    landscapeListener: service(),
     chartClickHandler(evt) {
       this._super(...arguments);
       this.set('importLandscape',true);
@@ -16,13 +17,15 @@ export default Timeline.extend(AlertifyHandler,{
     },
     actions:{
        submit(){
-        if ( this.get('tutorialActivePoint')) {
-        this.get('landscapeListener').set('pauseVisualizationReload',true);
-        this.get('landscapeService').importLandscape(this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x,this.get('landscapeName'));
-        this.set('model.landscapeTimestamp',this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x);
-        this.get('landscapeListener').set('livelandscapes',false);
-
-        }
+         if ( this.get('tutorialActivePoint')) {
+            this.get('landscapeListener').set('pauseVisualizationReload',true);
+            this.get('landscapeService').importLandscape(this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x,this.get('landscapeName'));
+            this.set('model.landscapeTimestamp',this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x);
+            this.get('landscapeService').set('livelandscapes',false);
+         }
+      },
+      close(){
+          this.get('landscapeListener').set('pauseVisualizationReload',false);
       }
     }
 });

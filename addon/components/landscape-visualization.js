@@ -23,18 +23,19 @@ export default LandscapeRendering.extend(AlertifyHandler,{
         this.set('interaction.model',this.get('interactionModel'));
       }
       this.set('interaction.completed',this.get('completed'));
-
-      this.set('interaction.tutorialService',this.get('tutorialService'));
-      this.set('interaction.landscapeService',this.get('landscapeService'));
-
       this.set('interaction.runmode',this.get('runmode'));
 
       this.get('interaction').on('showApplication', function (emberModel) {
         self.set('landscapeService.application', emberModel);
       });
 
-      this.get('interaction').on('singleClick', this.get('clickListenerSingle'));
-      this.get('interaction').on('doubleClick', this.get('clickListenerDouble'));
+      this.get('interaction').on('singleClick', this.clickListenerSingle);
+      this.get('interaction').on('doubleClick', this.clickListenerDouble);
+    },
+    willDestroyElement(){
+      this._super(...arguments);
+      this.get('interaction').off('singleClick',this, this.clickListenerSingle);
+      this.get('interaction').off('doubleClick',this, this.clickListenerDouble);
     },
     clickListenerSingle(emberModel){
       if(emberModel!=undefined){
@@ -43,6 +44,7 @@ export default LandscapeRendering.extend(AlertifyHandler,{
             this.set("model.targetId",emberModel.get("id"));
             this.set("model.actionType","singleClick");
             this.set('selectTarget',false);
+            this.showAlertifyMessage(`Target selected 'single click' on '`+emberModel.get('constructor.modelName')+"' with name '"+emberModel.get('name')+"'");
           }else{
             if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="singleClick"){
               if(this.get("runmode")){
@@ -59,6 +61,8 @@ export default LandscapeRendering.extend(AlertifyHandler,{
             this.set("model.targetId",emberModel.get("id"));
             this.set("model.actionType","doubleClick");
             this.set('selectTarget',false);
+            this.showAlertifyMessage(`Target selected 'double click' on '`+emberModel.get('constructor.modelName')+"'");
+
           }else{
             if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="doubleClick"){
               if(this.get("runmode")){
@@ -66,6 +70,13 @@ export default LandscapeRendering.extend(AlertifyHandler,{
               }
             }
           }
+      }
+    },
+    getLandscape(){
+      if(this.get('landscapeService.livelandscapes')){
+        return this.get('landscapeRepo.latestLandscape');
+      }else{
+        return this.get('landscapeService.landscape');
       }
     },
     completed(laststep){

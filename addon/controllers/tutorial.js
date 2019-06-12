@@ -13,7 +13,6 @@ export default Controller.extend({
      controller.initRendering();
 
    },
-
    actions: {
      resetRoute() {
        //const routeName = this.get('tutorial');

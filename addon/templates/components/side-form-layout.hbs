@@ -12,20 +12,20 @@
           show live landscapes
         {{/bs-button}}
         {{landscape-select/landscapelist model=model}}
-    {{else}}
-      {{#bs-button
-        onClick=(action "hideLiveLandscapes")
-        type="secondary"
-        outline=true
-        class="btn-timeline"
-        title="hide live landscapes"
-      }}
-      hide live landscapes
-      {{/bs-button}}
+      {{else}}
+        {{#bs-button
+          onClick=(action "hideLiveLandscapes")
+          type="secondary"
+          outline=true
+          class="btn-timeline"
+          title="hide live landscapes"
+        }}
+        hide live landscapes
+        {{/bs-button}}
         {{#if showLandscape}}
           {{#if landscapeRepo.latestLandscape.systems}}
             <div id="rendering">
-              {{landscape-visualization latestLandscape=landscapeRepo.latestLandscape interaction=landscapeService.landscapeinteraction interactionModel=model runmode=runmode }}
+              {{landscape-visualization interaction=landscapeService.landscapeinteraction interactionModel=model runmode=runmode }}
               <!-- popup(s) -->
               {{visualization/rendering/popups/popup-coordinator
               popupData=additionalData.popupContent}}
@@ -53,8 +53,8 @@
               popupData=additionalData.popupContent}}
           </div>
         {{/if}}
-      <!-- timeline -->
-      <div id="timeline-content">
+        <!-- timeline -->
+        <div id="timeline-content">
         {{#bs-button
           onClick=(action "toggleTimeline")
           type="secondary"
@@ -72,11 +72,11 @@
       {{/unless}}
       {{else}}
       {{#if showLandscape}}
-      <div id="rendering" style='height: 600px'>
-          {{landscape-visualization latestLandscape=landscapeService.landscape interaction=landscapeService.landscapeinteraction interactionModel=model  runmode=runmode }}
+      <div id="rendering">
+          {{landscape-visualization interaction=landscapeService.landscapeinteraction interactionModel=model  runmode=runmode }}
       </div>
       {{else}}
-      <div id="rendering" style='height: 600px'>
+      <div id="rendering">
         <div style="position: absolute!important" class="pl-1">
           {{#bs-button onClick=(action "openLandscapeView") type="secondary" outline=true title="Back to Landscape"}}
           {{svg-jar "reply" class="octicon align-middle"}}

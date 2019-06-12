@@ -16,11 +16,6 @@ export default ApplicationRendering.extend(AlertifyHandler,{
       }else{
         this.set('interaction.model',this.get('interactionModel'));
       }
-
-      this.set('interaction.tutorialService',this.get('tutorialService'));
-      this.set('interaction.landscapeService',this.get('landscapeService'));
-
-
       this.set('interaction.completed',this.get('completed'));
       this.set('interaction.runmode',this.get('runmode'));
       this.get('interaction').on('singleClick', this.get('clickListenerSingle'));
@@ -33,6 +28,7 @@ export default ApplicationRendering.extend(AlertifyHandler,{
             this.set("model.targetId",emberModel.get("id"));
             this.set("model.actionType","singleClick");
             this.set('selectTarget',false);
+            this.showAlertifyMessage(`Target selected 'single click' on '`+emberModel.get('constructor.modelName')+"' with name '"+emberModel.get('name')+"'");
           }else{
             if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="singleClick"){
               if(this.get("runmode")){
@@ -49,6 +45,7 @@ export default ApplicationRendering.extend(AlertifyHandler,{
             this.set("model.targetId",emberModel.get("id"));
             this.set("model.actionType","doubleClick");
             this.set('selectTarget',false);
+            this.showAlertifyMessage(`Target selected 'double click' on '`+emberModel.get('constructor.modelName')+"'");
           }else{
             if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="doubleClick"){
               if(this.get("runmode")){

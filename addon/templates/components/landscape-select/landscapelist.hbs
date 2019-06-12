@@ -1,7 +1,5 @@
-{{#if landscapeService.landscape}}
-Selected Landscape:{{landscapeService.landscape.timestamp}}
-{{else}}
-  {{landscapeService.landscapeList.length}} possible Landscapes:
+{{#if landscapeService.selectLandscape}}
+  {{landscapeService.landscapeList.length}} possible landscapes:
   <ul>
     {{#each landscapeService.landscapeList as |landscape|}}
       <li>

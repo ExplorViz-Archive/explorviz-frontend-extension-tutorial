@@ -9,9 +9,12 @@ import ApplicationInteraction from '../components/application-interaction';
 import { getOwner } from '@ember/application';
 
 export default Service.extend(Evented, {
+    mockBackend: true,  
     debug: debugLogger(),
     store: service(),
+    renderingService: service(),
     landscape: null,
+    selectLandscape: false,
     application: null,
     livelandscapes: false,
     landscapeList: null,
@@ -24,7 +27,10 @@ export default Service.extend(Evented, {
         const applicationInteraction = ApplicationInteraction.create(getOwner(this).ownerInjection());
         this.set('landscapeinteraction',landscapeInteraction);
         this.set('applicationinteraction',applicationInteraction);
-
+    },
+    setInteractionModel(model){
+      this.set('landscapeinteraction.model',model);
+      this.set('applicationinteraction.model',model);
     },
     updateLandscapeList(reload) {
       this.set('landscapeList', []);
@@ -38,30 +44,26 @@ export default Service.extend(Evented, {
     },
     loadLandscape(model) {
         if (this.get('landscape') !== null) {
-          this.get('store').queryRecord('tutoriallandscape',{ timestamp: model.get('landscapeTimestamp') }).then((landscape)=>{
-            if (this.get('landscape.id')!= landscape.get('id')){
-              this.get('store').unloadRecord(this.get('landscape'));
-            }else{
-              return;
-            }
-          });
+          if(!this.get('mockBackend')){
+            this.get('store').queryRecord('tutoriallandscape',{ timestamp: model.get('landscapeTimestamp') }).then((landscape)=>{
+              if (this.get('landscape.id')!= landscape.get('id')){
+                this.get('store').unloadRecord(this.get('landscape'));
+              }else{
+                return;
+              }
+            });
+          }
         }
         if(model.get('landscapeTimestamp')!=undefined && model.get('landscapeTimestamp')!=""){
           this.importLandscape(model.get('landscapeTimestamp'),"");
         }
+       
     },
     importLandscape(landscapeTimestamp,name){
-      var mockBackend= true;
-      if(mockBackend){
+      if(this.get('mockBackend')){
        this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
-        var timestamprecord=this.get('store').createRecord("tutorialtimestamp",{
-          id:landscape.get('timestamp.id'),
-          timestamp:landscape.get('timestamp.timestamp'),
-          totalRequests:landscape.get('timestamp.totalRequests'),
-          name:name,
-        });
-        timestamprecord.save();
         this.set('landscape',landscape);
+        this.get('renderingService').reSetupScene();
        });
       }else{
         this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((tutlandscape) => {

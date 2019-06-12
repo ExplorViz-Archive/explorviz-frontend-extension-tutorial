@@ -2,11 +2,27 @@ import Component from '@ember/component';
 import layout from '../templates/components/step-form';
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 import { inject as service } from "@ember/service";
+import { computed } from '@ember/object';
 
 export default Component.extend(AlertifyHandler,{
   layout,
+  tagName: "",
   tutorialService: service(),
   landscapeService: service(),
+  store: service(),
+  nextStepAvailable: computed("model",function(){
+    return this.get('tutorialService').getNextStep(this.get('model'));
+  }),
+  targetName: computed("model.targetId","model.targetType",function(){
+    if(this.get("model.targetType")==undefined ||this.get("model.targetId")==undefined){
+      return "";
+    }
+    let object = this.get('store').peekRecord(this.get("model.targetType"),this.get("model.targetId"));
+    if(object!=undefined){
+      return object.get('name');
+    }
+     return "";
+  }),
   actions:{
     skipStep(){
       var step = this.get('tutorialService').getNextStep(this.get('model'));
@@ -25,7 +41,7 @@ export default Component.extend(AlertifyHandler,{
           }
         });
         this.get('tutorialService').set('activeStep',step);
-        this.set('model',step);
+        this.get('landscapeService').setInteractionModel(step);
       }else{
         this.showAlertifyMessage(`Last step completed.`);
       }
@@ -49,8 +65,12 @@ export default Component.extend(AlertifyHandler,{
       }
     },
     toggleSelectTarget(){
-      this.set('landscapeService.landscapeinteraction.selectTarget',!this.get('landscapeService.landscapeinteraction.selectTarget'));
-      this.set('landscapeService.applicationinteraction.selectTarget',!this.get('landscapeService.applicationinteraction.selectTarget'));
+      if(this.get('landscapeService.application')){
+        this.set('landscapeService.applicationinteraction.selectTarget',!this.get('landscapeService.applicationinteraction.selectTarget'));
+        this.set('')
+      }else{
+        this.set('landscapeService.landscapeinteraction.selectTarget',!this.get('landscapeService.landscapeinteraction.selectTarget'));
+      }
     },
     removeTarget(){
       this.set('model.targetType',"");

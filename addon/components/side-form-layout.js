@@ -5,6 +5,7 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
   layout,
+  tagName: "",
   store: service(),
   tutorialService: service(),
   landscapeService: service(),
@@ -12,14 +13,13 @@ export default Component.extend({
   landscapeRepo: service("repos/landscape-repository"),
   landscapeListener: service(),
   currentUser: service(),
-  
-  showLandscape: computed('landscapeRepo.latestApplication', function() {
-    return !this.get('landscapeRepo.latestApplication');
+  showLandscape: computed('landscapeService.application', function() {
+    return !this.get('landscapeService.application');
   }),
-  selectMode: computed('landscapeService.landscape',function(){
-      if(this.get('model.constructor.modelName')=="tutorial" || this.get('model.constructor.modelName')=="sequence"){
-        return !this.get('landscapeService.landscape');
-      }
+  selectMode: computed('landscapeService.selectLandscape',function(){
+    if(this.get('model.constructor.modelName')=="tutorial" || this.get('model.constructor.modelName')=="sequence"){
+      return this.get('landscapeService.selectLandscape') ;
+    }
     return false;
   }),
   liveMode: computed('landscapeService.livelandscapes','selectMode', function() {
@@ -28,19 +28,13 @@ export default Component.extend({
     }
     return false;
   }),
-  init(){
-    this._super(...arguments);
-    this.get('landscapeService').updateLandscapeList(true);
-    this.get('landscapeListener').initSSE();
-    this.get('landscapeListener').set('pauseVisualizationReload',true);
-  },
   actions: {
+   
     resetView() {
       this.get('renderingService').reSetupScene();
     },
     openLandscapeView() {
-      this.set('landscapeRepo.latestApplication', null);
-      this.set('landscapeRepo.replayApplication', null);
+      this.set('landscapeService.application', null);
     },
     toggleTimeline() {
       this.get('renderingService').toggleTimeline();
@@ -57,6 +51,12 @@ export default Component.extend({
       interaction.set('model',model);
       interaction.set('selectTarget',!interaction.get('selectTarget'));
     }
+  },
+  init(){
+    this._super(...arguments);
+    this.get('landscapeService').updateLandscapeList(true);
+    this.get('landscapeListener').initSSE();
+    this.get('landscapeListener').set('pauseVisualizationReload',true);
   },
   showTimeline() {
     this.set('renderingService.showTimeline', true);
@@ -80,4 +80,5 @@ export default Component.extend({
     this._super(...arguments);
     this.get('additionalData').off('showWindow', this, this.onShowWindow);
   },
+
 });

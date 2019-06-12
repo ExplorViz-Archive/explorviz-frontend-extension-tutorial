@@ -1,62 +1,61 @@
-{{#if model.title}}
 {{#unless runmode}}
-{{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
-{{#bs-form model=model onSubmit=(action "saveStepChanges" model) as |form|}}
-  {{form.element controlType="text" label="ID" property="id" disabled=true}}
-  {{form.element controlType="text" label="Title" placeholder="Enter New Step Title" property="title"}}
-  {{form.element controlType="textarea" label="Text" placeholder="Text" property="text"}}
-{{bs-button defaultText="Save" type="primary" buttonType="submit"}}
-{{/bs-form}}
-{{#bs-dropdown as |dd|}}
-                       {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
-                       {{svg-jar "kebab-vertical" class="octicon"}}
-                       {{/dd.button}}
-                       {{#dd.menu as |ddm|}}
-                       {{#ddm.item title="Run"}}
-                       <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run" {{action "toggleSelectTarget"}}>
-                        {{svg-jar "play" class="octicon" id="run-button"}}<span>Select Target</span>
-                       </a>
-                       {{/ddm.item}}
-                       {{#ddm.item title="Run"}}
-                       <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run" {{action "removeTarget"}}>
-                        {{svg-jar "trashcan" class="octicon" id="run-button"}}<span>Remove target</span>
-                       </a>
-                       {{/ddm.item}}
-                       {{#ddm.item title="Info"}}
-                       {{#unless model.targetType}}
-                         {{#unless model.actionType}}
-                             {{#unless model.targetId}}
-                             <span class='dropdown-item d-flex-center'>no target selected</span>
-                             {{/unless}}
-                         {{/unless}}
-                       {{/unless}}
-                       {{#if model.targetType}}
-                         <span class='dropdown-item d-flex-center'>Target:  {{model.targetType}}</span>
-                       {{/if}}
-                       {{#if model.actionType}}
-                         <span class='dropdown-item d-flex-center'>Action:  {{model.actionType}}</span>
-                       {{/if}}
-                       {{/ddm.item}}
-  {{/dd.menu}}
-{{/bs-dropdown}}
-{{else}}
-{{#unless model.targetType}}
-  {{#unless model.actionType}}
+  {{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}{{/link-to}}
+  {{#bs-form model=model onSubmit=(action "saveStepChanges" model) as |form|}}
+    {{form.element controlType="text" label="Title" placeholder="Enter New Step Title" property="title"}}
+    {{form.element controlType="textarea" label="Text"  rows=18 placeholder="Text" property="text"}}
+  {{bs-button defaultText="Save" type="primary" buttonType="submit"}}
+  {{/bs-form}}
+  {{#if model.isDirty}}
+    <span>there are unsaved changes</span>
+  {{/if}}
+  {{#bs-dropdown as |dd|}}
+                        {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
+                        {{svg-jar "kebab-vertical" class="octicon"}}
+                        {{/dd.button}}
+                        {{#dd.menu as |ddm|}}
+                        {{#ddm.item title="Run"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run" {{action "toggleSelectTarget"}}>
+                          {{svg-jar "play" class="octicon" id="run-button"}}<span>
+                            {{#if landscapeService.application}}{{if landscapeService.applicationinteraction.selectTarget "Selecting target" "Select target" }}{{else}}{{if landscapeService.landscapeinteraction.selectTarget "Select target" "Selecting target"}}{{/if}}
+                          </span>
+                        </a>
+                        {{/ddm.item}}
+                        {{#ddm.item title="Run"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run" {{action "removeTarget"}}>
+                          {{svg-jar "trashcan" class="octicon" id="run-button"}}<span>Remove target</span>
+                        </a>
+                        {{/ddm.item}}
+    {{/dd.menu}}
+  {{/bs-dropdown}}
+  {{#unless model.targetType}}
+    {{#unless model.actionType}}
       {{#unless model.targetId}}
-      {{#bs-button
-        onClick=(action "skipStep")
-        type="secondary"
-        outline=true
-        title="next step"
-      }}
-      next
-      {{/bs-button}}
+      <span>no target selected</span>
       {{/unless}}
+    {{/unless}}
   {{/unless}}
-{{/unless}}
-<h2>{{model.title}}</h2>
-<p>{{model.text}}</p>
-{{/unless}}
 {{else}}
-  no step loaded
-{{/if}}
+  <h2>{{model.title}}</h2>
+  <pre style='white-space:pre-line;display:inline-block'>{{model.text}}</pre>
+  {{#unless model.targetType}}
+    {{#unless model.actionType}}
+        {{#unless model.targetId}}
+        {{#if nextStepAvailable}}
+        {{#bs-button
+          onClick=(action "skipStep")
+          type="secondary"
+          outline=true
+          title="next step"
+        }}
+        next
+        {{/bs-button}}
+        {{/if}}
+        {{/unless}}
+    {{/unless}}
+  {{/unless}}
+  {{#if model.actionType }}
+  {{#let (concat  model.actionType " on " targetName)  as |text| }}
+  {{help-tooltip title=text}}
+  {{/let}}        
+  {{/if}}
+{{/unless}}
