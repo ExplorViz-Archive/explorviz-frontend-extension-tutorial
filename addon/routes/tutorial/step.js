@@ -8,7 +8,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   setupController(controller, model) {
     controller.set('landscapeService.liveMode',false);
     controller.get('landscapeService').updateLandscapeList(true);
-    controller.get('landscapeService.landscape',null);
+    
+    controller.set('landscapeService.landscape',null);
+    controller.set('landscapeService.application', null);
 
     controller.get('tutorialService').getSequence(model).then((sequence)=>{
       if(sequence.get('landscapeTimestamp')!=undefined){

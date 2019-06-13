@@ -33,6 +33,10 @@ export default Service.extend(Evented, {
       this.set('applicationinteraction.model',model);
     },
     updateLandscapeList(reload) {
+      if(this.get('mockBackend')){
+        this.set('landscapeList', []);
+        this.set('landscapeList', this.get('store').peekAll('tutoriallandscape'));
+      }else{
       this.set('landscapeList', []);
       this.get('store').findAll('tutoriallandscape', { reload })
         .then(landscapes => {
@@ -41,6 +45,7 @@ export default Service.extend(Evented, {
           landscapeList.sort((landscape1, landscape2) => parseInt(landscape1.id) < parseInt(landscape2.id) ? -1 : 1);
           this.set('landscapeList', landscapeList);
         });
+      }
     },
     loadLandscape(model) {
         if (this.get('landscape') !== null) {
@@ -55,19 +60,22 @@ export default Service.extend(Evented, {
           }
         }
         if(model.get('landscapeTimestamp')!=undefined && model.get('landscapeTimestamp')!=""){
-          this.importLandscape(model.get('landscapeTimestamp'),"");
+          if(model.get('landscapeTimestamp')!=this.get('landscape.timestamp.timestamp')){
+            this.importLandscape(model.get('landscapeTimestamp'),"");
+          }
         }
        
     },
     importLandscape(landscapeTimestamp,name){
       if(this.get('mockBackend')){
-       this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
-        this.set('landscape',landscape);
-        this.get('renderingService').reSetupScene();
-       });
+          this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
+                this.set('landscape',landscape);
+                this.get('renderingService').reSetupScene();
+          });
       }else{
         this.get('store').queryRecord('tutoriallandscape', { timestamp: landscapeTimestamp }).then((tutlandscape) => {
           this.set('landscape',tutlandscape);
+          this.get('renderingService').reSetupScene();
         }, () => {
               this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
                 if(!this.get('store').hasRecordForId('tutoriallandscape',landscape.get('id'))){
@@ -90,8 +98,10 @@ export default Service.extend(Evented, {
                 timestamprecord.save();
                 landscaperecord.save();
                 this.set('landscape',landscaperecord);
+                this.get('renderingService').reSetupScene();
               }else{
                 this.set('landscape',landscape);
+                this.get('renderingService').reSetupScene();
               }
           });
         });

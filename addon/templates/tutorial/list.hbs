@@ -13,6 +13,7 @@
                 <tr>
                     {{#if this.currentUser.user.isAdmin}}
                       <th scope="col"></th>
+                      <th scope="col"></th>
                     {{/if}}
                     <th scope="col">Type</th>
                     <th scope="col">Title</th>
@@ -26,6 +27,7 @@
                 {{#each model.tutorials as |tutorial|}}
                 <tr>
                   {{#if this.currentUser.user.isAdmin}}<th>{{#bs-button onClick=(action "toggleTutorial" tutorial)}}{{if tutorial.expanded '-' '+'}}{{/bs-button}}</th>{{/if}}
+                    <td></td>
                     <td>tutorial</td>
                     <td title="id:  {{tutorial.id}}"> {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.title}}{{/link-to}}</td>
                     <td>
@@ -76,8 +78,9 @@
                 {{#if tutorial.expanded}}
                 {{#each tutorial.sequences as |sequence|}}
                 <tr>
-                  <th>{{#bs-button onClick=(action "toggleSequence" sequence)}}{{if sequence.expanded '-' '+'}}{{/bs-button}}</th>
-                    <td>sequence</td>
+                    <td></td>
+                  <td>{{#bs-button onClick=(action "toggleSequence" sequence)}}{{if sequence.expanded '-' '+'}}{{/bs-button}}</td>
+                    <td>sequence</td>         
                     <td title="id: {{sequence.id}}">{{#link-to "tutorial.sequence" sequence}}{{sequence.title}}{{/link-to}}</td>
                     <td>
                         {{sequence.steps.length}} steps
@@ -118,6 +121,7 @@
                 {{#each sequence.steps as |step|}}
                 <tr>
                   <th></th>
+                    <td></td>
                     <td>step</td>
                     <td title="id: {{step.id}}"> {{#link-to "tutorial.step" step}}{{step.title}}{{/link-to}}</td>
                     <td>

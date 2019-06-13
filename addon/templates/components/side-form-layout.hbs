@@ -23,7 +23,7 @@
         hide live landscapes
         {{/bs-button}}
         {{#if showLandscape}}
-          {{#if landscapeRepo.latestLandscape.systems}}
+          {{#if landscapeService.latestLandscape.systems}}
             <div id="rendering">
               {{landscape-visualization interaction=landscapeService.landscapeinteraction interactionModel=model runmode=runmode }}
               <!-- popup(s) -->
@@ -48,7 +48,7 @@
               {{svg-jar "reply" class="octicon align-middle"}}
               {{/bs-button}}
             </div>
-            {{application-visualization latestApplication=landscapeService.application interaction=landscapeService.applicationinteraction interactionModel=model runmode=runmode }}
+            {{application-visualization latestApplication=landscapeRepo.latestApplication interaction=landscapeService.applicationinteraction interactionModel=model runmode=runmode }}
             {{visualization/rendering/popups/popup-coordinator
               popupData=additionalData.popupContent}}
           </div>
@@ -70,24 +70,24 @@
         </div>
       </div>
       {{/unless}}
-      {{else}}
+    {{else}}
       {{#if showLandscape}}
-      <div id="rendering">
-          {{landscape-visualization interaction=landscapeService.landscapeinteraction interactionModel=model  runmode=runmode }}
-      </div>
-      {{else}}
-      <div id="rendering">
-        <div style="position: absolute!important" class="pl-1">
-          {{#bs-button onClick=(action "openLandscapeView") type="secondary" outline=true title="Back to Landscape"}}
-          {{svg-jar "reply" class="octicon align-middle"}}
-          {{/bs-button}}
+        <div id="rendering">
+            {{landscape-visualization interaction=landscapeService.landscapeinteraction interactionModel=model  runmode=runmode }}
         </div>
-          {{application-visualization latestApplication=landscapeService.application interaction=landscapeService.applicationinteraction interactionModel=model runmode=runmode }}
-      </div>
+      {{else}}
+        <div id="rendering">
+          <div style="position: absolute!important" class="pl-1">
+            {{#bs-button onClick=(action "openLandscapeView") type="secondary" outline=true title="Back to Landscape"}}
+            {{svg-jar "reply" class="octicon align-middle"}}
+            {{/bs-button}}
+          </div>
+            {{application-visualization latestApplication=landscapeService.application interaction=landscapeService.applicationinteraction interactionModel=model runmode=runmode }}
+        </div>
       {{/if}}
-      {{/if}}
+    {{/if}}
   </div>
-  <div class="col-4" id="tutorialselection">
+  <div class="col-4" id="tutorialselection" style='background-color:rgba(255,255,255,0.3);border: 1px solid black'>
     {{#unless runmode}}
     {{#if this.currentUser.user.isAdmin}}
       {{component form model=model runmode=runmode}}

@@ -11,10 +11,13 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     controller.get('tutorialService').initService(model);
     controller.get('landscapeService').updateLandscapeList(true);
     controller.set('landscapeService.liveMode',false);
+
     var step = controller.get('tutorialService').getNextStep();
     controller.set('tutorialService.activeStep',step);
-    controller.get('landscapeService.landscape',null);
-    
+
+    controller.set('landscapeService.landscape',null);
+    controller.set('landscapeService.application', null);
+
     controller.get('tutorialService').getSequence(step).then((sequence)=>{
       if(sequence!=undefined && sequence.get('landscapeTimestamp')!=undefined){
         controller.get('landscapeService').loadLandscape(sequence);

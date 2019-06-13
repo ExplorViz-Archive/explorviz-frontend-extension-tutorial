@@ -16,7 +16,11 @@
                         {{#ddm.item title="Run"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run" {{action "toggleSelectTarget"}}>
                           {{svg-jar "play" class="octicon" id="run-button"}}<span>
-                            {{#if landscapeService.application}}{{if landscapeService.applicationinteraction.selectTarget "Selecting target" "Select target" }}{{else}}{{if landscapeService.landscapeinteraction.selectTarget "Select target" "Selecting target"}}{{/if}}
+                            {{#if landscapeService.application}}
+                              {{if landscapeService.applicationinteraction.selectTarget "Selecting target" "Select target" }}
+                            {{else}}
+                              {{if landscapeService.landscapeinteraction.selectTarget "Selecting target" "Select target"}}
+                            {{/if}}
                           </span>
                         </a>
                         {{/ddm.item}}

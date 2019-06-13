@@ -12,8 +12,10 @@ export default Timeline.extend(AlertifyHandler,{
     landscapeListener: service(),
     chartClickHandler(evt) {
       this._super(...arguments);
-      this.set('importLandscape',true);
-      this.set('tutorialActivePoint',this.get('timelineChart').getElementAtEvent(evt)[0]);
+      if(this.get('timelineChart').getElementAtEvent(evt)[0]){
+        this.set('importLandscape',true);
+        this.set('tutorialActivePoint',this.get('timelineChart').getElementAtEvent(evt)[0]);
+      }
     },
     actions:{
        submit(){
@@ -22,6 +24,11 @@ export default Timeline.extend(AlertifyHandler,{
             this.get('landscapeService').importLandscape(this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x,this.get('landscapeName'));
             this.set('model.landscapeTimestamp',this.get('tutorialActivePoint')._chart.data.datasets[this.get('tutorialActivePoint')._datasetIndex].data[this.get('tutorialActivePoint')._index].x);
             this.get('landscapeService').set('livelandscapes',false);
+            if(this.get('landscapeService.mockBackend')){
+              this.get('landscapeService').set('selectLandscape',false);
+              this.showAlertifyMessage("Mock landscape is active. Saved landscapes cannot be selected.");
+              this.showAlertifyMessage("Please click 'Save it' to persist the selected Lanscape.");
+            }
          }
       },
       close(){

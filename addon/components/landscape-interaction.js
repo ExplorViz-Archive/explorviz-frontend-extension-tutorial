@@ -5,5 +5,5 @@ import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 export default Interaction.extend(AlertifyHandler,{
   landscapeService: service(),
   tutorialService: service(),
-  store: service()
+  store: service(),
 });

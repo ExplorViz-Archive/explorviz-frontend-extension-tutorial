@@ -15,7 +15,7 @@ export default LandscapeRendering.extend(AlertifyHandler,{
     },
     initInteraction(){
       this._super(...arguments);
-      const self = this;
+      //const self = this;
 
       if(this.get('runmode')){
         this.set('interaction.model',this.get('tutorialService.activeStep'));
@@ -26,11 +26,16 @@ export default LandscapeRendering.extend(AlertifyHandler,{
       this.set('interaction.runmode',this.get('runmode'));
 
       this.get('interaction').on('showApplication', function (emberModel) {
-        self.set('landscapeService.application', emberModel);
+        this.set('landscapeService.application', emberModel);
       });
 
       this.get('interaction').on('singleClick', this.clickListenerSingle);
       this.get('interaction').on('doubleClick', this.clickListenerDouble);
+    },
+    cleanup(){
+      this._super(...arguments);
+      this.get('interaction').off('singleClick',this, this.clickListenerSingle);
+      this.get('interaction').off('doubleClick',this, this.clickListenerDouble);
     },
     willDestroyElement(){
       this._super(...arguments);
