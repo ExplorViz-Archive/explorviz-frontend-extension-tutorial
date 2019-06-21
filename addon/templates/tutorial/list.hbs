@@ -3,7 +3,7 @@
     {{#if this.currentUser.user.isAdmin}}
     <div class="mb-3">
         <div class="float-right">
-         <a style="cursor: pointer" title="new tutorial" {{action "addNewTutorial"}}>{{svg-jar "plus-small" class="octicon"}}<span>New tutorial</span></a>
+            {{#bs-button type="default" onClick=(action "addNewTutorial")}}{{svg-jar "plus-small"}} <span>New tutorial</span>{{/bs-button}}
         </div>
     </div>
     {{/if}}
@@ -26,7 +26,7 @@
             <tbody>
                 {{#each model.tutorials as |tutorial|}}
                 <tr>
-                  {{#if this.currentUser.user.isAdmin}}<th>{{#bs-button onClick=(action "toggleTutorial" tutorial)}}{{if tutorial.expanded '-' '+'}}{{/bs-button}}</th>{{/if}}
+                  {{#if this.currentUser.user.isAdmin}}<th>{{#if tutorial.containsSequences}}{{#bs-button type="default" onClick=(action "toggleTutorial" tutorial)}}{{svg-jar (if tutorial.expanded 'chevron-down' 'chevron-right') color=white}}{{/bs-button}}{{/if}}</th>{{/if}}
                     <td></td>
                     <td>tutorial</td>
                     <td title="id:  {{tutorial.id}}"> {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.title}}{{/link-to}}</td>
@@ -79,7 +79,7 @@
                 {{#each tutorial.sequences as |sequence|}}
                 <tr>
                     <td></td>
-                  <td>{{#bs-button onClick=(action "toggleSequence" sequence)}}{{if sequence.expanded '-' '+'}}{{/bs-button}}</td>
+                  <td>{{#if sequence.containsSteps}}{{#bs-button type="default" onClick=(action "toggleSequence" sequence)}}{{svg-jar (if sequence.expanded 'chevron-down' 'chevron-right')}}{{/bs-button}}{{/if}}</td>
                     <td>sequence</td>         
                     <td title="id: {{sequence.id}}">{{#link-to "tutorial.sequence" sequence}}{{sequence.title}}{{/link-to}}</td>
                     <td>

@@ -5,4 +5,7 @@ export default DS.Model.extend({
   text: DS.attr('string'),
   landscapeTimestamp: DS.attr('string'),
   steps: DS.hasMany('step',{async:false}),
+  containsSteps: function() {
+    return this.get('steps.length')>0;
+  }.property('steps')
 });

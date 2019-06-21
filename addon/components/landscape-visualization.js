@@ -27,6 +27,7 @@ export default LandscapeRendering.extend(AlertifyHandler,{
 
       this.get('interaction').on('showApplication', function (emberModel) {
         this.set('landscapeService.application', emberModel);
+       // this.trigger('doubleClick', emberModel);
       });
 
       this.get('interaction').on('singleClick', this.clickListenerSingle);
@@ -67,7 +68,6 @@ export default LandscapeRendering.extend(AlertifyHandler,{
             this.set("model.actionType","doubleClick");
             this.set('selectTarget',false);
             this.showAlertifyMessage(`Target selected 'double click' on '`+emberModel.get('constructor.modelName')+"'");
-
           }else{
             if(this.get("model.targetType")==emberModel.get('constructor.modelName') && this.get("model.targetId")==emberModel.get("id")&& this.get('model.actionType')=="doubleClick"){
               if(this.get("runmode")){

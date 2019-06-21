@@ -25,6 +25,7 @@ export default Controller.extend(AlertifyHandler,{
      let newSequence = this.get('store').createRecord("sequence",{
         title: "new sequence"
       })
+      tutorial.set('expanded',true);
       tutorial.get('sequences').pushObject(newSequence);
       newSequence.save().then(function () {
         tutorial.save();
@@ -34,6 +35,7 @@ export default Controller.extend(AlertifyHandler,{
       let newStep = this.get('store').createRecord("step",{
          title: "new step"
        })
+       sequence.set('expanded',true);
        sequence.get('steps').pushObject(newStep);
        newStep.save().then(function () {
         sequence.save();

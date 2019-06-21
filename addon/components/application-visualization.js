@@ -21,6 +21,16 @@ export default ApplicationRendering.extend(AlertifyHandler,{
       this.get('interaction').on('singleClick', this.get('clickListenerSingle'));
       this.get('interaction').on('doubleClick', this.get('clickListenerDouble'));
     },
+    cleanup(){
+      this._super(...arguments);
+      this.get('interaction').off('singleClick',this, this.clickListenerSingle);
+      this.get('interaction').off('doubleClick',this, this.clickListenerDouble);
+    },
+    willDestroyElement(){
+      this._super(...arguments);
+      this.get('interaction').off('singleClick',this, this.clickListenerSingle);
+      this.get('interaction').off('doubleClick',this, this.clickListenerDouble);
+    },
     clickListenerSingle(emberModel){
       if(emberModel!=undefined){
           if(this.get('selectTarget')){

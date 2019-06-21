@@ -6,7 +6,6 @@ import SaveRelationshipsMixin from 'ember-data-save-relationships';
 
 export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
   attrs: {
-    events:{serialize:true},
     systems:{serialize:true},
     totalApplicationCommunications:{serialize:true}
   },
@@ -14,9 +13,6 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
     return model;
   },
   serializeRecordForIncluded(key,relationship){
-    if(this.serializedTypes.indexOf(key)!==-1){
-      return;
-    }
     if (relationship.kind === 'belongsTo') {
       var nextSnapshot = this.belongsTo(key);
       nextSnapshot.serializedTypes=this.serializedTypes;
@@ -24,8 +20,8 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
       if(nextSnapshot.record.threeJSModel!=undefined){
           nextSnapshot.record.set('threeJSModel', null);
       }
-      if(this.serializedTypes.indexOf(key)==-1){
-        this.serializedTypes.push(key);
+      if(this.serializedTypes.indexOf(nextSnapshot.get('id'))==-1){
+        this.serializedTypes.push(nextSnapshot.get('id'));
         nextSnapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
         if(nextSnapshot.record.get('id')!=undefined){
           this.included.push(nextSnapshot.record.serialize({includeId:true}).data);
@@ -37,10 +33,9 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
       var self=this;
       var nkey=key;
       var hasmany=this.hasMany(nkey);
-      if(hasmany!=undefined){
       hasmany.forEach(function(v){
         if(v.record.threeJSModel!=undefined){
-          v.record.set('threeJSModel', null);
+            v.record.set('threeJSModel', null);
         }
         if(self.included==undefined){
           self.included=[];
@@ -51,7 +46,7 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
               value.serializedTypes=self.serializedTypes;
               value.included=self.included;
               if(self.serializedTypes.indexOf(nkey)==-1){
-                self.serializedTypes.push(nkey);
+                self.serializedTypes.push(nextSnapshot.get('id'));
               }
               value.serializeRecordForIncluded=self.serializeRecordForIncluded;
               value.eachRelationship(self.serializeRecordForIncluded,value);
@@ -60,24 +55,24 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
         }
       });
     }
-    }
   },
   serialize(snapshot) {
     let json = this._super(...arguments);
-    // snapshot.hasMany('systems').forEach(function(v,k){
-    //   delete json.data.relationships.systems.data[k].attributes.threeJSModel;
-    // });
-    //
-    // snapshot.hasMany('totalApplicationCommunications').forEach(function(v,k){
-    //   delete json.data.relationships.totalApplicationCommunications.data[k].attributes.threeJSModel;
-    // });
 
     snapshot.serializeRecordForIncluded=this.serializeRecordForIncluded;
     snapshot.serializedTypes=[];
     snapshot.included=[];
     snapshot.eachRelationship(this.serializeRecordForIncluded,snapshot);
 
-    json.included=snapshot.included;
+    snapshot.hasMany('systems').forEach(function(v,k){
+      delete json.data.relationships.systems.data[k].attributes.threeJSModel;
+    });
+
+    snapshot.hasMany('totalApplicationCommunications').forEach(function(v,k){
+      delete json.data.relationships.totalApplicationCommunications.data[k].attributes.threeJSModel;
+    });
+
+json.included=snapshot.included;
     var newjson={
       data:{
         id: snapshot.record.get('id'),
@@ -108,7 +103,7 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
   },
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
     var json = {};
-    if(Array.isArray(payload.data)){
+    if(Array.isArray(payload.data) ){
       json = {data:[]};
      payload.data.forEach(function(v,k){
        json.data[k]=JSON.parse(v.attributes.landscape).data;
@@ -127,6 +122,10 @@ export default LandscapeSerializer.extend(SaveRelationshipsMixin,{
         json.included=payload.included;
       }
     }
+  // if(requestType=="queryRecord"){
+  //   json.data=json.data[0];
+  //   return this._super(store, primaryModelClass, json, id, requestType);
+  // }
     return this._super(store, primaryModelClass, json, id, requestType);
   }
 });

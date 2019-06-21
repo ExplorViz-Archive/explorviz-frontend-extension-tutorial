@@ -9,7 +9,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     this._super(...arguments);
     controller.set('landscapeService.liveMode',false);
     controller.get('landscapeService').updateLandscapeList(true);
-    controller.get('landscapeService.landscape',null);
+    
+    controller.set('landscapeService.landscape',null);
+    controller.set('landscapeService.application', null);
 
     if(controller.get('currentUser.user.isAdmin')){
       controller.set('runmode',false);
