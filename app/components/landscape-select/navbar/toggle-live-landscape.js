@@ -1,0 +1,1 @@
+export { default } from 'explorviz-frontend-extension-tutorial/components/landscape-select/navbar/toggle-live-landscape';

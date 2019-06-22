@@ -9,11 +9,17 @@ export function initialize(appInstance) {
   }
 
   Router.map(function() {
-    this.route("tutorial");
+    this.route("tutorial", function(){
+          this.route("list", { path: '/list' });
+          this.route('tutorial', { path: '/:tutorial_id' });
+          this.route('sequence', { path: '/sequence/:sequence_id' });
+          this.route('step', { path: '/step/:step_id' });
+          this.route('run', { path: '/run/:tutorial_id' });
+    });
   });
 }
 
 export default {
   name: 'explorviz-frontend-extension-tutorial',
-  initialize
+  initialize: initialize
 };

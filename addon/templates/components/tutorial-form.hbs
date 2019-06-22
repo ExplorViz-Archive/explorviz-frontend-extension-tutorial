@@ -1,0 +1,41 @@
+{{#link-to "tutorial.list"}}{{svg-jar "reply" class="octicon align-middle"}}  Back{{/link-to}}
+{{#bs-form model=model onSubmit=(action "saveTutorialChanges" model) as |form|}}
+    {{form.element controlType="text" label="Title" placeholder="Enter new tutorial title" property="title"}}
+{{bs-button defaultText="Save it" type="primary" buttonType="submit"}}
+{{/bs-form}}
+{{#if model.isDirty}}
+  <span>there are unsaved changes</span>
+{{/if}}
+{{#bs-dropdown as |dd|}}
+                       {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
+                       {{svg-jar "kebab-vertical" class="octicon"}}
+                       {{/dd.button}}
+                       {{#dd.menu as |ddm|}}
+                       {{#ddm.item title="Run"}}
+                       <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run">
+                       {{#link-to "tutorial.run" model}}
+                        {{svg-jar "play" class="octicon" id="run-button"}}<span>Run</span>
+                       {{/link-to}}
+                       </a>
+                       {{/ddm.item}}
+                                           {{#ddm.item title="set landscape"}}
+                          <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete"
+                           {{action "toggleSetLandscape"}}>
+                           {{svg-jar "globe" class="octicon" id="change-landscape"}}
+                          {{#unless landscapeService.selectLandscape}}
+                              {{#if model.landscapeTimestamp}}
+                                <span>change landscape</span>
+                              {{else}}
+                                <span>select landscape</span>
+                              {{/if}}
+                           {{else}}
+                             {{#if model.landscapeTimestamp}}
+                                <span>stop changing landscape</span>
+                              {{else}}
+                                <span>stop selecting landscape</span>
+                              {{/if}}
+                           {{/unless}}
+                         </a>
+                       {{/ddm.item}}
+                       {{/dd.menu}}
+                       {{/bs-dropdown}}
