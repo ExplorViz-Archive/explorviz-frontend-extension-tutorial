@@ -9,7 +9,7 @@ import ApplicationInteraction from '../components/application-interaction';
 import { getOwner } from '@ember/application';
 
 export default Service.extend(Evented, {
-    mockBackend: true,  
+    mockBackend: true, //true  
     debug: debugLogger(),
     store: service(),
     renderingService: service(),

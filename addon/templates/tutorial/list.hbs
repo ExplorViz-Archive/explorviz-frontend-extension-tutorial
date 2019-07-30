@@ -3,7 +3,8 @@
     {{#if this.currentUser.user.isAdmin}}
     <div class="mb-3">
         <div class="float-right">
-            {{#bs-button type="default" onClick=(action "addNewTutorial")}}{{svg-jar "plus-small"}} <span>New tutorial</span>{{/bs-button}}
+            {{#bs-button type="default" style="cursor: pointer" onClick=(action "addNewTutorial")}}{{svg-jar "plus-small"}} <span>New tutorial</span>{{/bs-button}}
+            {{#bs-button type="default" style="cursor: pointer" onClick=(action "importTutorial")}}{{svg-jar "cloud-upload"}} <span>Import tutorial</span>{{/bs-button}}
         </div>
     </div>
     {{/if}}
@@ -54,8 +55,8 @@
                         </a>
                         {{/link-to}}
                         {{/ddm.item}}
-                        {{#ddm.item title="new sequence"}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="new sequence"
+                        {{#ddm.item title="New sequence"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="New sequence"
                             {{action "addNewSequence" tutorial}}>
                             {{svg-jar "plus" class="octicon" id="new-sequence"}}<span>New sequence</span>
                         </a>
@@ -63,10 +64,19 @@
                         {{#ddm.item}}
                             <hr>
                         {{/ddm.item}}
-                         {{#ddm.item title="delete tutorial"}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="delete tutorial"
+                        {{#ddm.item title="Export tutorial"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Export tutorial"
+                            {{action "exportTutorial" tutorial}}>
+                            {{svg-jar "cloud-download" class="octicon" id="export-tutorial"}}<span>Export tutorial</span>
+                        </a>
+                        {{/ddm.item}}
+                        {{#ddm.item}}
+                            <hr>
+                        {{/ddm.item}}
+                         {{#ddm.item title="Delete tutorial"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete tutorial"
                             {{action "deleteTutorial" tutorial}}>
-                            {{svg-jar "trashcan" class="octicon" id="delete-tutorial"}}<span>Delete Tutorial</span>
+                            {{svg-jar "trashcan" class="octicon" id="delete-tutorial"}}<span>Delete tutorial</span>
                         </a>
                         {{/ddm.item}}
                         {{/dd.menu}}
