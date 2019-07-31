@@ -4,7 +4,8 @@
     <div class="mb-3">
         <div class="float-right">
             {{#bs-button type="default" style="cursor: pointer" onClick=(action "addNewTutorial")}}{{svg-jar "plus-small"}} <span>New tutorial</span>{{/bs-button}}
-            {{#bs-button type="default" style="cursor: pointer" onClick=(action "importTutorial")}}{{svg-jar "cloud-upload"}} <span>Import tutorial</span>{{/bs-button}}
+            <input id="selectBox" onchange={{action "uploadTutorial"}} type="file" style="display:none;" />
+            {{#bs-button type="default" style="cursor: pointer" onClick=(action "triggerSelectBox")}}{{svg-jar "cloud-upload"}} <span>Upload tutorial</span>{{/bs-button}}
         </div>
     </div>
     {{/if}}
@@ -64,10 +65,10 @@
                         {{#ddm.item}}
                             <hr>
                         {{/ddm.item}}
-                        {{#ddm.item title="Export tutorial"}}
-                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Export tutorial"
-                            {{action "exportTutorial" tutorial}}>
-                            {{svg-jar "cloud-download" class="octicon" id="export-tutorial"}}<span>Export tutorial</span>
+                        {{#ddm.item title="Download tutorial"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Download tutorial"
+                            {{action "downloadTutorial" tutorial}}>
+                            {{svg-jar "cloud-download" class="octicon" id="download-tutorial"}}<span>Download tutorial</span>
                         </a>
                         {{/ddm.item}}
                         {{#ddm.item}}
@@ -90,7 +91,7 @@
                 <tr>
                     <td></td>
                   <td>{{#if sequence.containsSteps}}{{#bs-button type="default" onClick=(action "toggleSequence" sequence)}}{{svg-jar (if sequence.expanded 'chevron-down' 'chevron-right')}}{{/bs-button}}{{/if}}</td>
-                    <td>sequence</td>         
+                    <td>sequence</td>
                     <td title="id: {{sequence.id}}">{{#link-to "tutorial.sequence" sequence}}{{sequence.title}}{{/link-to}}</td>
                     <td>
                         {{sequence.steps.length}} steps

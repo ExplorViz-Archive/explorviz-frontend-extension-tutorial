@@ -1,23 +1,17 @@
-explorviz-frontend-extension-tutorial
-==============================================================================
+# ExplorViz-Frontend-Extension-Tutorial
 
-[Short description of the addon.]
+This extension add a tutorial-framework to ExplorViz, which allows the creation and execution of tutorials.
 
-Installation
-------------------------------------------------------------------------------
+## Requirements
+- The [ExplorViz-Backend-Extension-Tutorial](https://github.com/ExplorViz/explorViz-backend-extension-tutorial) 
 
-```
-ember install explorviz-frontend-extension-tutorial
-```
+## Running & Building
 
+Follow the respective procedure in [ExplorViz frontend](https://github.com/ExplorViz/explorviz-frontend#running--development)
 
-Usage
-------------------------------------------------------------------------------
+## Installation
+1. Follow the installation guide of [ExplorViz frontend](https://github.com/ExplorViz/explorviz-frontend#development)
 
-[Longer description of how to use the addon in apps.]
+2. Change to the frontends directory in your CLI, e.g. `cd explorviz-frontend`
 
-
-License
-------------------------------------------------------------------------------
-
-This project is licensed under the [MIT License](LICENSE.md).
+3. Install this extension via `ember install https://github.com/ExplorViz/explorviz-frontend-extension-tutorial.git`

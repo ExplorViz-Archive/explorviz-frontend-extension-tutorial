@@ -6,6 +6,7 @@ import { inject as service } from "@ember/service";
 export default Controller.extend(AlertifyHandler, FileSaverMixin, {
   tutorialService: service(),
   currentUser: service(),
+  fileLoader: service(),
 
   actions: {
     toggleTutorial(tutorial) {
@@ -59,26 +60,21 @@ export default Controller.extend(AlertifyHandler, FileSaverMixin, {
       tutorial.destroyRecord();
     },
 
-    importTutorial() {
-      console.log("trying to import a tutorial...");
+    // necessary for hidded input box to select a file for uploading
+    triggerSelectBox() {
+      document.querySelector("#selectBox").click();
     },
 
-    exportTutorial(tutorial) {
-      const fileName = tutorial.get('id') + ".json";
-      console.log("trying to export tutorial as " + fileName);
+    // upload a tutorial to the backend
+    uploadTutorial(evt) {
+      // upload file to the backend
+      this.get('fileLoader').uploadTutorial(evt);
+    },
 
-
-      var tutorialSerialized = tutorial.serialize({includeId: true}.data);
-      // console.log(tutorialSerialized);
-      let tutorialSerializedJSON = JSON.stringify(tutorialSerialized);
-      // console.log(tutorialSerializedJSON);
-      
-
-      // text/plain;charset=utf-8
-      // application/json
-      // application/vnd.api+json
-      var tutorialBlob = new Blob([tutorialSerializedJSON], {type: "application/json"});
-      this.saveFileAs(fileName, tutorialBlob);
+    // download a tutorial from the backend
+    downloadTutorial(tutorial) {
+      const tutorialId = tutorial.get('id');
+      this.get('fileLoader').downloadTutorial(tutorialId);
     }
   }
 });
