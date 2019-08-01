@@ -15,7 +15,8 @@ export default Service.extend(FileSaverMixin, {
   downloadTutorial(tutorialId) {
     const { access_token } = this.get('session.data.authenticated');
 
-    const urlPath = `/v1/tutorials/${tutorialId}`;
+    //const urlPath = `/v1/tutorials/${tutorialId}`;
+    const urlPath = `/v1/tutorials/${tutorialId}/download`;
     const savedFileName = tutorialId + ".json";
 
     const url = `${ENV.APP.API_ROOT}${urlPath}`
@@ -29,7 +30,8 @@ export default Service.extend(FileSaverMixin, {
       }
     }
     ).then((content) => {
-      this.saveFileAs(savedFileName, content.payload, 'application/vnd.api+json');
+      // this.saveFileAs(savedFileName, content.payload, 'application/vnd.api+json');
+      this.saveFileAs(savedFileName, content.payload, 'application/json');
       this.debug("Tutorial with id [" + tutorialId + "] downloaded!");
     }).catch((error) => {
 
