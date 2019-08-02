@@ -10,18 +10,18 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     this._super(...arguments);
     controller.get('tutorialService').initService(model);
     controller.get('landscapeService').updateLandscapeList(true);
-    controller.set('landscapeService.liveMode',false);
+    controller.set('landscapeService.liveMode', false);
 
     var step = controller.get('tutorialService').getNextStep();
-    controller.set('tutorialService.activeStep',step);
+    controller.set('tutorialService.activeStep', step);
 
-    controller.set('landscapeService.landscape',null);
+    controller.set('landscapeService.landscape', null);
     controller.set('landscapeService.application', null);
 
-    controller.get('tutorialService').getSequence(step).then((sequence)=>{
-      if(sequence!=undefined && sequence.get('landscapeTimestamp')!=undefined){
+    controller.get('tutorialService').getSequence(step).then((sequence) => {
+      if (sequence != undefined && sequence.get('landscapeTimestamp') != undefined) {
         controller.get('landscapeService').loadLandscape(sequence);
-      }else{
+      } else {
         controller.get('landscapeService').loadLandscape(model);
       }
     });
@@ -31,6 +31,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     // @Override BaseRoute
     resetRoute() {
       //const routeName = this.get('tutorial');
-   },
+    },
   }
 });

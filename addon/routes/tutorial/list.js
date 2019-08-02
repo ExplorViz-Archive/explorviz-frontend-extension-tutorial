@@ -10,7 +10,11 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     },
     actions: {
         resetRoute() {
-          //const routeName = this.get('tutorial');
-       },
-      }
+            //const routeName = this.get('tutorial');
+        },
+        refreshTutorialList: function() {
+            console.log("refreshTutorialList");
+            this.transitionTo('tutorial');
+          }
+    }
 });

@@ -1,22 +1,18 @@
 import Controller from '@ember/controller';
 import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
-import FileSaverMixin from 'ember-cli-file-saver/mixins/file-saver';
 import { inject as service } from "@ember/service";
 
-export default Controller.extend(AlertifyHandler, FileSaverMixin, {
-  tutorialService: service(),
+export default Controller.extend(AlertifyHandler, {
   currentUser: service(),
   fileLoader: service(),
 
   actions: {
     toggleTutorial(tutorial) {
       tutorial.set('expanded', !tutorial.get('expanded'));
-      //this.get('tutorialService').expandTutorial(tutorial);
     },
 
     toggleSequence(sequence) {
       sequence.set('expanded', !sequence.get('expanded'));
-      //this.get('tutorialService').expandTutorial(tutorial);
     },
 
     addNewTutorial() {
@@ -67,7 +63,6 @@ export default Controller.extend(AlertifyHandler, FileSaverMixin, {
 
     // upload a tutorial to the backend
     uploadTutorial(evt) {
-      // upload file to the backend
       this.get('fileLoader').uploadTutorial(evt);
     },
 
