@@ -43,7 +43,7 @@
      {{#if model.actionType}}
       {{#if model.targetId}}
       {{#if landscapeService.landscape.systems}}
-         Target:  {{model.actionType}} on <span title={{model.targetId}}>{{targetName}}</span>
+        Target:  {{model.actionType}} on <span title={{model.targetId}}>{{targetName}}</span>
         {{else}}
         Target:  {{model.actionType}} on {{help-tooltip title=model.targetId}}
         <div class="spinner-border spinner-border-sm" role="status">
@@ -54,9 +54,11 @@
     {{/if}}
     {{/if}}
 
+<!-- Representation of the step within the tutorial -->
 {{else}}
   <h2>{{model.title}}</h2>
-  <pre style='white-space:pre-line;display:inline-block'>{{model.text}}</pre>
+  <!-- Using triple-stache {{{string}}} escapes html and allows to use emphasis in text when rendered -->
+  <pre style='white-space:pre-line;display:inline-block'>{{{model.text}}}</pre>
   {{#unless model.targetType}}
     {{#unless model.actionType}}
         {{#unless model.targetId}}

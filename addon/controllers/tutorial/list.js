@@ -9,6 +9,10 @@ export default Controller.extend(AlertifyHandler, {
   actions: {
     toggleTutorial(tutorial) {
       tutorial.set('expanded', !tutorial.get('expanded'));
+      // also expand the sequences
+      tutorial.get('sequences').forEach(function (seq) {
+        seq.set('expanded', !seq.get('expanded'));
+      });
     },
 
     toggleSequence(sequence) {

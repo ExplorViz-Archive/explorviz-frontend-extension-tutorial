@@ -3,9 +3,11 @@
     {{#if this.currentUser.user.isAdmin}}
     <div class="mb-3">
         <div class="float-right">
-            {{#bs-button type="default" style="cursor: pointer" onClick=(action "addNewTutorial")}}{{svg-jar "plus-small"}} <span>New tutorial</span>{{/bs-button}}
+            {{#bs-button type="default" style="cursor: pointer" onClick=(action "addNewTutorial")}}{{svg-jar "plus-small"}}
+            <span>New tutorial</span>{{/bs-button}}
             <input id="selectBox" onchange={{action "uploadTutorial"}} type="file" style="display:none;" />
-            {{#bs-button type="default" style="cursor: pointer" onClick=(action "triggerSelectBox")}}{{svg-jar "cloud-upload"}} <span>Upload tutorial</span>{{/bs-button}}
+            {{#bs-button type="default" style="cursor: pointer" onClick=(action "triggerSelectBox")}}{{svg-jar "cloud-upload"}}
+            <span>Upload tutorial</span>{{/bs-button}}
         </div>
     </div>
     {{/if}}
@@ -14,24 +16,27 @@
             <thead class="thead-light">
                 <tr>
                     {{#if this.currentUser.user.isAdmin}}
-                      <th scope="col"></th>
-                      <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                     {{/if}}
                     <th scope="col">Type</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Children</th>
+                    <th scope="col">Contains</th>
                     {{#if this.currentUser.user.isAdmin}}
-                      <th scope="col"></th>
+                    <th scope="col"></th>
                     {{/if}}
                 </tr>
             </thead>
             <tbody>
                 {{#each model.tutorials as |tutorial|}}
                 <tr>
-                  {{#if this.currentUser.user.isAdmin}}<th>{{#if tutorial.containsSequences}}{{#bs-button type="default" onClick=(action "toggleTutorial" tutorial)}}{{svg-jar (if tutorial.expanded 'chevron-down' 'chevron-right') color=white}}{{/bs-button}}{{/if}}</th>{{/if}}
+                    {{#if this.currentUser.user.isAdmin}}<th>
+                        {{#if tutorial.containsSequences}}{{#bs-button type="default" onClick=(action "toggleTutorial" tutorial)}}{{svg-jar (if tutorial.expanded 'chevron-down' 'chevron-right') color=white}}{{/bs-button}}{{/if}}
+                    </th>{{/if}}
                     <td></td>
                     <td>tutorial</td>
-                    <td title="id:  {{tutorial.id}}"> {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.title}}{{/link-to}}</td>
+                    <td title="id:  {{tutorial.id}}">
+                        {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.title}}{{/link-to}}</td>
                     <td>
                         {{tutorial.sequences.length}} sequences
                     </td>
@@ -45,14 +50,14 @@
                         {{#ddm.item title="Run"}}
                         {{#link-to "tutorial.run" tutorial}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run">
-                         {{svg-jar "play" class="octicon" id="run-button"}}<span>Run</span>
+                            {{svg-jar "play" class="octicon" id="run-button"}}<span>Run</span>
                         </a>
                         {{/link-to}}
                         {{/ddm.item}}
                         {{#ddm.item title="Edit"}}
-                         {{#link-to "tutorial.tutorial" tutorial}}
+                        {{#link-to "tutorial.tutorial" tutorial}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                             {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
+                            {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
                         </a>
                         {{/link-to}}
                         {{/ddm.item}}
@@ -63,18 +68,19 @@
                         </a>
                         {{/ddm.item}}
                         {{#ddm.item}}
-                            <hr>
+                        <hr>
                         {{/ddm.item}}
                         {{#ddm.item title="Download tutorial"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Download tutorial"
                             {{action "downloadTutorial" tutorial}}>
-                            {{svg-jar "cloud-download" class="octicon" id="download-tutorial"}}<span>Download tutorial</span>
+                            {{svg-jar "cloud-download" class="octicon" id="download-tutorial"}}<span>Download
+                                tutorial</span>
                         </a>
                         {{/ddm.item}}
                         {{#ddm.item}}
-                            <hr>
+                        <hr>
                         {{/ddm.item}}
-                         {{#ddm.item title="Delete tutorial"}}
+                        {{#ddm.item title="Delete tutorial"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Delete tutorial"
                             {{action "deleteTutorial" tutorial}}>
                             {{svg-jar "trashcan" class="octicon" id="delete-tutorial"}}<span>Delete tutorial</span>
@@ -90,9 +96,11 @@
                 {{#each tutorial.sequences as |sequence|}}
                 <tr>
                     <td></td>
-                  <td>{{#if sequence.containsSteps}}{{#bs-button type="default" onClick=(action "toggleSequence" sequence)}}{{svg-jar (if sequence.expanded 'chevron-down' 'chevron-right')}}{{/bs-button}}{{/if}}</td>
+                    <td>{{#if sequence.containsSteps}}{{#bs-button type="default" onClick=(action "toggleSequence" sequence)}}{{svg-jar (if sequence.expanded 'chevron-down' 'chevron-right')}}{{/bs-button}}{{/if}}
+                    </td>
                     <td>sequence</td>
-                    <td title="id: {{sequence.id}}">{{#link-to "tutorial.sequence" sequence}}{{sequence.title}}{{/link-to}}</td>
+                    <td title="id: {{sequence.id}}">
+                        {{#link-to "tutorial.sequence" sequence}}{{sequence.title}}{{/link-to}}</td>
                     <td>
                         {{sequence.steps.length}} steps
                     </td>
@@ -105,20 +113,20 @@
                         {{#ddm.item title="Edit"}}
                         {{#link-to "tutorial.sequence" sequence}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                             {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
+                            {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
                         </a>
                         {{/link-to}}
                         {{/ddm.item}}
                         {{#ddm.item title="new sequence"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="new step"
-                        {{action "addNewStep" sequence}}>
-                             {{svg-jar "plus" class="octicon" id="new-step"}}<span>New step</span>
+                            {{action "addNewStep" sequence}}>
+                            {{svg-jar "plus" class="octicon" id="new-step"}}<span>New step</span>
                         </a>
                         {{/ddm.item}}
-                         {{#ddm.item}}
-                            <hr>
+                        {{#ddm.item}}
+                        <hr>
                         {{/ddm.item}}
-                          {{#ddm.item title="delete sequence"}}
+                        {{#ddm.item title="delete sequence"}}
                         <a class="dropdown-item d-flex-center" style="cursor: pointer" title="delete sequence"
                             {{action "deleteTutorial" sequence}}>
                             {{svg-jar "trashcan" class="octicon" id="delete-sequence"}}<span>Delete sequence</span>
@@ -131,7 +139,7 @@
                 {{#if sequence.expanded}}
                 {{#each sequence.steps as |step|}}
                 <tr>
-                  <th></th>
+                    <th></th>
                     <td></td>
                     <td>step</td>
                     <td title="id: {{step.id}}"> {{#link-to "tutorial.step" step}}{{step.title}}{{/link-to}}</td>
@@ -143,22 +151,22 @@
                         {{svg-jar "kebab-vertical" class="octicon"}}
                         {{/dd.button}}
                         {{#dd.menu as |ddm|}}
-                            {{#ddm.item title="Edit"}}
-                            {{#link-to "tutorial.step" step}}
-                            <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
-                                {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
-                            </a>
-                            {{/link-to}}
-                            {{/ddm.item}}
-                             {{#ddm.item}}
-                            <hr>
+                        {{#ddm.item title="Edit"}}
+                        {{#link-to "tutorial.step" step}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Edit">
+                            {{svg-jar "pencil" class="octicon" id="edit-button"}}<span>Edit</span>
+                        </a>
+                        {{/link-to}}
                         {{/ddm.item}}
-                            {{#ddm.item title="delete step"}}
-                            <a class="dropdown-item d-flex-center" style="cursor: pointer" title="delete step"
-                                {{action "deleteStep" step}}>
-                                {{svg-jar "trashcan" class="octicon" id="delete-step"}}<span>Delete step</span>
-                            </a>
-                            {{/ddm.item}}
+                        {{#ddm.item}}
+                        <hr>
+                        {{/ddm.item}}
+                        {{#ddm.item title="delete step"}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="delete step"
+                            {{action "deleteStep" step}}>
+                            {{svg-jar "trashcan" class="octicon" id="delete-step"}}<span>Delete step</span>
+                        </a>
+                        {{/ddm.item}}
                         {{/dd.menu}}
                         {{/bs-dropdown}}
                     </td>
