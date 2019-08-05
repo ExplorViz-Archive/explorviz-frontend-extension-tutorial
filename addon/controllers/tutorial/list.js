@@ -57,6 +57,14 @@ export default Controller.extend(AlertifyHandler, {
     },
 
     deleteTutorial(tutorial) {
+      // tutorial.get('sequences').forEach(function (seq) {
+      //   seq.get('steps').forEach(function (step) {
+      //     step.deleteRecord();
+      //     step.transitionTo('deleted.saved');
+      //   });
+      //   seq.deleteRecord();
+      //   // seq.transitionTo('deleted.saved');
+      // });
       tutorial.destroyRecord();
     },
 

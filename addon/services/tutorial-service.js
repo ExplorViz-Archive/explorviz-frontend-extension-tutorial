@@ -9,10 +9,11 @@ export default Service.extend(Evented, AlertifyHandler, {
   debug: debugLogger(),
   store: service(),
   landscapeService: service(),
-  tutorialList: null,
+  
   activeStep: null,
   steps: null,
   sequences: null,
+
   skipButton: computed('activeStep', function () {
     if (this.get('activeStep.targetId') !== "" && this.get('activeStep.targetType') !== "" && this.get('activeStep.actionType') !== "") {
       return false;
@@ -83,17 +84,6 @@ export default Service.extend(Evented, AlertifyHandler, {
 
   },
 
-  updateTutorialList() {
-    this.set('tutorialList', []);
-    this.get('store').findAll('tutorial', { reload: true })
-      .then(tutorials => {
-        let tutorialList = tutorials.toArray();
-        // sort by id
-        tutorialList.sort((tutorial1, tutorial2) => parseInt(tutorial1.id) < parseInt(tutorial2.id) ? -1 : 1);
-        this.set('tutorialList', tutorialList);
-      });
-  },
-
   saveTutorialChanges(tutorial) {
     if (tutorial) {
       // check for valid input
@@ -118,4 +108,5 @@ export default Service.extend(Evented, AlertifyHandler, {
     const { title, detail } = reason.errors[0];
     this.showAlertifyMessage(`<b>${title}:</b> ${detail}`);
   },
+
 });

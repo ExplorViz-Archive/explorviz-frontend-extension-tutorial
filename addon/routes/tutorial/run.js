@@ -3,9 +3,9 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model(params) {
-    var val = this.get('store').findRecord('tutorial', params.tutorial_id);
-    return val;
+    return this.get('store').findRecord('tutorial', params.tutorial_id);
   },
+
   setupController(controller, model) {
     this._super(...arguments);
     controller.get('tutorialService').initService(model);

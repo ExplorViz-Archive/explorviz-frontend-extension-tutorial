@@ -7,5 +7,6 @@ export default DS.Model.extend({
   targetId: DS.attr('string'),
   targetType: DS.attr('string'),
   actionType: DS.attr('string'),
-  
+  parent: DS.belongsTo('sequence', { inverse: 'steps' }),
+
 });

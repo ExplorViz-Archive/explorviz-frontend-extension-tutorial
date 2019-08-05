@@ -3,10 +3,10 @@
     {{#if this.currentUser.user.isAdmin}}
     <div class="mb-3">
         <div class="float-right">
-            {{#bs-button type="default" style="cursor: pointer" onClick=(action "addNewTutorial")}}{{svg-jar "plus-small"}}
+            {{#bs-button type="success" outline=true onClick=(action "addNewTutorial") title="New tutorial"}}{{svg-jar "plus-small"}}
             <span>New tutorial</span>{{/bs-button}}
             <input id="selectBox" onchange={{action "uploadTutorial"}} type="file" style="display:none;" />
-            {{#bs-button type="default" style="cursor: pointer" onClick=(action "triggerSelectBox")}}{{svg-jar "cloud-upload"}}
+            {{#bs-button type="success" outline=true onClick=(action "triggerSelectBox")}}{{svg-jar "cloud-upload"}}
             <span>Upload tutorial</span>{{/bs-button}}
         </div>
     </div>
@@ -28,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each model.tutorials as |tutorial|}}
+                {{#each model as |tutorial|}}
                 <tr>
                     {{#if this.currentUser.user.isAdmin}}<th>
                         {{#if tutorial.containsSequences}}{{#bs-button type="default" onClick=(action "toggleTutorial" tutorial)}}{{svg-jar (if tutorial.expanded 'chevron-down' 'chevron-right') color=white}}{{/bs-button}}{{/if}}

@@ -74,19 +74,20 @@ export default Service.extend(FileSaverMixin, AlertifyHandler, {
       contentType: false,
       headers: { 'Authorization': `Basic ${access_token}` },
       dataType: "text"
-    }).then(() => {
-      
+    }).then((payload) => {
+
       // TODO list of tutorials is not updated in a successful upload yet
-      //this.get('tutorialService').updateTutorialList();
-      // this.get('store').findAll('tutorial').then((tutorials) => {
-      // console.log(tutorials);
+      const jsonTutorial = payload.jqXHR.responseText;
+      self.get('store').push(JSON.parse(jsonTutorial));
+      console.log(self.get('store').peekRecord("tutorial", "tutorial-78040162-a9b5-44b0-ad9b-f4ca55851b4f-1"));
+      
       self.showAlertifySuccess("Tutorial sucessfully uploaded!");
       this.debug("Tutorial sucessfully uploaded!");
       // });
       
     }).catch((error) => {
-      self.showAlertifyError(error.text);
-      this.debug("Could not upload tutorial ", error);
+      self.showAlertifyError(error.payload.errors[0].detail);
+      this.debug("Could not upload tutorial.", error.payload.errors[0].detail);
       throw new Error("Could not upload tutorial. Enable debugging in console");
     });
   },
