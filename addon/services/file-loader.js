@@ -11,7 +11,6 @@ export default Service.extend(FileSaverMixin, AlertifyHandler, {
 
   store: service(),
   tutorialService: service(),
-
   session: service(),
   ajax: service('ajax'),
 
@@ -49,7 +48,7 @@ export default Service.extend(FileSaverMixin, AlertifyHandler, {
     });
   },
 
-  // uploads a tutorial from the client to the backend
+  // uploads a tutorial from the client to the backend and pushes the response into the store
   uploadTutorial(evt) {
 
     const self = this;
@@ -75,16 +74,12 @@ export default Service.extend(FileSaverMixin, AlertifyHandler, {
       headers: { 'Authorization': `Basic ${access_token}` },
       dataType: "text"
     }).then((payload) => {
-
-      // TODO list of tutorials is not updated in a successful upload yet
       const jsonTutorial = payload.jqXHR.responseText;
-      self.get('store').push(JSON.parse(jsonTutorial));
-      console.log(self.get('store').peekRecord("tutorial", "tutorial-78040162-a9b5-44b0-ad9b-f4ca55851b4f-1"));
-      
+      const parsedTutorial = JSON.parse(jsonTutorial);
+      self.get('store').push(parsedTutorial);
+
       self.showAlertifySuccess("Tutorial sucessfully uploaded!");
       this.debug("Tutorial sucessfully uploaded!");
-      // });
-      
     }).catch((error) => {
       self.showAlertifyError(error.payload.errors[0].detail);
       this.debug("Could not upload tutorial.", error.payload.errors[0].detail);

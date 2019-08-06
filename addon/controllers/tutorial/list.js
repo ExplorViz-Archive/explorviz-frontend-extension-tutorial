@@ -57,15 +57,10 @@ export default Controller.extend(AlertifyHandler, {
     },
 
     deleteTutorial(tutorial) {
-      // tutorial.get('sequences').forEach(function (seq) {
-      //   seq.get('steps').forEach(function (step) {
-      //     step.deleteRecord();
-      //     step.transitionTo('deleted.saved');
-      //   });
-      //   seq.deleteRecord();
-      //   // seq.transitionTo('deleted.saved');
-      // });
       tutorial.destroyRecord();
+      // still need to remove the tutorial from the store manually
+      // https://github.com/emberjs/data/issues/5014
+      this.store._removeFromIdMap(tutorial._internalModel)
     },
 
     // necessary for hidded input box to select a file for uploading
