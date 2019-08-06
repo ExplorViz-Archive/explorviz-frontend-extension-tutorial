@@ -16,30 +16,31 @@
             <thead class="thead-light">
                 <tr>
                     {{#if this.currentUser.user.isAdmin}}
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Type</th>
                     {{/if}}
-                    <th scope="col">Type</th>
                     <th scope="col">Title</th>
                     <th scope="col">Contains</th>
-                    {{#if this.currentUser.user.isAdmin}}
                     <th scope="col"></th>
-                    {{/if}}
                 </tr>
             </thead>
             <tbody>
                 {{#each model as |tutorial|}}
                 <tr>
-                    {{#if this.currentUser.user.isAdmin}}<th>
-                        {{#if tutorial.containsSequences}}{{#bs-button type="default" onClick=(action "toggleTutorial" tutorial)}}{{svg-jar (if tutorial.expanded 'chevron-down' 'chevron-right') color=white}}{{/bs-button}}{{/if}}
-                    </th>{{/if}}
-                    <td></td>
-                    <td>tutorial</td>
-                    <td title="id:  {{tutorial.id}}">
-                        {{#link-to "tutorial.tutorial" tutorial}}{{tutorial.title}}{{/link-to}}</td>
-                    <td>
-                        {{tutorial.sequences.length}} sequences
-                    </td>
+                    {{#if this.currentUser.user.isAdmin}}
+                        <th>
+                        {{#if tutorial.containsSequences}}
+                            {{#bs-button type="default" onClick=(action "toggleTutorial" tutorial)}}{{svg-jar (if tutorial.expanded 'chevron-down' 'chevron-right') color=white}}{{/bs-button}}
+                        {{/if}}
+                        </th>
+                        <td></td>
+                        <td>tutorial</td>
+                        <td title="id:  {{tutorial.id}}">{{#link-to "tutorial.tutorial" tutorial}}{{tutorial.title}}{{/link-to}}</td>
+                    {{else}}
+                        <td>{{tutorial.title}}</td>    
+                    {{/if}}
+                    <td>{{tutorial.sequences.length}} sequences</td>
                     {{#if this.currentUser.user.isAdmin}}
                     <td class="text-right">
                         {{#bs-dropdown as |dd|}}
@@ -85,6 +86,23 @@
                             {{action "deleteTutorial" tutorial}}>
                             {{svg-jar "trashcan" class="octicon" id="delete-tutorial"}}<span>Delete tutorial</span>
                         </a>
+                        {{/ddm.item}}
+                        {{/dd.menu}}
+                        {{/bs-dropdown}}
+                    </td>
+                    {{else}}
+                    <td class="text-right">
+                        {{#bs-dropdown as |dd|}}
+                        {{#dd.button class="removecaret d-flex-center" size="sm" title="Options"}}
+                        {{svg-jar "kebab-vertical" class="octicon"}}
+                        {{/dd.button}}
+                        {{#dd.menu as |ddm|}}
+                        {{#ddm.item title="Run"}}
+                        {{#link-to "tutorial.run" tutorial}}
+                        <a class="dropdown-item d-flex-center" style="cursor: pointer" title="Run">
+                            {{svg-jar "play" class="octicon" id="run-button"}}<span>Run</span>
+                        </a>
+                        {{/link-to}}
                         {{/ddm.item}}
                         {{/dd.menu}}
                         {{/bs-dropdown}}
