@@ -1,9 +1,16 @@
 import BaseRoute from 'explorviz-frontend/routes/base-route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import { inject as service } from "@ember/service";
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
+
+  landscapeService: service(),
+
   model(params) {
-    return this.get('store').findRecord('tutorial', params.tutorial_id);
+    const runnableTutorial = this.get('store').findRecord('tutorial', params.tutorial_id);
+    // need to load the landscape referred in the tutorial into the store
+    this.get('landscapeService').loadLandscape(runnableTutorial);
+    return runnableTutorial;
   },
 
   setupController(controller, model) {

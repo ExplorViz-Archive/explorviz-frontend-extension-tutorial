@@ -8,12 +8,13 @@ export default LandscapeRendering.extend(AlertifyHandler, {
   landscapeService: service(),
   tutorialService: service(),
   interactionModel: null,
+
   setSelectTarget(value) {
     this.set('interaction,selectTarget', value);
   },
+
   initInteraction() {
     this._super(...arguments);
-    //const self = this;
 
     if (this.get('runmode')) {
       this.set('interaction.model', this.get('tutorialService.activeStep'));
@@ -25,7 +26,6 @@ export default LandscapeRendering.extend(AlertifyHandler, {
 
     this.get('interaction').on('showApplication', function (emberModel) {
       this.set('landscapeService.application', emberModel);
-      // this.trigger('doubleClick', emberModel);
     });
 
     this.get('interaction').on('singleClick', this.clickListenerSingle);
@@ -112,4 +112,5 @@ export default LandscapeRendering.extend(AlertifyHandler, {
       }
     }
   }
+  
 });
