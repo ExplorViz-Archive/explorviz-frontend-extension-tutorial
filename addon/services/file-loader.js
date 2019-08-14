@@ -23,7 +23,6 @@ export default Service.extend(FileSaverMixin, AlertifyHandler, {
 
     const { access_token } = this.get('session.data.authenticated');
 
-    //const urlPath = `/v1/tutorials/${tutorialId}`;
     const urlPath = `/v1/tutorials/${tutorialId}/download`;
     const savedFileName = tutorialId + this.get('fileExtension');
     const url = `${ENV.APP.API_ROOT}${urlPath}`

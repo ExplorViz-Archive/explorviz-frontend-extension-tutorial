@@ -2,17 +2,19 @@ import Service from '@ember/service';
 import Evented from '@ember/object/evented';
 import debugLogger from 'ember-debug-logger';
 import { inject as service } from "@ember/service";
-//import LandscapeInteraction from 'explorviz-frontend/utils/landscape-rendering/interaction'
 import LandscapeInteraction from '../components/landscape-interaction';
 import ApplicationInteraction from '../components/application-interaction';
-
 import { getOwner } from '@ember/application';
 
 export default Service.extend(Evented, {
   mockBackend: true, // default value: true  
+
   debug: debugLogger(),
+
   store: service(),
   renderingService: service(),
+  timestampRepository: service("repos/timestamp-repository"),
+
   landscape: null,
   selectLandscape: false,
   application: null,
@@ -29,11 +31,16 @@ export default Service.extend(Evented, {
     this.set('landscapeinteraction', landscapeInteraction);
     this.set('applicationinteraction', applicationInteraction);
   },
+
   setInteractionModel(model) {
     this.set('landscapeinteraction.model', model);
     this.set('applicationinteraction.model', model);
   },
+
   updateLandscapeList(reload) {
+    // update the list of available replay timestamps for tutorials
+    this.get('timestampRepository').fetchReplayTimestamps();
+
     if (this.get('mockBackend')) {
       this.set('landscapeList', []);
       this.set('landscapeList', this.get('store').peekAll('tutoriallandscape'));
@@ -48,6 +55,11 @@ export default Service.extend(Evented, {
         });
     }
   },
+
+  /**
+   * Load replay landscape
+   * @param {*} model 
+   */
   loadLandscape(model) {
     if (this.get('landscape') !== null) {
       if (!this.get('mockBackend')) {
@@ -67,6 +79,7 @@ export default Service.extend(Evented, {
     }
 
   },
+
   importLandscape(landscapeTimestamp, name) {
     if (this.get('mockBackend')) {
       this.get('store').queryRecord('landscape', { timestamp: landscapeTimestamp }).then((landscape) => {
@@ -108,5 +121,5 @@ export default Service.extend(Evented, {
       });
     }
   }
-  
+
 })

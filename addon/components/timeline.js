@@ -1,5 +1,4 @@
 import Timeline from 'explorviz-frontend/components/visualization/page-setup/timeline/timeline';
-//import layout from 'explorviz-frontend/templates/components/visualization/page-setup/timeline/timeline'
 
 import layout from '../templates/components/timeline'
 
@@ -10,6 +9,8 @@ export default Timeline.extend(AlertifyHandler,{
     layout,
     landscapeService: service(),
     landscapeListener: service(),
+    timestampRepositoryService: service("repos/timestamp-repository"),
+
     chartClickHandler(evt) {
       this._super(...arguments);
       if(this.get('timelineChart').getElementAtEvent(evt)[0]){
@@ -17,6 +18,7 @@ export default Timeline.extend(AlertifyHandler,{
         this.set('tutorialActivePoint',this.get('timelineChart').getElementAtEvent(evt)[0]);
       }
     },
+
     actions:{
        submit(){
          if ( this.get('tutorialActivePoint')) {
@@ -31,6 +33,7 @@ export default Timeline.extend(AlertifyHandler,{
             }
          }
       },
+      
       close(){
           this.get('landscapeListener').set('pauseVisualizationReload',false);
       }
