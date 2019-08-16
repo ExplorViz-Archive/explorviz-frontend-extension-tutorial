@@ -2,8 +2,9 @@ import Component from '@ember/component';
 import layout from '../templates/components/side-form-layout';
 import { inject as service } from "@ember/service";
 import { computed } from '@ember/object';
+import AlertifyHandler from 'explorviz-frontend/mixins/alertify-handler';
 
-export default Component.extend({
+export default Component.extend(AlertifyHandler, {
   layout,
   tagName: "",
 
