@@ -4,7 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
    actions: {
      resetRoute() {
-       //const routeName = this.get('tutorial');
+       // nothing to do
     },
    }
 });

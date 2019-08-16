@@ -4,8 +4,6 @@ This extension add a tutorial-framework to ExplorViz, which allows the creation 
 
 ## Requirements
 - The [ExplorViz-Backend-Extension-Tutorial](https://github.com/ExplorViz/explorViz-backend-extension-tutorial) 
-- The [reverse-proxy](https://github.com/ExplorViz/reverse-proxy) redirecting connections from `/v1/tutorials/` to the backend-service.
-
 
 ## Running & Building
 
@@ -17,6 +15,3 @@ Follow the respective procedure in [ExplorViz frontend](https://github.com/Explo
 2. Change to the frontends directory in your CLI, e.g. `cd explorviz-frontend`
 
 3. Install this extension via `ember install https://github.com/ExplorViz/explorviz-frontend-extension-tutorial.git`
-
-
-
